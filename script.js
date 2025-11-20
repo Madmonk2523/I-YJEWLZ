@@ -175,7 +175,7 @@
       $$('.add-to-cart-from-wishlist', itemsEl).forEach(btn => on(btn, 'click', () => {
         const id = +btn.dataset.id;
         const p = PRODUCTS.find(x => x.id === id);
-        if (p) { addToCart(p, 1); openCartSidebar(); }
+        if (p) { addToCart(p, 1); }
       }));
       $$('.wishlist-item-remove', itemsEl).forEach(btn => on(btn, 'click', () => {
         removeFromWishlist(+btn.dataset.id);
@@ -260,7 +260,7 @@
     $$('.add-to-cart-btn', ctx).forEach(btn => on(btn, 'click', () => {
       const id = +btn.dataset.id;
       const p = PRODUCTS.find(x => x.id === id);
-      if (p) { addToCart(p, 1); openCartSidebar(); }
+      if (p) { addToCart(p, 1); }
     }));
     
     // Attach wishlist toggle handlers
@@ -511,7 +511,6 @@
       const qty = Math.max(1, +qtyInput.value || 1);
       const opts = { size: sizeSelect ? sizeSelect.value : '', metal: (metalBtns.find(b=>b.classList.contains('active'))?.dataset.metal) || '' };
       addToCart(product, qty, opts);
-      openCartSidebar();
     });
 
     // Add to wishlist button
