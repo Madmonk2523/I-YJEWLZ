@@ -34,6 +34,7 @@
     const idx = cart.findIndex(i => i.id === product.id && i.optionsKey === JSON.stringify(options));
     if (idx > -1) cart[idx].qty += qty; else cart.push({ id: product.id, name: product.name, price: product.price, image: product.image, qty, optionsKey: JSON.stringify(options), options });
     saveCart(cart); updateCartUI();
+    showAddToCartNotification(product.name, qty);
   };
   const removeFromCart = (index) => { const c = getCart(); c.splice(index, 1); saveCart(c); updateCartUI(); };
   const updateQty = (index, qty) => { const c = getCart(); c[index].qty = Math.max(1, qty|0); saveCart(c); updateCartUI(); };
@@ -86,7 +87,50 @@
   function updateCartBadge() {
     const { count } = cartTotals();
     const badge = $('#cartCount');
-    if (badge) badge.textContent = count;
+    if (badge) {
+      badge.textContent = count;
+      // Trigger pulse animation
+      badge.classList.remove('pulse-animation');
+      void badge.offsetWidth; // Force reflow
+      badge.classList.add('pulse-animation');
+      setTimeout(() => badge.classList.remove('pulse-animation'), 600);
+    }
+  }
+
+  // Add to cart notification
+  function showAddToCartNotification(productName, qty) {
+    // Remove existing notification if any
+    const existing = $('#cartNotification');
+    if (existing) existing.remove();
+
+    // Create notification
+    const notification = document.createElement('div');
+    notification.id = 'cartNotification';
+    notification.className = 'cart-notification';
+    notification.innerHTML = `
+      <div class="cart-notification-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <div class="cart-notification-content">
+        <div class="cart-notification-title">Added to Cart!</div>
+        <div class="cart-notification-message">${qty > 1 ? qty + 'x ' : ''}${productName}</div>
+      </div>
+      <button class="cart-notification-close" onclick="this.parentElement.classList.add('hide')">
+        <i class="fas fa-times"></i>
+      </button>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Show notification with animation
+    setTimeout(() => notification.classList.add('show'), 10);
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+      notification.classList.add('hide');
+      setTimeout(() => notification.remove(), 400);
+    }, 3000);
   }
 
   function renderCartSidebar() {
