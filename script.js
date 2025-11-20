@@ -23,7 +23,7 @@
 
   // LocalStorage cart helpers
   const CART_KEY = 'iy_cart';
-  const WISHLIST_KEY = 'iy_wishlist_count';
+  const WISHLIST_KEY = 'iy_wishlist';
 
   const getCart = () => {
     try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; }
@@ -42,6 +42,44 @@
     const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
     const count = cart.reduce((s, i) => s + i.qty, 0);
     return { subtotal, count };
+  };
+
+  // Wishlist helpers
+  const getWishlist = () => {
+    try { return JSON.parse(localStorage.getItem(WISHLIST_KEY)) || []; } catch { return []; }
+  };
+  const saveWishlist = (wishlist) => localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist));
+  const addToWishlist = (productId) => {
+    const wishlist = getWishlist();
+    if (!wishlist.includes(productId)) {
+      wishlist.push(productId);
+      saveWishlist(wishlist);
+      updateWishlistUI();
+    }
+  };
+  const removeFromWishlist = (productId) => {
+    const wishlist = getWishlist();
+    const idx = wishlist.indexOf(productId);
+    if (idx > -1) {
+      wishlist.splice(idx, 1);
+      saveWishlist(wishlist);
+      updateWishlistUI();
+    }
+  };
+  const toggleWishlist = (productId) => {
+    const wishlist = getWishlist();
+    if (wishlist.includes(productId)) removeFromWishlist(productId);
+    else addToWishlist(productId);
+  };
+  const isInWishlist = (productId) => getWishlist().includes(productId);
+
+  // Emoji map for product categories
+  const CATEGORY_EMOJI = {
+    'rings': '💍',
+    'necklaces': '📿',
+    'bracelets': '⌚',
+    'earrings': '👂',
+    'watches': '⌚'
   };
 
   // UI updates for header and sidebar cart
@@ -92,13 +130,106 @@
 
   function updateCartUI() { updateCartBadge(); renderCartSidebar(); renderCartPage(); }
 
+  // Wishlist UI updates
+  function updateWishlistBadge() {
+    const wishlist = getWishlist();
+    const badge = $('#wishlistCount');
+    if (badge) badge.textContent = wishlist.length;
+  }
+
+  function renderWishlistSidebar() {
+    const itemsEl = $('#wishlistItems');
+    if (!itemsEl) return;
+    const wishlist = getWishlist();
+    const wishlistProducts = PRODUCTS.filter(p => wishlist.includes(p.id));
+    
+    if (wishlistProducts.length === 0) {
+      itemsEl.innerHTML = `
+        <div class="empty-wishlist">
+          <i class="fas fa-heart"></i>
+          <h3>Your wishlist is empty</h3>
+          <p>Save your favorite items here</p>
+        </div>`;
+    } else {
+      itemsEl.innerHTML = wishlistProducts.map(p => {
+        const emoji = CATEGORY_EMOJI[p.category] || '💎';
+        return `
+          <div class="wishlist-item">
+            <div class="wishlist-item-emoji">${emoji}</div>
+            <div class="wishlist-item-info">
+              <div class="wishlist-item-name">${p.name}</div>
+              <div class="wishlist-item-price">${fmt(p.price)}</div>
+              <div class="wishlist-item-actions">
+                <button class="btn btn-primary btn-sm add-to-cart-from-wishlist" data-id="${p.id}">
+                  <i class="fas fa-cart-plus"></i> Add to Cart
+                </button>
+              </div>
+            </div>
+            <button class="wishlist-item-remove" data-id="${p.id}">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>`;
+      }).join('');
+
+      // Attach event listeners
+      $$('.add-to-cart-from-wishlist', itemsEl).forEach(btn => on(btn, 'click', () => {
+        const id = +btn.dataset.id;
+        const p = PRODUCTS.find(x => x.id === id);
+        if (p) { addToCart(p, 1); openCartSidebar(); }
+      }));
+      $$('.wishlist-item-remove', itemsEl).forEach(btn => on(btn, 'click', () => {
+        removeFromWishlist(+btn.dataset.id);
+      }));
+    }
+  }
+
+  function openWishlistSidebar() {
+    const sidebar = $('#wishlistSidebar');
+    const overlay = $('#overlay');
+    if (!sidebar || !overlay) return;
+    closeCartSidebar(); // Close cart if open
+    sidebar.classList.add('active');
+    overlay.classList.add('active');
+    renderWishlistSidebar();
+  }
+
+  function closeWishlistSidebar() {
+    const sidebar = $('#wishlistSidebar');
+    const overlay = $('#overlay');
+    if (!sidebar || !overlay) return;
+    sidebar.classList.remove('active');
+    overlay.classList.remove('active');
+  }
+
+  function updateWishlistUI() { 
+    updateWishlistBadge(); 
+    renderWishlistSidebar(); 
+    updateWishlistButtons();
+  }
+
+  function updateWishlistButtons() {
+    $$('.wishlist-toggle-btn').forEach(btn => {
+      const id = +btn.dataset.id;
+      const inWishlist = isInWishlist(id);
+      const icon = btn.querySelector('i');
+      if (icon) {
+        icon.className = inWishlist ? 'fas fa-heart' : 'far fa-heart';
+      }
+    });
+  }
+
   // Product card template
   function productCardHTML(p) {
+    const emoji = CATEGORY_EMOJI[p.category] || '💎';
+    const inWishlist = isInWishlist(p.id);
     return `
       <div class="product-card">
         ${p.badge ? `<div class="product-badge">${p.badge}</div>` : ''}
+        <button class="wishlist-toggle-btn" data-id="${p.id}">
+          <i class="${inWishlist ? 'fas' : 'far'} fa-heart"></i>
+        </button>
         <a href="product-details.html?pid=${p.id}">
-          <div class="product-image" style="background-image:url('${p.image}')"></div>
+          <div class="product-image product-card-emoji">${emoji}</div>
         </a>
         <div class="product-info">
           <div class="product-category">${p.category}</div>
@@ -130,6 +261,13 @@
       const id = +btn.dataset.id;
       const p = PRODUCTS.find(x => x.id === id);
       if (p) { addToCart(p, 1); openCartSidebar(); }
+    }));
+    
+    // Attach wishlist toggle handlers
+    $$('.wishlist-toggle-btn', ctx).forEach(btn => on(btn, 'click', (e) => {
+      e.preventDefault();
+      const id = +btn.dataset.id;
+      toggleWishlist(id);
     }));
   }
 
@@ -395,7 +533,12 @@
   function initHeader() {
     on($('#cartBtn'), 'click', openCartSidebar);
     on($('#cartCloseBtn'), 'click', closeCartSidebar);
-    on($('#overlay'), 'click', closeCartSidebar);
+    on($('#wishlistBtn'), 'click', openWishlistSidebar);
+    on($('#wishlistCloseBtn'), 'click', closeWishlistSidebar);
+    on($('#overlay'), 'click', () => {
+      closeCartSidebar();
+      closeWishlistSidebar();
+    });
 
     on($('#searchBtn'), 'click', () => $('#searchOverlay')?.classList.add('active'));
     on($('#searchCloseBtn'), 'click', () => $('#searchOverlay')?.classList.remove('active'));
@@ -427,16 +570,35 @@
     setInterval(() => setActive((idx + 1) % slides.length), 6000);
   }
 
-  // Wishlist count (demo)
+  // Wishlist initialization
   function initWishlist() {
-    const countEl = $('#wishlistCount');
-    const get = () => +localStorage.getItem(WISHLIST_KEY) || 0;
-    const set = (v) => localStorage.setItem(WISHLIST_KEY, String(v));
-    if (countEl) countEl.textContent = get();
-
-    // Add handlers on product cards and details button
-    const inc = () => { const v = get()+1; set(v); if (countEl) countEl.textContent = v; };
-    $$('.product-action-btn .fa-heart, #addToWishlistBtn').forEach(el => on(el.closest('button')||el, 'click', inc));
+    updateWishlistBadge();
+    
+    // Add handler for product details wishlist button if exists
+    const detailsWishlistBtn = $('#addToWishlistBtn');
+    if (detailsWishlistBtn) {
+      on(detailsWishlistBtn, 'click', () => {
+        const urlParams = new URLSearchParams(location.search);
+        const pid = +urlParams.get('pid');
+        if (pid) {
+          toggleWishlist(pid);
+          const icon = detailsWishlistBtn.querySelector('i');
+          if (icon) {
+            icon.className = isInWishlist(pid) ? 'fas fa-heart' : 'far fa-heart';
+          }
+        }
+      });
+      
+      // Set initial state
+      const urlParams = new URLSearchParams(location.search);
+      const pid = +urlParams.get('pid');
+      if (pid) {
+        const icon = detailsWishlistBtn.querySelector('i');
+        if (icon) {
+          icon.className = isInWishlist(pid) ? 'fas fa-heart' : 'far fa-heart';
+        }
+      }
+    }
   }
 
   // Forms

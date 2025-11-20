@@ -56,7 +56,7 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn wishlist-btn">
+                        <button class="icon-btn wishlist-btn" id="wishlistBtn">
                             <i class="fas fa-heart"></i>
                             <span class="badge" id="wishlistCount">0</span>
                         </button>
@@ -87,32 +87,32 @@
     <section class="hero">
         <div class="hero-slider">
             <div class="hero-slide active">
-                <div class="hero-image" style="background-image: url('images/hero1.jpg')"></div>
+                <div class="hero-image hero-emoji" data-emoji="💎"></div>
                 <div class="hero-content">
                     <div class="container">
                         <h2 class="hero-title animate-fade-in">WELCOME TO I&Y JEWLZ</h2>
                         <p class="hero-subtitle animate-fade-in-delay">WE ARE HAPPY TO ANNOUNCE OUR NEW JEWELRY SHOP</p>
-                        <a href="shop.html" class="btn btn-primary animate-fade-in-delay-2">Shop Now</a>
+                        <a href="shop.html" class="btn btn-primary btn-large animate-fade-in-delay-2">Shop Now</a>
                     </div>
                 </div>
             </div>
             <div class="hero-slide">
-                <div class="hero-image" style="background-image: url('images/hero2.jpg')"></div>
+                <div class="hero-image hero-emoji" data-emoji="✨"></div>
                 <div class="hero-content">
                     <div class="container">
                         <h2 class="hero-title">Exclusive Collections</h2>
                         <p class="hero-subtitle">Discover Our Latest Diamond Jewelry</p>
-                        <a href="shop.html" class="btn btn-primary">Explore Collection</a>
+                        <a href="shop.html" class="btn btn-primary btn-large">Explore Collection</a>
                     </div>
                 </div>
             </div>
             <div class="hero-slide">
-                <div class="hero-image" style="background-image: url('images/hero3.jpg')"></div>
+                <div class="hero-image hero-emoji" data-emoji="👑"></div>
                 <div class="hero-content">
                     <div class="container">
                         <h2 class="hero-title">Luxury & Elegance</h2>
                         <p class="hero-subtitle">Handcrafted Perfection Since 2025</p>
-                        <a href="shop.html" class="btn btn-primary">View Products</a>
+                        <a href="shop.html" class="btn btn-primary btn-large">View Products</a>
                     </div>
                 </div>
             </div>
@@ -171,35 +171,35 @@
             </div>
             <div class="categories-grid">
                 <a href="shop.html?category=rings" class="category-card">
-                    <div class="category-image" style="background-image: url('images/category-rings.jpg')"></div>
+                    <div class="category-image category-emoji" data-emoji="💍"></div>
                     <div class="category-overlay">
                         <h3>Rings</h3>
                         <p>125+ Products</p>
                     </div>
                 </a>
                 <a href="shop.html?category=necklaces" class="category-card">
-                    <div class="category-image" style="background-image: url('images/category-necklaces.jpg')"></div>
+                    <div class="category-image category-emoji" data-emoji="📿"></div>
                     <div class="category-overlay">
                         <h3>Necklaces</h3>
                         <p>98+ Products</p>
                     </div>
                 </a>
                 <a href="shop.html?category=bracelets" class="category-card">
-                    <div class="category-image" style="background-image: url('images/category-bracelets.jpg')"></div>
+                    <div class="category-image category-emoji" data-emoji="⌚"></div>
                     <div class="category-overlay">
                         <h3>Bracelets</h3>
                         <p>76+ Products</p>
                     </div>
                 </a>
                 <a href="shop.html?category=earrings" class="category-card">
-                    <div class="category-image" style="background-image: url('images/category-earrings.jpg')"></div>
+                    <div class="category-image category-emoji" data-emoji="👂"></div>
                     <div class="category-overlay">
                         <h3>Earrings</h3>
                         <p>142+ Products</p>
                     </div>
                 </a>
                 <a href="shop.html?category=watches" class="category-card">
-                    <div class="category-image" style="background-image: url('images/category-watches.jpg')"></div>
+                    <div class="category-image category-emoji" data-emoji="⌚"></div>
                     <div class="category-overlay">
                         <h3>Watches</h3>
                         <p>54+ Products</p>
@@ -254,7 +254,7 @@
                     </div>
                     <p>"Absolutely stunning jewelry! The quality is exceptional and the customer service was outstanding. I've received so many compliments on my necklace!"</p>
                     <div class="testimonial-author">
-                        <img src="images/customer1.jpg" alt="Customer">
+                        <div class="testimonial-avatar">👩</div>
                         <div>
                             <h4>Sarah Johnson</h4>
                             <span>Verified Buyer</span>
@@ -271,7 +271,7 @@
                     </div>
                     <p>"I&Y JEWLZ has become my go-to for special occasions. The variety is amazing and every piece feels luxurious. Highly recommend!"</p>
                     <div class="testimonial-author">
-                        <img src="images/customer2.jpg" alt="Customer">
+                        <div class="testimonial-avatar">👨</div>
                         <div>
                             <h4>Michael Chen</h4>
                             <span>Verified Buyer</span>
@@ -288,7 +288,7 @@
                     </div>
                     <p>"The engagement ring I purchased exceeded all expectations. Beautiful craftsmanship and arrived perfectly packaged. She said yes!"</p>
                     <div class="testimonial-author">
-                        <img src="images/customer3.jpg" alt="Customer">
+                        <div class="testimonial-avatar">🧔</div>
                         <div>
                             <h4>David Martinez</h4>
                             <span>Verified Buyer</span>
@@ -399,6 +399,21 @@
             </div>
             <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
             <button class="btn btn-outline btn-block">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="wishlist-header">
+            <h3>My Wishlist</h3>
+            <button class="wishlist-close-btn" id="wishlistCloseBtn">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+            <div class="empty-wishlist">
+                <i class="fas fa-heart"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Save your favorite items here</p>
+            </div>
         </div>
     </div>
 

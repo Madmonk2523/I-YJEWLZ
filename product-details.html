@@ -56,7 +56,7 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn wishlist-btn">
+                        <button class="icon-btn wishlist-btn" id="wishlistBtn">
                             <i class="fas fa-heart"></i>
                             <span class="badge" id="wishlistCount">0</span>
                         </button>
@@ -103,15 +103,15 @@
             <div class="product-details-layout">
                 <!-- Product Images -->
                 <div class="product-images">
-                    <div class="main-image">
-                        <img src="images/product1.jpg" alt="Product" id="mainProductImage">
+                    <div class="main-image product-emoji-display" data-emoji="💍">
+                        <div class="main-product-emoji" id="mainProductEmoji">💍</div>
                         <button class="zoom-btn"><i class="fas fa-search-plus"></i></button>
                     </div>
                     <div class="thumbnail-images" id="thumbnailImages">
-                        <img src="images/product1.jpg" alt="Thumbnail" class="active">
-                        <img src="images/product1-alt1.jpg" alt="Thumbnail">
-                        <img src="images/product1-alt2.jpg" alt="Thumbnail">
-                        <img src="images/product1-alt3.jpg" alt="Thumbnail">
+                        <div class="thumbnail-emoji active" data-emoji="💍">💍</div>
+                        <div class="thumbnail-emoji" data-emoji="✨">✨</div>
+                        <div class="thumbnail-emoji" data-emoji="💎">💎</div>
+                        <div class="thumbnail-emoji" data-emoji="👑">👑</div>
                     </div>
                 </div>
 
@@ -326,7 +326,7 @@
                         <div class="reviews-list">
                             <div class="review-item">
                                 <div class="review-header">
-                                    <img src="images/customer1.jpg" alt="Customer">
+                                    <div class="review-avatar">👩</div>
                                     <div>
                                         <h4>Jennifer Smith</h4>
                                         <div class="stars">
@@ -344,7 +344,7 @@
 
                             <div class="review-item">
                                 <div class="review-header">
-                                    <img src="images/customer2.jpg" alt="Customer">
+                                    <div class="review-avatar">👨</div>
                                     <div>
                                         <h4>Michael Brown</h4>
                                         <div class="stars">
@@ -477,6 +477,21 @@
             </div>
             <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
             <button class="btn btn-outline btn-block">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="wishlist-header">
+            <h3>My Wishlist</h3>
+            <button class="wishlist-close-btn" id="wishlistCloseBtn">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+            <div class="empty-wishlist">
+                <i class="fas fa-heart"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Save your favorite items here</p>
+            </div>
         </div>
     </div>
 

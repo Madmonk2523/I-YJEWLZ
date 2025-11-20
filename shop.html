@@ -56,7 +56,7 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn wishlist-btn">
+                        <button class="icon-btn wishlist-btn" id="wishlistBtn">
                             <i class="fas fa-heart"></i>
                             <span class="badge" id="wishlistCount">0</span>
                         </button>
@@ -270,6 +270,21 @@
             </div>
             <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
             <button class="btn btn-outline btn-block">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="wishlist-header">
+            <h3>My Wishlist</h3>
+            <button class="wishlist-close-btn" id="wishlistCloseBtn">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+            <div class="empty-wishlist">
+                <i class="fas fa-heart"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Save your favorite items here</p>
+            </div>
         </div>
     </div>
 

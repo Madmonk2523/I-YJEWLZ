@@ -56,7 +56,7 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn wishlist-btn">
+                        <button class="icon-btn wishlist-btn" id="wishlistBtn">
                             <i class="fas fa-heart"></i>
                             <span class="badge" id="wishlistCount">0</span>
                         </button>
@@ -106,7 +106,7 @@
                     <p>WE GIVE OUR BEST CUSTOMER SERVICE and are dedicated to helping you find the perfect piece that speaks to your unique style and celebrates your special occasions. WE CARRY FULL VARIETY AND BEST PRODUCT, from classic engagement rings to contemporary statement pieces.</p>
                 </div>
                 <div class="about-image">
-                    <img src="images/about-showcase.jpg" alt="Jewelry Showcase">
+                    <div class="about-image-emoji">💎✨💍</div>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@
         <div class="container">
             <div class="story-content">
                 <div class="story-image">
-                    <img src="images/our-story.jpg" alt="Our Story">
+                    <div class="story-image-emoji">📖👑✨</div>
                 </div>
                 <div class="story-text">
                     <h2>Our Story</h2>
@@ -244,7 +244,7 @@
             </div>
             <div class="team-grid">
                 <div class="team-member">
-                    <img src="images/team1.jpg" alt="Team Member">
+                    <div class="team-avatar">👩‍💼</div>
                     <h3>Isabella Rodriguez</h3>
                     <p class="role">Founder & CEO</p>
                     <p>With over 20 years in the jewelry industry, Isabella brings unparalleled expertise and vision to I&Y JEWLZ.</p>
@@ -254,7 +254,7 @@
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="images/team2.jpg" alt="Team Member">
+                    <div class="team-avatar">👨‍🎨</div>
                     <h3>Yuki Tanaka</h3>
                     <p class="role">Master Jeweler</p>
                     <p>Yuki's exceptional craftsmanship and attention to detail ensure every piece meets our highest standards.</p>
@@ -264,7 +264,7 @@
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="images/team3.jpg" alt="Team Member">
+                    <div class="team-avatar">👨‍💻</div>
                     <h3>Marcus Johnson</h3>
                     <p class="role">Head of Customer Service</p>
                     <p>Marcus leads our dedicated team to provide exceptional service and support to every customer.</p>
@@ -274,7 +274,7 @@
                     </div>
                 </div>
                 <div class="team-member">
-                    <img src="images/team4.jpg" alt="Team Member">
+                    <div class="team-avatar">👩‍🎨</div>
                     <h3>Sophie Laurent</h3>
                     <p class="role">Design Director</p>
                     <p>Sophie's creative vision shapes our collections, blending classic elegance with contemporary style.</p>
@@ -382,6 +382,21 @@
             </div>
             <a href="cart.html" class="btn btn-primary btn-block">View Cart</a>
             <button class="btn btn-outline btn-block">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Wishlist Sidebar -->
+    <div class="wishlist-sidebar" id="wishlistSidebar">
+        <div class="wishlist-header">
+            <h3>My Wishlist</h3>
+            <button class="wishlist-close-btn" id="wishlistCloseBtn">&times;</button>
+        </div>
+        <div class="wishlist-items" id="wishlistItems">
+            <div class="empty-wishlist">
+                <i class="fas fa-heart"></i>
+                <h3>Your wishlist is empty</h3>
+                <p>Save your favorite items here</p>
+            </div>
         </div>
     </div>
 
