@@ -742,8 +742,106 @@
     attachAddToCart(wrap);
   }
 
+  // Scroll animations
+  function initScrollAnimations() {
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe sections and cards
+    const animatedElements = $$(`.feature-card, .category-card, .product-card, .testimonial-card, 
+                                 .section-header, .about-content, .contact-card, .faq-item`);
+    
+    animatedElements.forEach((el, idx) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      el.style.transitionDelay = `${idx * 0.05}s`;
+      observer.observe(el);
+    });
+
+    // Parallax effect for emojis
+    let ticking = false;
+    on(window, 'scroll', () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.pageYOffset;
+          const heroEmojis = $$('.hero-emoji');
+          heroEmojis.forEach(emoji => {
+            if (emoji.offsetParent) {
+              emoji.style.transform = `translateY(${scrolled * 0.2}px)`;
+            }
+          });
+          
+          // Parallax for category emojis
+          $$('.category-emoji').forEach((emoji, idx) => {
+            const rect = emoji.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              const offset = (window.innerHeight - rect.top) * 0.05;
+              emoji.style.transform = `translateY(${offset}px) rotate(${offset * 0.2}deg)`;
+            }
+          });
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+  }
+
+  // Smooth scroll for anchor links
+  function initSmoothScroll() {
+    $$('a[href^="#"]').forEach(anchor => {
+      on(anchor, 'click', (e) => {
+        const href = anchor.getAttribute('href');
+        if (href === '#' || !href) return;
+        const target = $(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  }
+
+  // Page load animation
+  function initPageLoad() {
+    document.body.style.opacity = '0';
+    window.addEventListener('load', () => {
+      document.body.style.transition = 'opacity 0.5s ease';
+      document.body.style.opacity = '1';
+    });
+  }
+
+  // Count up animation for numbers
+  function animateCount(element, target) {
+    let current = 0;
+    const increment = target / 50;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        element.textContent = Math.ceil(target);
+        clearInterval(timer);
+      } else {
+        element.textContent = Math.ceil(current);
+      }
+    }, 20);
+  }
+
   // Initialize
   document.addEventListener('DOMContentLoaded', () => {
+    initPageLoad();
     initHeader();
     renderFeatured();
     initShop();
@@ -755,5 +853,7 @@
     applyPlaceholders();
     updateCartUI();
     initCartPageControls();
+    initScrollAnimations();
+    initSmoothScroll();
   });
 })();
