@@ -331,17 +331,50 @@
       if (state.categories.size) list = list.filter(p => state.categories.has(p.category));
       if (state.materials.size) list = list.filter(p => state.materials.has(p.material));
       if (state.collections.size) list = list.filter(p => state.collections.has(p.collection));
-      // Search filter
+      // Enhanced search filter with fuzzy matching
       if (state.search) {
         const query = state.search.toLowerCase();
-        list = list.filter(p => 
-          p.name.toLowerCase().includes(query) || 
-          p.category.toLowerCase().includes(query) || 
-          p.material.toLowerCase().includes(query) || 
-          p.collection.toLowerCase().includes(query)
-        );
+        list = list.filter(p => {
+          // Exact match
+          const exactMatch = 
+            p.name.toLowerCase().includes(query) || 
+            p.category.toLowerCase().includes(query) || 
+            p.material.toLowerCase().includes(query) || 
+            p.collection.toLowerCase().includes(query);
+          
+          if (exactMatch) return true;
+          
+          // Fuzzy match for typos
+          const fuzzyScore = Math.max(
+            fuzzyMatch(p.name, query),
+            fuzzyMatch(p.category, query),
+            fuzzyMatch(p.material, query),
+            fuzzyMatch(p.collection, query)
+          );
+          
+          return fuzzyScore > 0.6;
+        });
       }
       return applySort(list);
+    }
+    
+    // Fuzzy matching helper (shared with search)
+    function fuzzyMatch(text, query) {
+      text = text.toLowerCase();
+      query = query.toLowerCase();
+      let textIdx = 0;
+      let queryIdx = 0;
+      let score = 0;
+      
+      while (textIdx < text.length && queryIdx < query.length) {
+        if (text[textIdx] === query[queryIdx]) {
+          score++;
+          queryIdx++;
+        }
+        textIdx++;
+      }
+      
+      return queryIdx === query.length ? score / query.length : 0;
     }
 
     function renderPage() {
@@ -373,6 +406,41 @@
       state.view = btn.dataset.view; if (state.view === 'list') grid.classList.add('list-view'); else grid.classList.remove('list-view');
     }));
 
+    // Shop page quick search filter
+    const shopSearchInput = $('#shopSearchInput');
+    const shopSearchClear = $('#shopSearchClear');
+    const searchMatchCount = $('#searchMatchCount');
+    
+    if (shopSearchInput) {
+      on(shopSearchInput, 'input', () => {
+        const query = shopSearchInput.value.trim();
+        state.search = query;
+        
+        // Toggle clear button
+        shopSearchClear.style.display = query ? 'block' : 'none';
+        
+        // Update match count
+        const filtered = applyFilters();
+        if (query) {
+          searchMatchCount.textContent = `${filtered.length} ${filtered.length === 1 ? 'match' : 'matches'} found`;
+          searchMatchCount.style.display = 'block';
+        } else {
+          searchMatchCount.style.display = 'none';
+        }
+        
+        renderPage();
+      });
+      
+      on(shopSearchClear, 'click', () => {
+        shopSearchInput.value = '';
+        state.search = '';
+        shopSearchClear.style.display = 'none';
+        searchMatchCount.style.display = 'none';
+        renderPage();
+        shopSearchInput.focus();
+      });
+    }
+    
     // Reset filters button
     on($('#resetFilters'), 'click', () => {
       // Reset all checkboxes
@@ -385,6 +453,12 @@
       }
       // Reset sort
       if (sortSelect) sortSelect.value = 'default';
+      // Reset shop search
+      if (shopSearchInput) {
+        shopSearchInput.value = '';
+        shopSearchClear.style.display = 'none';
+        searchMatchCount.style.display = 'none';
+      }
       // Reset state
       state.categories = new Set();
       state.materials = new Set();
@@ -392,6 +466,7 @@
       state.maxPrice = 10000;
       state.sort = 'default';
       state.page = 1;
+      state.search = '';
       renderPage();
     });
 
@@ -607,25 +682,285 @@
       closeWishlistSidebar();
     });
 
-    // Search overlay
-    on($('#searchBtn'), 'click', () => {
-      const overlay = $('#searchOverlay');
-      overlay?.classList.add('active');
-      $('#searchInput')?.focus();
-    });
-    on($('#searchCloseBtn'), 'click', () => $('#searchOverlay')?.classList.remove('active'));
-    
-    // Search input functionality
+    // Enhanced Search System
+    const searchOverlay = $('#searchOverlay');
     const searchInput = $('#searchInput');
+    const searchClearBtn = $('#searchClearBtn');
+    const searchSuggestions = $('#searchSuggestions');
+    const searchHistory = $('#searchHistory');
+    const SEARCH_HISTORY_KEY = 'iyjewlz_search_history';
+    
+    // Fuzzy matching function
+    function fuzzyMatch(text, query) {
+      text = text.toLowerCase();
+      query = query.toLowerCase();
+      let textIdx = 0;
+      let queryIdx = 0;
+      let score = 0;
+      
+      while (textIdx < text.length && queryIdx < query.length) {
+        if (text[textIdx] === query[queryIdx]) {
+          score++;
+          queryIdx++;
+        }
+        textIdx++;
+      }
+      
+      return queryIdx === query.length ? score / query.length : 0;
+    }
+    
+    // Get search suggestions
+    function getSearchSuggestions(query) {
+      if (!query || query.length < 2) return [];
+      
+      const suggestions = [];
+      const queryLower = query.toLowerCase();
+      
+      // Search through products
+      PRODUCTS.forEach(product => {
+        const nameMatch = fuzzyMatch(product.name, query);
+        const categoryMatch = fuzzyMatch(product.category, query);
+        const materialMatch = fuzzyMatch(product.material, query);
+        const collectionMatch = fuzzyMatch(product.collection, query);
+        
+        const maxMatch = Math.max(nameMatch, categoryMatch, materialMatch, collectionMatch);
+        
+        if (maxMatch > 0.5 || 
+            product.name.toLowerCase().includes(queryLower) ||
+            product.category.toLowerCase().includes(queryLower) ||
+            product.material.toLowerCase().includes(queryLower) ||
+            product.collection.toLowerCase().includes(queryLower)) {
+          suggestions.push({
+            type: 'product',
+            name: product.name,
+            category: product.category,
+            material: product.material,
+            price: product.price,
+            match: maxMatch,
+            query: query
+          });
+        }
+      });
+      
+      // Add category suggestions
+      const categories = ['rings', 'necklaces', 'earrings', 'bracelets', 'watches'];
+      categories.forEach(cat => {
+        if (cat.toLowerCase().includes(queryLower) || fuzzyMatch(cat, query) > 0.5) {
+          suggestions.push({
+            type: 'category',
+            name: cat.charAt(0).toUpperCase() + cat.slice(1),
+            query: query
+          });
+        }
+      });
+      
+      // Add material suggestions
+      const materials = ['gold', 'silver', 'platinum', 'diamond', 'pearl', 'steel'];
+      materials.forEach(mat => {
+        if (mat.toLowerCase().includes(queryLower) || fuzzyMatch(mat, query) > 0.5) {
+          suggestions.push({
+            type: 'material',
+            name: mat.charAt(0).toUpperCase() + mat.slice(1),
+            query: query
+          });
+        }
+      });
+      
+      // Sort by match score and limit results
+      return suggestions.sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 8);
+    }
+    
+    // Highlight matching text
+    function highlightMatch(text, query) {
+      const regex = new RegExp(`(${query})`, 'gi');
+      return text.replace(regex, '<span class="suggestion-highlight">$1</span>');
+    }
+    
+    // Render search suggestions
+    function renderSuggestions(suggestions) {
+      if (!suggestions || suggestions.length === 0) {
+        searchSuggestions.style.display = 'none';
+        return;
+      }
+      
+      const list = searchSuggestions.querySelector('.suggestions-list');
+      list.innerHTML = suggestions.map(item => {
+        let icon = 'fas fa-search';
+        let meta = '';
+        
+        if (item.type === 'product') {
+          icon = 'fas fa-gem';
+          meta = `${item.category} • ${item.material} • $${item.price.toLocaleString()}`;
+        } else if (item.type === 'category') {
+          icon = 'fas fa-tags';
+          meta = 'Category';
+        } else if (item.type === 'material') {
+          icon = 'fas fa-cube';
+          meta = 'Material';
+        }
+        
+        return `
+          <div class="suggestion-item" data-query="${item.name}">
+            <i class="${icon}"></i>
+            <div class="suggestion-text">
+              <div class="suggestion-name">${highlightMatch(item.name, item.query)}</div>
+              ${meta ? `<div class="suggestion-meta">${meta}</div>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      searchSuggestions.style.display = 'block';
+      
+      // Add click handlers
+      $$('.suggestion-item', list).forEach(item => {
+        on(item, 'click', () => {
+          const query = item.dataset.query;
+          searchInput.value = query;
+          performSearch(query);
+        });
+      });
+    }
+    
+    // Get search history
+    function getSearchHistory() {
+      try {
+        return JSON.parse(localStorage.getItem(SEARCH_HISTORY_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+    
+    // Save to search history
+    function saveToHistory(query) {
+      if (!query || query.length < 2) return;
+      
+      let history = getSearchHistory();
+      history = history.filter(item => item !== query);
+      history.unshift(query);
+      history = history.slice(0, 5);
+      
+      try {
+        localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history));
+      } catch {}
+    }
+    
+    // Clear search history
+    function clearSearchHistory() {
+      try {
+        localStorage.removeItem(SEARCH_HISTORY_KEY);
+        searchHistory.style.display = 'none';
+      } catch {}
+    }
+    
+    // Render search history
+    function renderSearchHistory() {
+      const history = getSearchHistory();
+      
+      if (history.length === 0) {
+        searchHistory.style.display = 'none';
+        return;
+      }
+      
+      const list = searchHistory.querySelector('.history-list');
+      list.innerHTML = history.map(query => `
+        <div class="history-item" data-query="${query}">
+          <i class="fas fa-history"></i>
+          <div class="suggestion-text">
+            <div class="suggestion-name">${query}</div>
+          </div>
+        </div>
+      `).join('');
+      
+      searchHistory.style.display = 'block';
+      
+      // Add click handlers
+      $$('.history-item', list).forEach(item => {
+        on(item, 'click', () => {
+          const query = item.dataset.query;
+          searchInput.value = query;
+          performSearch(query);
+        });
+      });
+    }
+    
+    // Perform search
+    function performSearch(query) {
+      if (!query) return;
+      
+      saveToHistory(query);
+      searchOverlay?.classList.remove('active');
+      window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+    }
+    
+    // Open search overlay
+    on($('#searchBtn'), 'click', () => {
+      searchOverlay?.classList.add('active');
+      searchInput?.focus();
+      
+      // Show history if input is empty
+      if (!searchInput.value) {
+        renderSearchHistory();
+        searchSuggestions.style.display = 'none';
+      }
+    });
+    
+    // Close search overlay
+    on($('#searchCloseBtn'), 'click', () => {
+      searchOverlay?.classList.remove('active');
+      searchSuggestions.style.display = 'none';
+      searchHistory.style.display = 'none';
+    });
+    
+    // Close on escape key
+    on(document, 'keydown', (e) => {
+      if (e.key === 'Escape' && searchOverlay?.classList.contains('active')) {
+        searchOverlay.classList.remove('active');
+        searchSuggestions.style.display = 'none';
+        searchHistory.style.display = 'none';
+      }
+    });
+    
+    // Clear search input
+    on(searchClearBtn, 'click', () => {
+      searchInput.value = '';
+      searchClearBtn.style.display = 'none';
+      searchSuggestions.style.display = 'none';
+      renderSearchHistory();
+      searchInput.focus();
+    });
+    
+    // Search input events
+    on(searchInput, 'input', () => {
+      const query = searchInput.value.trim();
+      
+      // Toggle clear button
+      searchClearBtn.style.display = query ? 'flex' : 'none';
+      
+      if (query.length >= 2) {
+        const suggestions = getSearchSuggestions(query);
+        renderSuggestions(suggestions);
+        searchHistory.style.display = 'none';
+      } else if (query.length === 0) {
+        searchSuggestions.style.display = 'none';
+        renderSearchHistory();
+      } else {
+        searchSuggestions.style.display = 'none';
+        searchHistory.style.display = 'none';
+      }
+    });
+    
     on(searchInput, 'keypress', (e) => {
       if (e.key === 'Enter') {
         const query = searchInput.value.trim();
         if (query) {
-          // Redirect to shop page with search
-          window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+          performSearch(query);
         }
       }
     });
+    
+    // Clear history button
+    on($('#clearHistoryBtn'), 'click', clearSearchHistory);
 
     on($('#mobileMenuBtn'), 'click', () => $('#navMenu')?.classList.toggle('active'));
   }

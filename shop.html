@@ -101,6 +101,18 @@
             <div class="shop-layout">
                 <!-- Filters Sidebar -->
                 <aside class="shop-sidebar">
+                    <!-- Quick Search Filter -->
+                    <div class="filter-section shop-search-filter">
+                        <h3><i class="fas fa-search"></i> Quick Search</h3>
+                        <div class="shop-search-wrapper">
+                            <input type="text" id="shopSearchInput" class="shop-search-input" placeholder="Filter products...">
+                            <button class="shop-search-clear" id="shopSearchClear" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="search-match-count" id="searchMatchCount"></div>
+                    </div>
+                    
                     <div class="filter-section">
                         <h3>Categories</h3>
                         <ul class="filter-list" id="categoryFilter">

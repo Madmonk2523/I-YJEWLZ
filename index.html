@@ -75,10 +75,27 @@
         <!-- Search Bar -->
         <div class="search-overlay" id="searchOverlay">
             <div class="search-container">
-                <input type="text" placeholder="Search for jewelry..." id="searchInput">
-                <button class="search-close-btn" id="searchCloseBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="search-input-wrapper">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search for jewelry, categories, materials..." id="searchInput" autocomplete="off">
+                    <button class="search-clear-btn" id="searchClearBtn" style="display: none;">
+                        <i class="fas fa-times-circle"></i>
+                    </button>
+                    <button class="search-close-btn" id="searchCloseBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-suggestions" id="searchSuggestions" style="display: none;">
+                    <div class="suggestions-header">Suggestions</div>
+                    <div class="suggestions-list"></div>
+                </div>
+                <div class="search-history" id="searchHistory" style="display: none;">
+                    <div class="history-header">
+                        <span>Recent Searches</span>
+                        <button class="clear-history-btn" id="clearHistoryBtn">Clear</button>
+                    </div>
+                    <div class="history-list"></div>
+                </div>
             </div>
         </div>
     </header>
