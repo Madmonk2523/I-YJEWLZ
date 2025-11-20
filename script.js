@@ -687,7 +687,6 @@
 
   // Forms and interactive elements
   function initForms() {
-    on($('#newsletterForm'), 'submit', (e) => { e.preventDefault(); alert('Thanks for subscribing!'); e.target.reset(); });
     on($('#contactForm'), 'submit', (e) => { e.preventDefault(); alert('Thanks for contacting us. We\'ll get back to you shortly.'); e.target.reset(); });
     
     // FAQ accordion functionality
