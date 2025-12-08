@@ -1053,5 +1053,270 @@
     initCartPageControls();
     initScrollAnimations();
     initSmoothScroll();
+    initAdvancedFeatures();
   });
+
+  // Advanced Features
+  function initAdvancedFeatures() {
+    // Price filter functionality
+    const priceRange = document.getElementById('priceRange');
+    if (priceRange) {
+      priceRange.addEventListener('input', (e) => {
+        const maxPrice = parseInt(e.target.value);
+        document.getElementById('maxPrice').textContent = '$' + maxPrice.toLocaleString();
+        filterProducts();
+      });
+    }
+
+    // Wishlist heart favorites functionality (simplified)
+    addToCartButtons.forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        btn.style.transform = 'scale(1.05)';
+      });
+      btn.addEventListener('mouseleave', () => {
+        btn.style.transform = 'scale(1)';
+      });
+    });
+
+    // Newsletter signup
+    const newsletterForm = document.querySelector('.newsletter-form');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = newsletterForm.querySelector('input[type="email"]');
+        if (email && email.value) {
+          alert('Thanks for subscribing! Check your email for exclusive offers.');
+          email.value = '';
+        }
+      });
+    }
+
+    // Contact form submission
+    const contactForm = document.querySelector('.contact-form, form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thank you for contacting us! We will respond within 24 hours.');
+        contactForm.reset();
+      });
+    }
+
+    // Quantity incrementers on cart page
+    const qtyInputs = document.querySelectorAll('.qty-input');
+    qtyInputs.forEach((input, idx) => {
+      const decreaseBtn = input.previousElementSibling;
+      const increaseBtn = input.nextElementSibling;
+      
+      if (decreaseBtn) {
+        decreaseBtn.addEventListener('click', () => {
+          const newQty = Math.max(1, parseInt(input.value) - 1);
+          updateQty(idx, newQty);
+        });
+      }
+      
+      if (increaseBtn) {
+        increaseBtn.addEventListener('click', () => {
+          const newQty = parseInt(input.value) + 1;
+          updateQty(idx, newQty);
+        });
+      }
+    });
+
+    // Product comparison feature
+    initProductComparison();
+
+    // Related products
+    initRelatedProducts();
+
+    // Quick view functionality
+    initQuickView();
+
+    // Wishlist toggle (visual only)
+    const heartButtons = document.querySelectorAll('[data-wishlist]');
+    heartButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        btn.classList.toggle('favorited');
+      });
+    });
+  }
+
+  // Product Comparison
+  function initProductComparison() {
+    const compareButtons = document.querySelectorAll('[data-compare]');
+    const comparedProducts = [];
+    
+    compareButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const productId = btn.dataset.compare;
+        if (comparedProducts.includes(productId)) {
+          comparedProducts.splice(comparedProducts.indexOf(productId), 1);
+          btn.classList.remove('compared');
+        } else {
+          if (comparedProducts.length < 3) {
+            comparedProducts.push(productId);
+            btn.classList.add('compared');
+          } else {
+            alert('You can compare up to 3 products');
+          }
+        }
+        localStorage.setItem('compared_products', JSON.stringify(comparedProducts));
+      });
+    });
+  }
+
+  // Related Products
+  function initRelatedProducts() {
+    const relatedSection = document.querySelector('.related-products');
+    if (relatedSection) {
+      const currentCategory = new URLSearchParams(window.location.search).get('category');
+      const related = products.filter(p => p.category === currentCategory).slice(0, 4);
+      
+      if (related.length > 0) {
+        relatedSection.innerHTML = `
+          <h3>Related Products</h3>
+          <div class="products-grid">
+            ${related.map(p => productCardHTML(p)).join('')}
+          </div>
+        `;
+        attachAddToCart();
+      }
+    }
+  }
+
+  // Quick View Modal
+  function initQuickView() {
+    const quickViewBtns = document.querySelectorAll('[data-quick-view]');
+    const modal = document.createElement('div');
+    modal.className = 'quick-view-modal';
+    modal.style.display = 'none';
+    document.body.appendChild(modal);
+
+    quickViewBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const productId = btn.dataset.quickView;
+        const product = products.find(p => p.id == productId);
+        
+        if (product) {
+          const emoji = CATEGORY_EMOJI[product.category] || '💎';
+          modal.innerHTML = `
+            <div class="modal-content">
+              <button class="modal-close">&times;</button>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div style="font-size: 120px; text-align: center;">${emoji}</div>
+                <div>
+                  <h2>${product.name}</h2>
+                  <p style="color: #999; margin: 10px 0;">${product.category}</p>
+                  <div style="font-size: 24px; color: var(--primary-color); font-weight: bold; margin: 20px 0;">
+                    $${product.price.toFixed(2)}
+                  </div>
+                  <p style="line-height: 1.8; margin: 20px 0;">High-quality ${product.category} crafted with premium materials. Perfect for any occasion.</p>
+                  <button class="btn btn-primary" data-id="${product.id}" style="width: 100%;">Add to Cart</button>
+                </div>
+              </div>
+            </div>
+          `;
+          modal.style.display = 'flex';
+          modal.classList.add('active');
+          
+          modal.querySelector('.modal-close').addEventListener('click', () => {
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+          });
+          
+          modal.querySelector('.btn').addEventListener('click', (e) => {
+            e.target.dataset.id = productId;
+            handleAddToCart.call(e.target);
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+          });
+        }
+      });
+    });
+
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+      }
+    });
+  }
+
+  // Export cart as PDF (simple version)
+  window.exportCartAsPDF = function() {
+    const cart = getCart();
+    const { subtotal, count } = cartTotals();
+    
+    let receipt = 'I&Y JEWLZ - Order Receipt\n';
+    receipt += '========================\n\n';
+    receipt += 'Items:\n';
+    cart.forEach(item => {
+      receipt += `${item.name} x${item.qty} = $${(item.price * item.qty).toFixed(2)}\n`;
+    });
+    receipt += '\n' + '='.repeat(24) + '\n';
+    receipt += `TOTAL: $${subtotal.toFixed(2)}\n`;
+    receipt += `Items: ${count}\n`;
+    receipt += '\nThank you for your order!\n';
+    receipt += 'Email: davidyagudayev2018@gmail.com\n';
+    receipt += 'Phone: 929-648-0535\n';
+
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(receipt));
+    element.setAttribute('download', 'order-receipt.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  // Share order on social media
+  window.shareOrder = function(platform) {
+    const { subtotal, count } = cartTotals();
+    const text = `Just ordered ${count} items from I&Y JEWLZ for $${subtotal.toFixed(2)}! 💎 Check them out!`;
+    const url = 'https://iyjewlz.com';
+    
+    const shares = {
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${url}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`,
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`
+    };
+    
+    if (shares[platform]) {
+      window.open(shares[platform], '_blank', 'width=600,height=400');
+    }
+  };
+
+  // Store browser notification preferences
+  window.enableNotifications = function() {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('Order Ready!', {
+        body: 'Your I&Y JEWLZ order is being prepared',
+        icon: '💎'
+      });
+    } else if ('Notification' in window && Notification.permission !== 'denied') {
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          new Notification('I&Y JEWLZ', { body: 'Notifications enabled!' });
+        }
+      });
+    }
+  };
+
+  // Analytics tracking (simple)
+  window.trackEvent = function(eventName, eventData) {
+    const events = JSON.parse(localStorage.getItem('iy_events') || '[]');
+    events.push({ name: eventName, data: eventData, timestamp: new Date().toISOString() });
+    localStorage.setItem('iy_events', JSON.stringify(events.slice(-100))); // Keep last 100
+  };
+
+  // Auto-track important events
+  window.addEventListener('beforeunload', () => {
+    const cart = getCart();
+    if (cart.length > 0) {
+      trackEvent('cart_abandoned', { itemCount: cart.length, value: cartTotals().subtotal });
+    }
+  });
+
 })();
