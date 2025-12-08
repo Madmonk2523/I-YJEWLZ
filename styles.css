@@ -627,42 +627,37 @@ img {
 /* Hero Section */
 .hero { position: relative; height: 700px; overflow: hidden; }
 
-/* Hero Landing Page - Centered */
+/* Hero Landing Page - Logo Background Blend */
 .hero-landing {
    height: 100vh;
    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+   background-image: url('images/logo.jpg');
+   background-size: cover;
+   background-position: center;
+   background-attachment: fixed;
    display: flex;
    align-items: center;
    justify-content: center;
    text-align: center;
    overflow: hidden;
+   position: relative;
+}
+
+.hero-landing-overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(10, 10, 10, 0.65);
+   backdrop-filter: blur(2px);
+   z-index: 1;
 }
 
 .hero-landing-content {
    position: relative;
    z-index: 10;
    animation: fadeInUp 1s ease;
-}
-
-.hero-logo-container {
-   margin-bottom: 50px;
-   animation: fadeInDown 1s ease;
-}
-
-.hero-logo-image {
-   max-width: 380px;
-   width: 100%;
-   height: auto;
-   border-radius: 20px;
-   box-shadow: 0 20px 60px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3);
-   animation: logoFloat 4s ease-in-out infinite, logoPulse 3s ease-in-out infinite;
-   transition: all 0.3s ease;
-   border: 3px solid rgba(212, 175, 55, 0.3);
-}
-
-.hero-logo-image:hover {
-   transform: scale(1.08);
-   box-shadow: 0 30px 80px rgba(212, 175, 55, 0.7), 0 0 50px rgba(212, 175, 55, 0.5);
 }
 
 .hero-logo-emoji {
@@ -1609,7 +1604,7 @@ img {
    .hero-title { font-size: 42px; letter-spacing: 1px; }
    .hero-subtitle { font-size: 17px; line-height: 1.5; }
    .hero-emoji { font-size: 140px; }
-   .hero-logo-image { max-width: 320px; }
+
    .hero-brand-name { font-size: 56px; }
    .hero-brand-tagline { font-size: 28px; }
    .section-header h2 { font-size: 32px; }
@@ -1645,10 +1640,10 @@ img {
    .hero-title { font-size: 32px; line-height: 1.2; }
    .hero-subtitle { font-size: 15px; padding: 0 15px; }
    .hero-emoji { font-size: 100px; }
-   .hero-logo-image { max-width: 260px; }
+
    .hero-brand-name { font-size: 42px; margin-bottom: 12px; }
    .hero-brand-tagline { font-size: 22px; }
-   .hero-logo-container { margin-bottom: 30px; }
+
    .section-header h2 { font-size: 28px; }
    .section-header p { font-size: 14px; }
    .categories-grid { grid-template-columns: 1fr; }
