@@ -651,22 +651,45 @@ body.nav-open { overflow: hidden; }
 /* Hero Section */
 .hero { position: relative; height: 700px; overflow: hidden; }
 
-/* Hero Landing Page - Logo Background Blend */
+/* Hero Landing Page - Elegant Luxury Design */
 .hero-landing {
    min-height: 100vh;
    height: auto;
-   background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
-   background-image: url('images/logo.jpg');
-   background-size: cover;
-   background-position: center center;
-   background-repeat: no-repeat;
+   background: linear-gradient(135deg, 
+      rgba(173, 216, 230, 0.95) 0%, 
+      rgba(135, 206, 235, 0.9) 25%,
+      rgba(184, 216, 235, 0.95) 50%,
+      rgba(173, 216, 230, 0.9) 75%,
+      rgba(201, 228, 245, 0.95) 100%);
+   position: relative;
    display: flex;
    align-items: center;
    justify-content: center;
    text-align: center;
    overflow: hidden;
-   position: relative;
    padding: 60px 20px;
+}
+
+.hero-landing::before {
+   content: '';
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: 
+      radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(255, 255, 255, 0.2) 0%, transparent 40%),
+      linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+   background-size: 100% 100%, 100% 100%, 100% 100%, 200% 200%;
+   animation: shimmerBackground 20s ease infinite;
+   z-index: 1;
+}
+
+@keyframes shimmerBackground {
+   0%, 100% { background-position: 0% 0%, 100% 100%, 0% 0%, 0% 0%; }
+   50% { background-position: 100% 100%, 0% 0%, 100% 100%, 100% 100%; }
 }
 
 .hero-landing-overlay {
@@ -675,9 +698,8 @@ body.nav-open { overflow: hidden; }
    left: 0;
    right: 0;
    bottom: 0;
-   background: rgba(10, 10, 10, 0.65);
-   backdrop-filter: blur(2px);
-   z-index: 1;
+   background: transparent;
+   z-index: 2;
 }
 
 .hero-landing-content {
@@ -700,33 +722,35 @@ body.nav-open { overflow: hidden; }
    font-size: 80px;
    font-weight: 900;
    letter-spacing: 4px;
-   background: linear-gradient(to right, var(--primary-color), #ffd700);
+   background: linear-gradient(135deg, var(--secondary-color) 0%, #1a1a1a 50%, var(--primary-color) 100%);
    -webkit-background-clip: text;
    -webkit-text-fill-color: transparent;
    background-clip: text;
    margin-bottom: 20px;
-   text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+   filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.5));
 }
 
 .hero-brand-tagline {
    font-size: 36px;
-   color: var(--white);
+   color: var(--secondary-color);
    margin-bottom: 15px;
-   font-weight: 300;
+   font-weight: 400;
    letter-spacing: 2px;
+   text-shadow: 0 2px 4px rgba(255, 255, 255, 0.3);
 }
 
 .hero-brand-subtext {
    font-size: 18px;
-   color: #aaa;
+   color: #2c3e50;
    margin-bottom: 50px;
    font-weight: 500;
    letter-spacing: 1px;
+   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
 }
 
 .hero-landing-btn {
-   background: linear-gradient(135deg, var(--primary-color), #ffd700);
-   color: var(--secondary-color);
+   background: linear-gradient(135deg, var(--secondary-color), #2a2a2a);
+   color: var(--white);
    padding: 18px 60px;
    font-size: 18px;
    font-weight: 700;
@@ -734,12 +758,14 @@ body.nav-open { overflow: hidden; }
    border-radius: 50px;
    cursor: pointer;
    transition: var(--transition);
-   box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+   box-shadow: 0 8px 25px rgba(26, 26, 26, 0.3);
 }
 
 .hero-landing-btn:hover {
    transform: translateY(-5px) scale(1.05);
-   box-shadow: 0 20px 50px rgba(212, 175, 55, 0.6);
+   box-shadow: 0 12px 35px rgba(26, 26, 26, 0.4);
+   background: linear-gradient(135deg, var(--primary-color), #ffd700);
+   color: var(--secondary-color);
 }
 
 /* Old hero slider styles kept for reference but hidden */
