@@ -47,10 +47,6 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn cart-btn" id="cartBtn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="badge" id="cartCount">0</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -70,152 +66,26 @@
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
-            <h1>Product Details</h1>
+            <h1>Shop on Shopify</h1>
             <div class="breadcrumb">
                 <a href="index.html">Home</a>
                 <span>/</span>
-                <a href="shop.html">Shop</a>
-                <span>/</span>
-                <span id="breadcrumbProduct">Product</span>
+                <a href="shop-now.html">Shop Now</a>
             </div>
         </div>
     </section>
 
-    <!-- Product Details Section -->
-    <section class="product-details-section">
-        <div class="container">
-            <div class="product-details-layout">
-                <!-- Product Images -->
-                <div class="product-images">
-                    <div class="main-image product-emoji-display" data-emoji="💍">
-                        <div class="main-product-emoji" id="mainProductEmoji">💍</div>
-                        <button class="zoom-btn"><i class="fas fa-search-plus"></i></button>
-                    </div>
-                    <div class="thumbnail-images" id="thumbnailImages">
-                        <div class="thumbnail-emoji active" data-emoji="💍">💍</div>
-                        <div class="thumbnail-emoji" data-emoji="✨">✨</div>
-                        <div class="thumbnail-emoji" data-emoji="💎">💎</div>
-                        <div class="thumbnail-emoji" data-emoji="👑">👑</div>
-                    </div>
-                </div>
-
-                <!-- Product Info -->
-                <div class="product-info">
-                    <div class="product-badge">New Arrival</div>
-                    <h1 class="product-title" id="productTitle">Diamond Solitaire Ring</h1>
-                    <div class="product-rating">
-                        <div class="stars">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <span class="rating-count">(128 reviews)</span>
-                    </div>
-                    <div class="product-price">
-                        <span class="current-price" id="productPrice">$2,499.00</span>
-                        <span class="original-price">$2,999.00</span>
-                        <span class="discount-badge">-17%</span>
-                    </div>
-                    <p class="product-description" id="productDescription">
-                        Exquisite diamond solitaire ring crafted in 14K white gold. Features a brilliant-cut diamond with exceptional clarity and sparkle. Perfect for engagements, anniversaries, or as a statement piece.
-                    </p>
-
-                    <div class="product-options">
-                        <div class="option-group">
-                            <label>Size:</label>
-                            <select class="product-select" id="sizeSelect">
-                                <option value="">Select Size</option>
-                                <option value="5">Size 5</option>
-                                <option value="6">Size 6</option>
-                                <option value="7">Size 7</option>
-                                <option value="8">Size 8</option>
-                                <option value="9">Size 9</option>
-                                <option value="10">Size 10</option>
-                            </select>
-                            <a href="#" class="size-guide-link">Size Guide</a>
-                        </div>
-
-                        <div class="option-group">
-                            <label>Metal Type:</label>
-                            <div class="metal-options">
-                                <button class="metal-btn active" data-metal="white-gold">White Gold</button>
-                                <button class="metal-btn" data-metal="yellow-gold">Yellow Gold</button>
-                                <button class="metal-btn" data-metal="rose-gold">Rose Gold</button>
-                            </div>
-                        </div>
-
-                        <div class="option-group">
-                            <label>Quantity:</label>
-                            <div class="quantity-selector">
-                                <button class="qty-btn" id="decreaseQty">-</button>
-                                <input type="number" value="1" min="1" id="quantityInput">
-                                <button class="qty-btn" id="increaseQty">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="product-actions">
-                        <button class="btn btn-primary btn-large" id="addToCartBtn">
-                            <i class="fas fa-shopping-cart"></i> Add to Cart
-                        </button>
-
-                    </div>
-
-                    <div class="product-meta">
-                        <div class="meta-item">
-                            <span class="meta-label">SKU:</span>
-                            <span class="meta-value">RNG-001-WG</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Category:</span>
-                            <span class="meta-value">Rings</span>
-                        </div>
-                        <div class="meta-item">
-                            <span class="meta-label">Tags:</span>
-                            <span class="meta-value">Diamond, Engagement, Luxury</span>
-                        </div>
-                    </div>
-
-                    <div class="product-features">
-                        <div class="feature-item">
-                            <i class="fas fa-shield-alt"></i>
-                            <span>Lifetime Warranty</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-shipping-fast"></i>
-                            <span>Free Shipping</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-undo"></i>
-                            <span>30-Day Returns</span>
-                        </div>
-                        <div class="feature-item">
-                            <i class="fas fa-certificate"></i>
-                            <span>Certified Authentic</span>
-                        </div>
-                    </div>
-                </div>
+    <!-- Shopify Hand-off -->
+    <section class="shop-section">
+        <div class="container" style="text-align:center;">
+            <div class="section-header">
+                <h2>Products Are Available on Shopify</h2>
+                <p>We no longer display product details here. Please browse and purchase directly on our Shopify store.</p>
             </div>
+            <a href="shop-now.html" class="btn btn-primary btn-large">Go to Shopify</a>
+        </div>
+    </section>
 
-            <!-- Product Tabs -->
-            <div class="product-tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-tab="description">Description</button>
-                    <button class="tab-btn" data-tab="specifications">Specifications</button>
-                    <button class="tab-btn" data-tab="reviews">Reviews (128)</button>
-                    <button class="tab-btn" data-tab="shipping">Shipping & Returns</button>
-                </div>
-
-                <div class="tab-content">
-                    <div class="tab-pane active" id="description">
-                        <h3>Product Description</h3>
-                        <p>This stunning diamond solitaire ring exemplifies timeless elegance and sophistication. Expertly crafted from premium 14K white gold, this piece features a brilliant-cut diamond that captures and reflects light beautifully from every angle.</p>
-                        <p>The classic solitaire design ensures that all attention remains on the breathtaking center stone, while the sleek band provides both comfort and durability for everyday wear. Each diamond is carefully selected for its exceptional quality, clarity, and fire.</p>
-                        <h4>Key Features:</h4>
-                        <ul>
-                            <li>Brilliant-cut diamond with excellent clarity</li>
                             <li>14K white gold setting</li>
                             <li>Classic solitaire design</li>
                             <li>Comfortable fit for daily wear</li>
@@ -365,13 +235,6 @@
                 </div>
             </div>
 
-            <!-- Related Products -->
-            <div class="related-products">
-                <h2>You May Also Like</h2>
-                <div class="products-grid" id="relatedProducts">
-                    <!-- Related products will be loaded by JavaScript -->
-                </div>
-            </div>
         </div>
     </section>
 

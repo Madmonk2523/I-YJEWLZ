@@ -47,10 +47,6 @@
                         <button class="icon-btn search-btn" id="searchBtn">
                             <i class="fas fa-search"></i>
                         </button>
-                        <button class="icon-btn cart-btn" id="cartBtn">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span class="badge" id="cartCount">0</span>
-                        </button>
                     </div>
                 </div>
             </div>
@@ -81,166 +77,15 @@
 
     <!-- Cart Section -->
     <section class="cart-section">
-        <div class="container">
-            <div class="cart-layout">
-                <div class="cart-main">
-                    <div class="cart-header-bar">
-                        <h2>Your Cart Items</h2>
-                        <button class="btn btn-outline-sm" id="clearCart">Clear Cart</button>
-                    </div>
-
-                    <div class="cart-table-wrapper">
-                        <table class="cart-table" id="cartTable">
-                            <thead>
-                                <tr>
-                                    <th>Product</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                    <th>Remove</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cartTableBody">
-                                <!-- Cart items will be loaded here -->
-                            </tbody>
-                        </table>
-                        <div class="empty-cart" id="emptyCart" style="display: none;">
-                            <i class="fas fa-shopping-cart"></i>
-                            <h3>Your cart is empty</h3>
-                            <p>Looks like you haven't added any items to your cart yet.</p>
-                            <a href="shop.html" class="btn btn-primary">Start Shopping</a>
-                        </div>
-                    </div>
-
-                    <div class="cart-actions">
-                        <a href="shop.html" class="btn btn-outline">
-                            <i class="fas fa-arrow-left"></i> Continue Shopping
-                        </a>
-                        <button class="btn btn-outline" id="updateCart">
-                            <i class="fas fa-sync"></i> Update Cart
-                        </button>
-                    </div>
-                </div>
-
-                <div class="cart-summary">
-                    <h3>Order Summary</h3>
-                    
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="cartSubtotal">$0.00</span>
-                    </div>
-                    
-                    <div class="coupon-section">
-                        <input type="text" placeholder="Enter coupon code" id="couponInput">
-                        <button class="btn btn-outline btn-block" id="applyCoupon">Apply</button>
-                        <div class="coupon-message" id="couponMessage"></div>
-                    </div>
-                    
-                    <div class="summary-row discount-row" id="discountRow" style="display: none;">
-                        <span>Discount:</span>
-                        <span class="discount-amount" id="discountAmount">-$0.00</span>
-                    </div>
-                    
-                    <div class="shipping-options">
-                        <h4>Shipping Options</h4>
-                        <label class="shipping-option">
-                            <input type="radio" name="shipping" value="0" checked>
-                            <span>Standard Shipping (3-5 days)</span>
-                            <span>Free</span>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="shipping" value="25">
-                            <span>Express Shipping (2-3 days)</span>
-                            <span>$25.00</span>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="shipping" value="45">
-                            <span>Overnight Shipping</span>
-                            <span>$45.00</span>
-                        </label>
-                    </div>
-                    
-                    <div class="summary-row">
-                        <span>Shipping:</span>
-                        <span id="shippingCost">Free</span>
-                    </div>
-                    
-                    <div class="summary-row">
-                        <span>Tax:</span>
-                        <span id="taxAmount">$0.00</span>
-                    </div>
-                    
-                    <div class="summary-divider"></div>
-                    
-                    <div class="summary-row total-row">
-                        <span>Total:</span>
-                        <span id="cartGrandTotal">$0.00</span>
-                    </div>
-                    
-                    <button class="btn btn-primary btn-block btn-large" id="proceedCheckout">
-                        Proceed to Checkout
-                    </button>
-                    
-                    <div class="payment-icons">
-                        <i class="fab fa-cc-visa"></i>
-                        <i class="fab fa-cc-mastercard"></i>
-                        <i class="fab fa-cc-amex"></i>
-                        <i class="fab fa-cc-paypal"></i>
-                    </div>
-                    
-                    <div class="security-badge">
-                        <i class="fas fa-lock"></i>
-                        <span>Secure Checkout</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Benefits Bar -->
-            <div class="cart-benefits">
-                <div class="benefit-item">
-                    <i class="fas fa-shipping-fast"></i>
-                    <div>
-                        <h4>Free Shipping</h4>
-                        <p>On orders over $500</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-undo"></i>
-                    <div>
-                        <h4>30-Day Returns</h4>
-                        <p>Easy returns & exchanges</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-shield-alt"></i>
-                    <div>
-                        <h4>Secure Payment</h4>
-                        <p>100% secure transactions</p>
-                    </div>
-                </div>
-                <div class="benefit-item">
-                    <i class="fas fa-headset"></i>
-                    <div>
-                        <h4>24/7 Support</h4>
-                        <p>We're here to help</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Recommended Products -->
-    <section class="recommended-products">
-        <div class="container">
+        <div class="container" style="text-align:center;">
             <div class="section-header">
-                <h2>You May Also Like</h2>
-                <p>Complete your collection with these stunning pieces</p>
+                <h2>Shopping on Shopify</h2>
+                <p>All products, cart, and checkout are handled on our Shopify store.</p>
             </div>
-            <div class="products-grid" id="recommendedProducts">
-                <!-- Products will be loaded by JavaScript -->
-            </div>
+            <a href="shop-now.html" class="btn btn-primary btn-large">Visit Our Shopify Store</a>
         </div>
     </section>
+
 
     <!-- Footer -->
     <footer class="footer">

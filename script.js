@@ -393,13 +393,8 @@
 
   // Product details page
   function initProductDetails() {
-    const mainImg = $('#mainProductImage');
-    const thumbs = $('#thumbnailImages');
-    const addBtn = $('#addToCartBtn');
-    const titleEl = $('#productTitle');
-    const qtyInput = $('#quantityInput');
-
-    if (!titleEl || !addBtn) return; // not on product page
+    // Disabled: product details handled on Shopify
+    return;
 
     const params = new URLSearchParams(location.search);
     const pid = +params.get('pid');
@@ -603,65 +598,9 @@
       return queryIdx === query.length ? score / query.length : 0;
     }
     
-    // Get search suggestions
+    // Get search suggestions (disabled for Shopify-only products)
     function getSearchSuggestions(query) {
-      if (!query || query.length < 2) return [];
-      
-      const suggestions = [];
-      const queryLower = query.toLowerCase();
-      
-      // Search through products
-      PRODUCTS.forEach(product => {
-        const nameMatch = fuzzyMatch(product.name, query);
-        const categoryMatch = fuzzyMatch(product.category, query);
-        const materialMatch = fuzzyMatch(product.material, query);
-        const collectionMatch = fuzzyMatch(product.collection, query);
-        
-        const maxMatch = Math.max(nameMatch, categoryMatch, materialMatch, collectionMatch);
-        
-        if (maxMatch > 0.5 || 
-            product.name.toLowerCase().includes(queryLower) ||
-            product.category.toLowerCase().includes(queryLower) ||
-            product.material.toLowerCase().includes(queryLower) ||
-            product.collection.toLowerCase().includes(queryLower)) {
-          suggestions.push({
-            type: 'product',
-            name: product.name,
-            category: product.category,
-            material: product.material,
-            price: product.price,
-            match: maxMatch,
-            query: query
-          });
-        }
-      });
-      
-      // Add category suggestions
-      const categories = ['rings', 'necklaces', 'earrings', 'bracelets', 'watches'];
-      categories.forEach(cat => {
-        if (cat.toLowerCase().includes(queryLower) || fuzzyMatch(cat, query) > 0.5) {
-          suggestions.push({
-            type: 'category',
-            name: cat.charAt(0).toUpperCase() + cat.slice(1),
-            query: query
-          });
-        }
-      });
-      
-      // Add material suggestions
-      const materials = ['gold', 'silver', 'platinum', 'diamond', 'pearl', 'steel'];
-      materials.forEach(mat => {
-        if (mat.toLowerCase().includes(queryLower) || fuzzyMatch(mat, query) > 0.5) {
-          suggestions.push({
-            type: 'material',
-            name: mat.charAt(0).toUpperCase() + mat.slice(1),
-            query: query
-          });
-        }
-      });
-      
-      // Sort by match score and limit results
-      return suggestions.sort((a, b) => (b.match || 0) - (a.match || 0)).slice(0, 8);
+      return [];
     }
     
     // Highlight matching text
@@ -781,10 +720,10 @@
     // Perform search
     function performSearch(query) {
       if (!query) return;
-      
       saveToHistory(query);
       searchOverlay?.classList.remove('active');
-      window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+      // Redirect users to Shopify landing page instead of product search
+      window.location.href = 'shop-now.html';
     }
     
     // Open search overlay
@@ -982,11 +921,8 @@
 
   // Recommended on cart page
   function renderRecommended() {
-    const wrap = $('#recommendedProducts');
-    if (!wrap) return;
-    const rec = PRODUCTS.slice(0, 8);
-    wrap.innerHTML = rec.map(productCardHTML).join('');
-    attachAddToCart(wrap);
+    // Disabled: no product recommendations; products handled on Shopify
+    return;
   }
 
   // Scroll animations
@@ -1092,14 +1028,14 @@
     initPageLoad();
     initHeader();
     renderFeatured();
-    initShop();
-    initProductDetails();
+    // initShop(); // Disabled: products are on Shopify
+    // initProductDetails(); // Disabled
     initHeroSlider();
     initForms();
-    renderRecommended();
+    // renderRecommended(); // Disabled
     applyPlaceholders();
-    updateCartUI();
-    initCartPageControls();
+    // updateCartUI(); // Cart disabled on this site
+    // initCartPageControls(); // Disabled
     initScrollAnimations();
     initSmoothScroll();
     initAdvancedFeatures();
