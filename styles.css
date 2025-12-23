@@ -1153,6 +1153,8 @@ body.nav-open { overflow: hidden; }
 .btn-light { background: var(--white); color: var(--secondary-color); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
 .btn-light:hover { background: var(--primary-color); color: var(--secondary-color); transform: translateY(-2px); }
 .btn-large { padding: 16px 45px; font-size: 18px; border-radius: 10px; }
+.btn-small { padding: 12px 28px; font-size: 15px; border-radius: 8px; display: inline-block; background: linear-gradient(135deg, var(--primary-color), #c19d2f); color: var(--secondary-color); font-weight: 700; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+.btn-small:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.6); }
 .btn-block { display: block; width: 100%; }
 .btn-outline-sm { padding: 8px 20px; font-size: 14px; }
 
@@ -1809,11 +1811,11 @@ body.nav-open { overflow: hidden; }
       background: rgba(173, 216, 230, 0.3);
    }
    .logo-brand {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      order: 3;
+      margin-left: auto;
+      margin-right: 12px;
    }
-   .logo-brand img { height: 28px; }
+   .logo-brand img { height: 50px; }
    .nav-icons {
       gap: 8px;
    }
