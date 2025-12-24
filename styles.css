@@ -450,6 +450,12 @@ img {
 }
 .icon-btn:hover { color: var(--white); background: rgba(255, 255, 255, 0.1); border-radius: 6px; }
 
+.search-btn {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
 .badge {
    position: absolute;
    top: -8px;
@@ -623,45 +629,177 @@ body.nav-open { overflow: hidden; }
    background: rgba(255, 255, 255, 0.15) !important;
 }
 
-/* Search Overlay - DISABLED */
+/* Search Overlay & Modal */
 .search-overlay {
-   display: none !important;
+   display: none;
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background: rgba(0, 0, 0, 0.7);
+   z-index: 9999;
+   backdrop-filter: blur(5px);
+   justify-content: center;
+   align-items: flex-start;
+   padding-top: 100px;
 }
-.search-container { position: relative; width: 90%; max-width: 700px; }
 
-.search-input-wrapper {
-   position: relative;
+.search-overlay.active {
+   display: flex;
+}
+
+.search-modal {
    background: var(--white);
-   border-radius: 50px;
-   box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+   border-radius: 12px;
+   width: 90%;
+   max-width: 600px;
+   max-height: 80vh;
+   overflow-y: auto;
+   box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
+   animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+   from { transform: translateY(-30px); opacity: 0; }
+   to { transform: translateY(0); opacity: 1; }
+}
+
+.search-header {
+   padding: 20px;
+   border-bottom: 2px solid var(--light-bg);
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+}
+
+.search-header h2 {
+   margin: 0;
+   color: var(--secondary-color);
+   font-size: 24px;
+}
+
+.search-close-btn {
+   background: none;
+   border: none;
+   font-size: 28px;
+   cursor: pointer;
+   color: var(--text-color);
+   transition: var(--transition);
+   padding: 0;
+   width: 40px;
+   height: 40px;
    display: flex;
    align-items: center;
-   transition: var(--transition);
+   justify-content: center;
 }
-.search-input-wrapper:focus-within {
-   box-shadow: 0 15px 50px rgba(212, 175, 55, 0.4);
-   transform: scale(1.02);
+
+.search-close-btn:hover {
+   color: var(--primary-color);
+   background: var(--light-bg);
+   border-radius: 6px;
+}
+
+.search-container {
+   position: relative;
+   padding: 20px;
+   background: var(--light-bg);
+   display: flex;
+   align-items: center;
+   border-bottom: 1px solid var(--border-color);
 }
 
 .search-icon {
    position: absolute;
-   left: 25px;
-   font-size: 22px;
+   left: 30px;
    color: var(--primary-color);
+   font-size: 18px;
    pointer-events: none;
-   z-index: 1;
 }
 
-.search-container input {
-   width: 100%; 
-   padding: 22px 120px 22px 65px; 
-   font-size: 18px;
-   border: none; 
-   border-radius: 50px; 
+#searchInput {
+   width: 100%;
+   padding: 12px 15px 12px 45px;
+   border: none;
+   background: var(--white);
+   border-radius: 8px;
+   font-size: 16px;
    outline: none;
-   background: transparent;
-   font-family: var(--font-primary);
-   color: var(--text-color);
+   transition: var(--transition);
+}
+
+#searchInput:focus {
+   box-shadow: 0 0 0 3px rgba(173, 216, 230, 0.3);
+}
+
+.search-suggestions,
+.search-results {
+   padding: 10px;
+}
+
+.suggestions-list,
+.results-list {
+   list-style: none;
+   margin: 0;
+   padding: 0;
+}
+
+.suggestion-item,
+.result-item {
+   padding: 12px 15px;
+   cursor: pointer;
+   border-radius: 6px;
+   display: flex;
+   align-items: center;
+   gap: 12px;
+   transition: var(--transition);
+}
+
+.suggestion-item:hover,
+.result-item:hover {
+   background: var(--light-bg);
+   color: var(--primary-color);
+}
+
+.suggestion-item i,
+.result-item i {
+   font-size: 18px;
+   color: var(--primary-color);
+   min-width: 20px;
+}
+
+.suggestion-text {
+   flex: 1;
+}
+
+.suggestion-name,
+.result-name {
+   font-weight: 600;
+   color: var(--secondary-color);
+   margin-bottom: 4px;
+}
+
+.suggestion-meta,
+.result-meta {
+   font-size: 13px;
+   color: #999;
+}
+
+.search-empty {
+   padding: 60px 20px;
+   text-align: center;
+   color: #999;
+}
+
+.search-empty i {
+   font-size: 48px;
+   color: var(--light-bg);
+   margin-bottom: 20px;
+}
+
+.search-empty p {
+   margin: 0;
+   font-size: 15px;
 }
 
 .search-container input::placeholder {

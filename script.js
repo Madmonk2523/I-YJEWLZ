@@ -883,10 +883,174 @@
     prodImgs.forEach((el, i) => { const bg = getComputedStyle(el).backgroundImage; if (bg.includes('images/')) el.style.backgroundImage = `url('https://picsum.photos/600/600?random=${i+21}')`; });
   }
 
-  // Recommended on cart page
-  function renderRecommended() {
-    // Disabled: no product recommendations; products handled on Shopify
-    return;
+  // Search functionality
+  function initSearch() {
+    const searchBtn = $('#searchBtn');
+    const searchOverlay = $('#searchOverlay');
+    const searchCloseBtn = $('#searchCloseBtn');
+    const searchInput = $('#searchInput');
+    const searchSuggestions = $('#searchSuggestions');
+    const searchResults = $('#searchResults');
+    const searchEmpty = $('#searchEmpty');
+
+    if (!searchBtn || !searchOverlay) return;
+
+    // Product database for search
+    const products = [
+      { name: 'Diamond Ring', category: 'Rings', material: '14K Gold', price: 1500 },
+      { name: 'Solitaire Engagement Ring', category: 'Rings', material: 'White Gold', price: 2500 },
+      { name: 'Pearl Necklace', category: 'Necklaces', material: 'Sterling Silver', price: 350 },
+      { name: 'Gold Chain Necklace', category: 'Necklaces', material: '18K Gold', price: 800 },
+      { name: 'Diamond Earrings', category: 'Earrings', material: 'White Gold', price: 950 },
+      { name: 'Pearl Stud Earrings', category: 'Earrings', material: 'Gold', price: 450 },
+      { name: 'Luxury Watch', category: 'Watches', material: 'Stainless Steel', price: 2000 },
+      { name: 'Classic Bracelet', category: 'Bracelets', material: 'Gold', price: 650 },
+      { name: 'Diamond Bracelet', category: 'Bracelets', material: 'Platinum', price: 3500 },
+      { name: 'Tennis Bracelet', category: 'Bracelets', material: 'White Gold', price: 2200 },
+    ];
+
+    const categories = ['Rings', 'Necklaces', 'Earrings', 'Watches', 'Bracelets'];
+
+    // Open search modal
+    on(searchBtn, 'click', () => {
+      searchOverlay.classList.add('active');
+      searchInput.focus();
+      renderDefaultSuggestions();
+    });
+
+    // Close search modal
+    on(searchCloseBtn, 'click', () => {
+      searchOverlay.classList.remove('active');
+      searchInput.value = '';
+      searchSuggestions.style.display = 'block';
+      searchResults.style.display = 'none';
+      searchEmpty.style.display = 'none';
+    });
+
+    // Close on overlay click
+    on(searchOverlay, 'click', (e) => {
+      if (e.target === searchOverlay) {
+        searchOverlay.classList.remove('active');
+      }
+    });
+
+    // Close on Escape key
+    on(document, 'keydown', (e) => {
+      if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+        searchOverlay.classList.remove('active');
+      }
+    });
+
+    // Search input
+    on(searchInput, 'input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      
+      if (!query) {
+        renderDefaultSuggestions();
+        return;
+      }
+
+      performSearch(query);
+    });
+
+    // Render default suggestions (categories & recent)
+    function renderDefaultSuggestions() {
+      const list = searchSuggestions.querySelector('.suggestions-list');
+      list.innerHTML = '<div style="padding: 15px; color: #999; font-size: 13px;">Popular Categories</div>' + 
+        categories.map(cat => `
+          <div class="suggestion-item" data-query="${cat}">
+            <i class="fas fa-tags"></i>
+            <div class="suggestion-text">
+              <div class="suggestion-name">${cat}</div>
+              <div class="suggestion-meta">Browse ${cat.toLowerCase()}</div>
+            </div>
+          </div>
+        `).join('');
+
+      $$('.suggestion-item', list).forEach(item => {
+        on(item, 'click', () => {
+          searchInput.value = item.dataset.query;
+          performSearch(item.dataset.query.toLowerCase());
+        });
+      });
+
+      searchSuggestions.style.display = 'block';
+      searchResults.style.display = 'none';
+      searchEmpty.style.display = 'none';
+    }
+
+    // Perform search
+    function performSearch(query) {
+      // Search products
+      const matchedProducts = products.filter(p =>
+        p.name.toLowerCase().includes(query) ||
+        p.category.toLowerCase().includes(query) ||
+        p.material.toLowerCase().includes(query)
+      );
+
+      // Search categories
+      const matchedCategories = categories.filter(cat =>
+        cat.toLowerCase().includes(query)
+      );
+
+      if (matchedProducts.length === 0 && matchedCategories.length === 0) {
+        searchSuggestions.style.display = 'none';
+        searchResults.style.display = 'none';
+        searchEmpty.style.display = 'block';
+        return;
+      }
+
+      // Render results
+      const list = searchResults.querySelector('.results-list');
+      let html = '';
+
+      if (matchedCategories.length > 0) {
+        html += '<div style="padding: 10px 15px; background: var(--light-bg); font-weight: 600; color: var(--text-color); font-size: 12px;">CATEGORIES</div>';
+        html += matchedCategories.map(cat => `
+          <div class="result-item" data-category="${cat}">
+            <i class="fas fa-folder"></i>
+            <div class="suggestion-text">
+              <div class="result-name">${cat}</div>
+            </div>
+            <i class="fas fa-arrow-right" style="color: #ccc; font-size: 14px;"></i>
+          </div>
+        `).join('');
+      }
+
+      if (matchedProducts.length > 0) {
+        html += '<div style="padding: 10px 15px; background: var(--light-bg); font-weight: 600; color: var(--text-color); font-size: 12px;">PRODUCTS</div>';
+        html += matchedProducts.map(p => `
+          <div class="result-item" data-product="${p.name}">
+            <i class="fas fa-gem"></i>
+            <div class="suggestion-text">
+              <div class="result-name">${p.name}</div>
+              <div class="result-meta">${p.category} • ${p.material} • $${p.price.toLocaleString()}</div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      list.innerHTML = html;
+
+      // Click handlers
+      $$('.result-item', list).forEach(item => {
+        on(item, 'click', () => {
+          const category = item.dataset.category;
+          const product = item.dataset.product;
+          searchOverlay.classList.remove('active');
+          
+          if (category) {
+            window.location.href = `shop.html#${category.toLowerCase()}`;
+          } else if (product) {
+            window.location.href = `shop-now.html`;
+          }
+        });
+      });
+
+      searchSuggestions.style.display = 'none';
+      searchResults.style.display = 'block';
+      searchEmpty.style.display = 'none';
+    }
   }
 
   // Scroll animations
@@ -998,6 +1162,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     initPageLoad();
     initHeader();
+    initSearch();
     renderFeatured();
     // initShop(); // Disabled: products are on Shopify
     // initProductDetails(); // Disabled

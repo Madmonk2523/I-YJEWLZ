@@ -61,17 +61,32 @@
             </div>
         </nav>
         
-        <!-- Search Bar -->
+        <!-- Search Overlay -->
         <div class="search-overlay" id="searchOverlay">
-            <div class="search-container">
-                <input type="text" placeholder="Search for jewelry..." id="searchInput">
-                <button class="search-close-btn" id="searchCloseBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="search-modal">
+                <div class="search-header">
+                    <h2>Search Products</h2>
+                    <button class="search-close-btn" id="searchCloseBtn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search for jewelry, rings, necklaces, watches..." autocomplete="off">
+                </div>
+                <div class="search-suggestions" id="searchSuggestions">
+                    <div class="suggestions-list"></div>
+                </div>
+                <div class="search-results" id="searchResults">
+                    <div class="results-list"></div>
+                </div>
+                <div class="search-empty" id="searchEmpty" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <p>No products found. Try searching for "rings", "necklaces", "earrings", or "watches"</p>
+                </div>
             </div>
         </div>
     </header>
-
     <!-- Page Header -->
     <section class="page-header">
         <div class="container">
