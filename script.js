@@ -895,21 +895,39 @@
 
     if (!searchBtn || !searchOverlay) return;
 
-    // Product database for search
+    // Complete product database with all your actual products
     const products = [
-      { name: 'Diamond Ring', category: 'Rings', material: '14K Gold', price: 1500 },
-      { name: 'Solitaire Engagement Ring', category: 'Rings', material: 'White Gold', price: 2500 },
-      { name: 'Pearl Necklace', category: 'Necklaces', material: 'Sterling Silver', price: 350 },
-      { name: 'Gold Chain Necklace', category: 'Necklaces', material: '18K Gold', price: 800 },
-      { name: 'Diamond Earrings', category: 'Earrings', material: 'White Gold', price: 950 },
-      { name: 'Pearl Stud Earrings', category: 'Earrings', material: 'Gold', price: 450 },
-      { name: 'Luxury Watch', category: 'Watches', material: 'Stainless Steel', price: 2000 },
-      { name: 'Classic Bracelet', category: 'Bracelets', material: 'Gold', price: 650 },
-      { name: 'Diamond Bracelet', category: 'Bracelets', material: 'Platinum', price: 3500 },
-      { name: 'Tennis Bracelet', category: 'Bracelets', material: 'White Gold', price: 2200 },
+      // Watches (55 total)
+      ...Array.from({length: 55}, (_, i) => ({ 
+        name: `Watch ${i + 1}`, 
+        category: 'Watches', 
+        image: `images/watch${i + 1}.png`,
+        price: 0
+      })),
+      // Earrings (14 total)
+      ...Array.from({length: 14}, (_, i) => ({ 
+        name: `Earring ${i + 1}`, 
+        category: 'Earrings', 
+        image: `images/earring${i + 1}.png`,
+        price: 0
+      })),
+      // Necklaces (4 total)
+      ...Array.from({length: 4}, (_, i) => ({ 
+        name: `Necklace ${i + 1}`, 
+        category: 'Necklaces', 
+        image: `images/necklace${i + 1}.png`,
+        price: 0
+      })),
+      // Bracelets (2 total)
+      ...Array.from({length: 2}, (_, i) => ({ 
+        name: `Bracelet ${i + 1}`, 
+        category: 'Bracelets', 
+        image: `images/bracelet${i + 1}.png`,
+        price: 0
+      }))
     ];
 
-    const categories = ['Rings', 'Necklaces', 'Earrings', 'Watches', 'Bracelets'];
+    const categories = ['Watches', 'Necklaces', 'Earrings', 'Bracelets'];
 
     // Open search modal
     on(searchBtn, 'click', () => {
@@ -984,8 +1002,7 @@
       // Search products
       const matchedProducts = products.filter(p =>
         p.name.toLowerCase().includes(query) ||
-        p.category.toLowerCase().includes(query) ||
-        p.material.toLowerCase().includes(query)
+        p.category.toLowerCase().includes(query)
       );
 
       // Search categories
@@ -1019,12 +1036,12 @@
 
       if (matchedProducts.length > 0) {
         html += '<div style="padding: 10px 15px; background: var(--light-bg); font-weight: 600; color: var(--text-color); font-size: 12px;">PRODUCTS</div>';
-        html += matchedProducts.map(p => `
+        html += matchedProducts.slice(0, 20).map(p => `
           <div class="result-item" data-product="${p.name}">
-            <i class="fas fa-gem"></i>
+            <img src="${p.image}" alt="${p.name}" class="result-thumbnail" onerror="this.style.display='none'">
             <div class="suggestion-text">
               <div class="result-name">${p.name}</div>
-              <div class="result-meta">${p.category} • ${p.material} • $${p.price.toLocaleString()}</div>
+              <div class="result-meta">${p.category}</div>
             </div>
           </div>
         `).join('');
@@ -1042,7 +1059,7 @@
           if (category) {
             window.location.href = `shop.html#${category.toLowerCase()}`;
           } else if (product) {
-            window.location.href = `shop-now.html`;
+            window.location.href = `shop.html`;
           }
         });
       });
