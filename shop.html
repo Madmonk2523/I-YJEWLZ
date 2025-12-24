@@ -75,12 +75,24 @@
         </div>
     </section>
 
+    <!-- Category Navigation -->
+    <section style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); padding: 20px 0; margin: 20px 0; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+        <div class="container">
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <span style="font-weight: 600; color: var(--text-color); margin-right: 10px;"><i class="fas fa-filter"></i> Shop by Category:</span>
+                <a href="#watches" class="btn btn-outline" style="padding: 10px 20px;">⌚ Watches</a>
+                <a href="#earrings" class="btn btn-outline" style="padding: 10px 20px;">👂 Earrings</a>
+                <a href="#bracelets" class="btn btn-outline" style="padding: 10px 20px;">📿 Bracelets</a>
+            </div>
+        </div>
+    </section>
+
     <!-- Shop Section -->
     <section class="shop-section">
         <div class="container">
             
             <!-- WATCHES CATEGORY -->
-            <div class="section-header">
+            <div id="watches" class="section-header">
                 <h2>⌚ Watches</h2>
             </div>
             <div class="products-grid">
@@ -326,7 +338,7 @@
             </div>
 
             <!-- EARRINGS CATEGORY -->
-            <div class="section-header" style="margin-top: 60px;">
+            <div id="earrings" class="section-header" style="margin-top: 60px;">
                 <h2>👂 Earrings</h2>
             </div>
             <div class="products-grid">
@@ -380,7 +392,7 @@
             </div>
 
             <!-- BRACELETS CATEGORY -->
-            <div class="section-header" style="margin-top: 60px;">
+            <div id="bracelets" class="section-header" style="margin-top: 60px;">
                 <h2>📿 Bracelets</h2>
             </div>
             <div class="products-grid">
