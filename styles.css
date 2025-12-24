@@ -538,8 +538,10 @@ img {
    padding: 8px 12px;
    transition: var(--transition);
    order: -1;
-   z-index: 10001;
+   z-index: 13001;
    position: relative;
+   pointer-events: auto;
+   touch-action: manipulation;
    border-radius: 6px;
 }
 .mobile-menu-btn:hover {
@@ -1874,6 +1876,10 @@ body.nav-open { overflow: hidden; }
       background: rgba(173, 216, 230, 0.1);
       border-radius: 12px;
       transition: var(--transition);
+      z-index: 13001;
+      position: relative;
+      pointer-events: auto;
+      touch-action: manipulation;
    }
    .mobile-menu-btn:hover {
       background: rgba(173, 216, 230, 0.2);
@@ -1921,10 +1927,11 @@ body.nav-open { overflow: hidden; }
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
       padding: 20px 0;
-      z-index: 999;
+      z-index: 12000;
       display: none;
       list-style: none;
       gap: 0;
+      pointer-events: auto;
    }
    .nav-menu.active { 
       display: flex;

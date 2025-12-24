@@ -787,10 +787,14 @@
       });
     });
     
-    // Close mobile nav when clicking on body (outside menu)
-    on(document, 'click', () => {
+    // Close mobile nav when clicking outside the menu or toggle
+    on(document, 'click', (e) => {
       const menu = $('#navMenu');
-      if (menu && menu.classList.contains('active')) {
+      const toggle = $('#mobileMenuBtn');
+      const clickedInsideMenu = menu && menu.contains(e.target);
+      const clickedToggle = toggle && toggle.contains(e.target);
+
+      if (!clickedInsideMenu && !clickedToggle && menu && menu.classList.contains('active')) {
         menu.classList.remove('active');
         document.body.classList.remove('nav-open');
       }
