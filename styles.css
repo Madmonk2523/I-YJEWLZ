@@ -41,33 +41,33 @@ body {
 @keyframes fadeInUp {
    from {
       opacity: 0;
-      transform: translateY(50px);
+      transform: translate3d(0, 50px, 0);
    }
    to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
    }
 }
 
 @keyframes fadeInLeft {
    from {
       opacity: 0;
-      transform: translateX(-50px);
+      transform: translate3d(-50px, 0, 0);
    }
    to {
       opacity: 1;
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
    }
 }
 
 @keyframes fadeInRight {
    from {
       opacity: 0;
-      transform: translateX(50px);
+      transform: translate3d(50px, 0, 0);
    }
    to {
       opacity: 1;
-      transform: translateX(0);
+      transform: translate3d(0, 0, 0);
    }
 }
 
@@ -112,11 +112,11 @@ body {
 @keyframes slideDown {
    from {
       opacity: 0;
-      transform: translateY(-20px);
+      transform: translate3d(0, -20px, 0);
    }
    to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
    }
 }
 
@@ -147,6 +147,9 @@ img {
    max-width: 100%;
    height: auto;
    display: block;
+   image-rendering: -webkit-optimize-contrast;
+   transform: translateZ(0);
+   will-change: transform;
 }
 
 /* Header Styles */
@@ -158,6 +161,11 @@ img {
    backdrop-filter: blur(10px);
    box-shadow: 0 4px 20px rgba(173, 216, 230, 0.3);
    border-bottom: 1px solid rgba(173, 216, 230, 0.2);
+   transform: translateZ(0);
+   will-change: transform;
+   -webkit-font-smoothing: antialiased;
+   -moz-osx-font-smoothing: grayscale;
+   text-rendering: optimizeLegibility;
 }
 
 .top-bar {
@@ -547,6 +555,8 @@ img {
 body.nav-open { overflow: hidden; }
 .nav-menu {
    transition: all 0.3s ease;
+   transform: translateZ(0);
+   will-change: transform, opacity;
 }
 .nav-menu.active {
    display: flex;
@@ -885,8 +895,8 @@ body.nav-open { overflow: hidden; }
     font-size: 220px; text-shadow: 0 10px 30px rgba(0,0,0,0.4);
 }
 .hero-emoji::before { content: attr(data-emoji); animation: float 4s ease-in-out infinite; }
-@keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-30px); } }
-@keyframes logoFloat { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-20px); } }
+@keyframes float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -30px, 0); } }
+@keyframes logoFloat { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -20px, 0); } }
 @keyframes logoPulse { 0%, 100% { filter: drop-shadow(0 20px 60px rgba(212, 175, 55, 0.5)); } 50% { filter: drop-shadow(0 25px 80px rgba(212, 175, 55, 0.8)); } }
 .hero-content {
     position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%);
@@ -935,7 +945,7 @@ body.nav-open { overflow: hidden; }
 .animate-fade-in { animation: fadeIn 1s ease; }
 .animate-fade-in-delay { animation: fadeIn 1s ease 0.3s backwards; }
 .animate-fade-in-delay-2 { animation: fadeIn 1s ease 0.6s backwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(30px);} to { opacity: 1; transform: translateY(0);} }
+@keyframes fadeIn { from { opacity: 0; transform: translate3d(0, 30px, 0);} to { opacity: 1; transform: translate3d(0, 0, 0);} }
 
 /* Features Section */
 .features { 
@@ -1068,6 +1078,9 @@ body.nav-open { overflow: hidden; }
    flex-direction: column;
    box-shadow: 0 4px 15px rgba(173, 216, 230, 0.15);
 }
+.product-card { 
+   will-change: transform;
+}
 .product-card:hover { 
    transform: translateY(-12px); 
    box-shadow: 0 15px 40px rgba(173, 216, 230, 0.4);
@@ -1083,6 +1096,8 @@ body.nav-open { overflow: hidden; }
    justify-content: center;
    cursor: pointer;
    content-visibility: auto;
+   transform: translateZ(0);
+   will-change: transform;
 }
 .product-image::before {
    content: '';
@@ -1099,7 +1114,7 @@ body.nav-open { overflow: hidden; }
 .product-card:hover .product-image::before {
    opacity: 1;
 }
-.product-card-emoji { font-size: 120px; animation: float 3s ease-in-out infinite; }
+.product-card-emoji { font-size: 120px; }
 .product-badge { 
    position: absolute; 
    top: 15px; 
@@ -1114,8 +1129,7 @@ body.nav-open { overflow: hidden; }
    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3);
    text-transform: uppercase;
    letter-spacing: 1px;
-   animation: badgePulse 2.5s ease-in-out infinite, badgeFloat 3s ease-in-out infinite;
-   transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
    border: 2px solid rgba(255, 255, 255, 0.5);
    font-family: 'Arial Black', sans-serif;
 }
@@ -1126,8 +1140,8 @@ body.nav-open { overflow: hidden; }
 }
 
 .product-actions { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateX(20px); transition: var(--transition); }
-.product-card:hover .product-actions { opacity: 1; transform: translateX(0); }
-.product-action-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--white); color: var(--text-color); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
+.product-card:hover .product-actions { opacity: 1; transform: translate3d(0, 0, 0); }
+.product-action-btn { width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--white); color: var(--text-color); cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; transform: translateZ(0); will-change: transform, background-color; }
 .product-action-btn:hover { background: var(--primary-color); color: var(--white); }
 .product-info { 
    padding: 20px; 

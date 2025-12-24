@@ -911,23 +911,24 @@
 
     // Parallax effect for emojis
     let ticking = false;
-    on(window, 'scroll', () => {
+    window.addEventListener('scroll', () => {
       if (!ticking) {
         window.requestAnimationFrame(() => {
           const scrolled = window.pageYOffset;
           const heroEmojis = $$('.hero-emoji');
           heroEmojis.forEach(emoji => {
             if (emoji.offsetParent) {
-              emoji.style.transform = `translateY(${scrolled * 0.2}px)`;
+              emoji.style.transform = `translate3d(0, ${scrolled * 0.2}px, 0)`;
             }
           });
           
-          // Parallax for category emojis
-          $$('.category-emoji').forEach((emoji, idx) => {
-            const rect = emoji.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-              const offset = (window.innerHeight - rect.top) * 0.05;
-              emoji.style.transform = `translateY(${offset}px) rotate(${offset * 0.2}deg)`;
+          // Parallax for category emojis (throttled to every other frame)
+          if (Math.random() > 0.5) {
+            $$('.category-emoji').forEach((emoji, idx) => {
+              const rect = emoji.getBoundingClientRect();
+              if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const offset = (window.innerHeight - rect.top) * 0.05;
+                emoji.style.transform = `translate3d(0, ${offset}px, 0) rotate(${offset * 0.2}deg)`;
             }
           });
           
@@ -994,9 +995,35 @@
     initScrollAnimations();
     initSmoothScroll();
     initAdvancedFeatures();
+    initIntersectionObserver();
   });
 
   // Advanced Features
+  
+    // Intersection Observer for better lazy loading
+    function initIntersectionObserver() {
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              if (img.dataset.src) {
+                img.src = img.dataset.src;
+                img.removeAttribute('data-src');
+              }
+              observer.unobserve(img);
+            }
+          });
+        }, {
+          rootMargin: '50px 0px',
+          threshold: 0.01
+        });
+
+        $$('img[loading="lazy"]').forEach(img => {
+          imageObserver.observe(img);
+        });
+      }
+    }
   function initAdvancedFeatures() {
     // Price filter functionality
     const priceRange = document.getElementById('priceRange');
