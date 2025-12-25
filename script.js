@@ -759,10 +759,7 @@
       // Search disabled
     });
 
-    const menuToggle = $('#menuToggle');
-    const mobileDrawer = $('#mobileDrawer');
-    const drawerOverlay = $('#drawerOverlay');
-    const drawerClose = $('#drawerClose');
+    // Removed mobile hamburger/drawer and categories logic per request
     const logoBrand = $('.logo-brand');
 
     // Prevent logo click navigation
@@ -772,44 +769,7 @@
       });
     }
 
-    // New Mobile Drawer behavior
-    const openDrawer = () => {
-      if (!mobileDrawer) return;
-      mobileDrawer.classList.add('open');
-      document.body.classList.add('nav-open');
-      if (menuToggle) menuToggle.setAttribute('aria-expanded', 'true');
-      // focus management: move focus to close button if available
-      if (drawerClose) drawerClose.focus?.();
-    };
-
-    const closeDrawer = () => {
-      if (!mobileDrawer) return;
-      mobileDrawer.classList.remove('open');
-      document.body.classList.remove('nav-open');
-      if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
-    };
-
-    if (menuToggle && mobileDrawer) {
-      on(menuToggle, 'click', (e) => { e.preventDefault(); openDrawer(); });
-    }
-    if (drawerOverlay) on(drawerOverlay, 'click', closeDrawer);
-    if (drawerClose) on(drawerClose, 'click', closeDrawer);
-    on(document, 'keydown', (e) => { if (e.key === 'Escape' && mobileDrawer?.classList.contains('open')) closeDrawer(); });
-
-    // Drawer accordion for categories
-    $$('.accordion-toggle', mobileDrawer || document).forEach(btn => {
-      on(btn, 'click', (e) => {
-        e.preventDefault();
-        const li = btn.closest('.accordion');
-        const isOpen = li.classList.contains('open');
-        $$('.accordion', mobileDrawer || document).forEach(x => x.classList.remove('open'));
-        $$('.accordion-toggle', mobileDrawer || document).forEach(x => x.setAttribute('aria-expanded', 'false'));
-        if (!isOpen) {
-          li.classList.add('open');
-          btn.setAttribute('aria-expanded', 'true');
-        }
-      });
-    });
+    // Drawer and categories features removed
   }
 
   // Hero slider
