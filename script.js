@@ -771,34 +771,19 @@
         menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       });
       
-      // Handle dropdown toggle on mobile
-      $$('.nav-dropdown > a').forEach(dropdownLink => {
-        on(dropdownLink, 'click', (e) => {
-          if (window.innerWidth <= 768) {
-            e.preventDefault();
-            const dropdown = dropdownLink.parentElement;
-            dropdown.classList.toggle('active');
-          }
-        });
-      });
-      
       // Close menu when clicking outside
       on(document, 'click', (e) => {
         if (!e.target.closest('.navbar') && navMenu.classList.contains('active')) {
           navMenu.classList.remove('active');
           menuToggle.setAttribute('aria-expanded', 'false');
-          // Close all dropdowns
-          $$('.nav-dropdown').forEach(d => d.classList.remove('active'));
         }
       });
       
-      // Close on link click (but not on dropdown parent)
+      // Close on link click
       $$('.nav-menu a').forEach(link => {
-        on(link, 'click', (e) => {
-          if (!link.parentElement.classList.contains('nav-dropdown')) {
-            navMenu.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-          }
+        on(link, 'click', () => {
+          navMenu.classList.remove('active');
+          menuToggle.setAttribute('aria-expanded', 'false');
         });
       });
     }
