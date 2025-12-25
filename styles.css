@@ -2130,6 +2130,12 @@ body.nav-open { overflow: hidden; }
       margin: 0;
       transition: var(--transition);
    }
+   .nav-menu.active {
+      position: fixed;
+      top: 80px;
+      left: 0;
+      right: 0;
+   }
    .nav-menu.active a {
       padding: 16px 20px;
    }
