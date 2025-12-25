@@ -18,6 +18,7 @@
     { id: 9, name: 'Men\'s Chrono Watch', category: 'watches', material: 'steel', collection: 'modern', price: 899, originalPrice: 999, rating: 4.2, reviews: 45, image: 'images/product9.jpg' },
     { id: 10, name: 'Minimal Silver Necklace', category: 'necklaces', material: 'silver', collection: 'modern', price: 159, originalPrice: 199, rating: 4.1, reviews: 12, image: 'images/product11.jpg' },
     { id: 11, name: 'Ruby Heart Pendant', category: 'necklaces', material: 'gold', collection: 'classic', price: 629, originalPrice: 699, rating: 4.5, reviews: 31, image: 'images/product12.jpg' },
+    { id: 13, name: 'Golden Hoop Earrings', category: 'earrings', material: 'gold', collection: 'classic', price: 549, originalPrice: 649, rating: 4.7, reviews: 42, image: 'images/product13.jpg' },
   ];
 
   // LocalStorage cart helpers
