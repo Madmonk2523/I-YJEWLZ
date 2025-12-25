@@ -775,12 +775,19 @@
         navMenu.classList.add('active');
         document.body.classList.add('nav-open');
         mobileMenuBtn.setAttribute('aria-expanded', 'true');
+        // Dynamically position mobile nav below the navbar and set max height
+        const navbar = document.querySelector('.navbar');
+        const topOffset = navbar ? navbar.offsetHeight : 80;
+        navMenu.style.top = `${topOffset}px`;
+        navMenu.style.maxHeight = `calc(100vh - ${topOffset}px)`;
       };
 
       const closeMenu = () => {
         navMenu.classList.remove('active');
         document.body.classList.remove('nav-open');
         mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        navMenu.style.top = '';
+        navMenu.style.maxHeight = '';
       };
 
       on(mobileMenuBtn, 'click', (e) => {
@@ -809,6 +816,16 @@
         if (e.key === 'Escape' && navMenu.classList.contains('active')) closeMenu();
       });
     }
+
+    // Recompute nav position on resize/orientation change
+    on(window, 'resize', () => {
+      if (navMenu && navMenu.classList.contains('active')) {
+        const navbar = document.querySelector('.navbar');
+        const topOffset = navbar ? navbar.offsetHeight : 80;
+        navMenu.style.top = `${topOffset}px`;
+        navMenu.style.maxHeight = `calc(100vh - ${topOffset}px)`;
+      }
+    });
 
     // Mobile categories dropdown toggle to prevent clipping
     if (window.innerWidth <= 768) {
