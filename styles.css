@@ -942,14 +942,26 @@ body.nav-open { overflow: hidden; }
       padding: 12px 20px !important;
       display: block;
    }
+   .nav-dropdown {
+      position: relative;
+   }
    .nav-dropdown .dropdown-menu {
       position: static;
-      opacity: 1;
-      visibility: visible;
+      opacity: 0;
+      visibility: hidden;
+      max-height: 0;
+      overflow: hidden;
       transform: none;
       box-shadow: none;
       background: rgba(0, 0, 0, 0.1);
       margin: 0;
+      transition: opacity 0.3s ease, max-height 0.3s ease, visibility 0.3s ease;
+   }
+   .nav-dropdown:hover .dropdown-menu,
+   .nav-dropdown.active .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      max-height: 400px;
    }
    .drawer { display: none !important; }
 }
