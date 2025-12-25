@@ -999,6 +999,18 @@ body.nav-open { overflow: hidden; }
    opacity: 0.95;
 }
 
+/* Background Image Section */
+.background-image-section {
+   width: 100%;
+   overflow: hidden;
+}
+
+.full-width-image {
+   width: 100%;
+   height: auto;
+   display: block;
+}
+
 /* Services Section */
 .services-section {
    padding: 80px 0;
