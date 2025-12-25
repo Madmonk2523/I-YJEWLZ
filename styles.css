@@ -2305,19 +2305,19 @@ body.nav-open { overflow: hidden; }
       justify-content: center;
       align-items: center;
    }
-   /* Ensure the dropdown can be absolutely positioned relative to its item */
-   .nav-dropdown { position: relative; }
+   /* Keep positioning simple for inline accordion behavior */
+   .nav-dropdown { position: static; }
    .nav-dropdown .dropdown-menu {
       position: static;
       opacity: 1;
       visibility: visible;
       transform: none;
-      background: rgba(0, 0, 0, 0.2);
+      background: transparent;
       box-shadow: none;
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.3s ease;
-      margin: 0 auto;
+      margin: 0;
       padding: 0;
       text-align: center;
    }
@@ -2327,19 +2327,11 @@ body.nav-open { overflow: hidden; }
    }
    /* Allow full dropdown expansion on mobile when opened */
    .nav-dropdown.open .dropdown-menu {
-      max-height: none;
-      overflow: visible;
+      max-height: 400px; /* enough for 4+ items */
+      overflow: hidden;
       padding: 8px 0;
-      position: absolute; /* overlay above the rest of the menu */
-      left: 0;
-      right: 0;
-      top: calc(100% + 6px);
-      z-index: 3000;
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(2px);
+      position: static;
    }
-   /* When any dropdown is open, allow overlay beyond menu container */
-   .nav-menu.active.dropdown-open { overflow: visible; }
    .dropdown-menu a {
       font-size: 15px;
       padding: 12px 20px;
