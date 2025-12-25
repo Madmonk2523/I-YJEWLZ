@@ -9,16 +9,19 @@
   const PRODUCTS = [
     { id: 1, name: 'Diamond Solitaire Ring', category: 'rings', material: 'diamond', collection: 'luxury', price: 2499, originalPrice: 2999, rating: 4.8, reviews: 128, image: 'images/product1.jpg', badge: 'New' },
     { id: 2, name: 'Gold Tennis Bracelet', category: 'bracelets', material: 'gold', collection: 'classic', price: 1799, originalPrice: 1999, rating: 4.7, reviews: 86, image: 'images/product2.jpg', badge: 'Bestseller' },
-    { id: 3, name: 'Pearl Drop Earrings', category: 'earrings', material: 'pearl', collection: 'classic', price: 399, originalPrice: 499, rating: 4.6, reviews: 54, image: 'images/product3.jpg' },
+    { id: 3, name: '10K Yellow Gold Heart Flower Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.6, reviews: 54, image: 'images/earring1.png' },
     { id: 4, name: 'Platinum Halo Necklace', category: 'necklaces', material: 'platinum', collection: 'luxury', price: 2899, originalPrice: 3299, rating: 4.9, reviews: 72, image: 'images/product4.jpg' },
     { id: 5, name: 'Silver Stackable Rings Set', category: 'rings', material: 'silver', collection: 'modern', price: 129, originalPrice: 159, rating: 4.3, reviews: 33, image: 'images/product5.jpg' },
     { id: 6, name: 'Rose Gold Pendant', category: 'necklaces', material: 'gold', collection: 'modern', price: 799, originalPrice: 899, rating: 4.5, reviews: 40, image: 'images/product6.jpg' },
     { id: 7, name: 'Vintage Sapphire Ring', category: 'rings', material: 'gold', collection: 'vintage', price: 1499, originalPrice: 1699, rating: 4.4, reviews: 22, image: 'images/product7.jpg' },
-    { id: 8, name: 'Diamond Stud Earrings', category: 'earrings', material: 'diamond', collection: 'luxury', price: 1199, originalPrice: 1399, rating: 4.8, reviews: 96, image: 'images/product8.jpg' },
+    { id: 8, name: '925 Sterling Silver Bar Dangle Earrings', category: 'earrings', material: 'silver', collection: 'classic', price: 35, originalPrice: 45, rating: 4.8, reviews: 96, image: 'images/earring2.png' },
     { id: 9, name: 'Men\'s Chrono Watch', category: 'watches', material: 'steel', collection: 'modern', price: 899, originalPrice: 999, rating: 4.2, reviews: 45, image: 'images/product9.jpg' },
-    { id: 10, name: 'Minimal Silver Necklace', category: 'necklaces', material: 'silver', collection: 'modern', price: 159, originalPrice: 199, rating: 4.1, reviews: 12, image: 'images/product11.jpg' },
-    { id: 11, name: 'Ruby Heart Pendant', category: 'necklaces', material: 'gold', collection: 'classic', price: 629, originalPrice: 699, rating: 4.5, reviews: 31, image: 'images/product12.jpg' },
-    { id: 13, name: 'Golden Hoop Earrings', category: 'earrings', material: 'gold', collection: 'classic', price: 549, originalPrice: 649, rating: 4.7, reviews: 42, image: 'images/product13.jpg' },
+    { id: 10, name: '10K Yellow Gold Baby CZ Bar Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.1, reviews: 12, image: 'images/earring3.png' },
+    { id: 11, name: '925 Sterling Silver Peace Sign Studs', category: 'earrings', material: 'silver', collection: 'modern', price: 25, originalPrice: 35, rating: 4.5, reviews: 31, image: 'images/earring5.png' },
+    { id: 12, name: '10K Yellow Gold Ribbon Bow Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.7, reviews: 42, image: 'images/earring7.png' },
+    { id: 13, name: '10K Yellow Gold Heart CZ Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.7, reviews: 42, image: 'images/earring11.png' },
+    { id: 14, name: '10K Yellow Gold Duck Stud Earrings', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.7, reviews: 42, image: 'images/earring12.png' },
+    { id: 15, name: '10K Yellow Gold Open Heart CZ Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 60, originalPrice: 70, rating: 4.7, reviews: 42, image: 'images/earring4.png' },
   ];
 
   // LocalStorage cart helpers
@@ -596,7 +599,33 @@
     
     // Get search suggestions (disabled for Shopify-only products)
     function getSearchSuggestions(query) {
-      return [];
+      if (!query || query.length < 2) return [];
+      
+      const suggestions = [];
+      const lowerQuery = query.toLowerCase();
+      
+      // Search products
+      PRODUCTS.forEach(product => {
+        const nameMatch = fuzzyMatch(product.name, query);
+        const categoryMatch = fuzzyMatch(product.category, query);
+        const materialMatch = fuzzyMatch(product.material, query);
+        
+        const maxScore = Math.max(nameMatch, categoryMatch, materialMatch);
+        if (maxScore > 0) {
+          suggestions.push({
+            name: product.name,
+            category: product.category,
+            material: product.material,
+            price: product.price,
+            type: 'product',
+            score: maxScore,
+            query: query
+          });
+        }
+      });
+      
+      // Sort by score (descending) and limit to 8 results
+      return suggestions.sort((a, b) => b.score - a.score).slice(0, 8);
     }
     
     // Highlight matching text
@@ -722,41 +751,57 @@
       window.location.href = 'shop-now.html';
     }
     
-    // Open search overlay - DISABLED
+    // Open search overlay
     on($('#searchBtn'), 'click', () => {
-      // Search disabled
+      searchOverlay?.classList.add('active');
+      searchInput?.focus();
+      renderSearchHistory();
     });
     
-    // Close search overlay - DISABLED
+    // Close search overlay
     on($('#searchCloseBtn'), 'click', () => {
-      // Search disabled
+      searchOverlay?.classList.remove('active');
     });
     
-    // Close on escape key - DISABLED
+    // Close on escape key
     on(document, 'keydown', (e) => {
-      // Search disabled
+      if (e.key === 'Escape') {
+        searchOverlay?.classList.remove('active');
+      }
     });
     
-    // Clear search input - DISABLED
+    // Clear search input
     on(searchClearBtn, 'click', () => {
-      // Search disabled
+      searchInput.value = '';
+      searchInput.focus();
+      renderSearchHistory();
     });
     
-    // Search input events - DISABLED
+    // Search input events - Real-time suggestions
     on(searchInput, 'input', () => {
-      // Search disabled
+      const query = searchInput.value.trim();
+      if (query.length >= 2) {
+        const suggestions = getSearchSuggestions(query);
+        renderSuggestions(suggestions);
+      } else {
+        renderSearchHistory();
+      }
     });
     on(searchInput, 'keydown', (e) => {
-      // Search disabled
+      if (e.key === 'Enter') {
+        performSearch(searchInput.value.trim());
+      }
     });
     
     on(searchInput, 'keypress', (e) => {
-      // Search disabled
+      if (e.key === 'Enter') {
+        performSearch(searchInput.value.trim());
+      }
     });
     
-    // Clear history button - DISABLED
+    // Clear history button
     on($('#clearHistoryBtn'), 'click', () => {
-      // Search disabled
+      clearSearchHistory();
     });
 
     const menuToggle = $('#menuToggle');
