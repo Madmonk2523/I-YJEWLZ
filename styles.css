@@ -906,10 +906,11 @@ body.nav-open { overflow: hidden; }
 
 body.nav-open { overflow: hidden; }
 
-/* Responsive: show drawer toggle and hide desktop menu on small screens */
+/* Responsive: hide hamburger, drawer, and nav on mobile */
 @media (max-width: 768px) {
-   .menu-toggle { display: inline-flex; }
-   .nav-menu { display: none; }
+   .menu-toggle { display: none !important; }
+   .nav-menu { display: none !important; }
+   .drawer { display: none !important; }
 }
 
 .clear-history-btn {
