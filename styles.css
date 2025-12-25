@@ -2305,6 +2305,8 @@ body.nav-open { overflow: hidden; }
       justify-content: center;
       align-items: center;
    }
+   /* Ensure the dropdown can be absolutely positioned relative to its item */
+   .nav-dropdown { position: relative; }
    .nav-dropdown .dropdown-menu {
       position: static;
       opacity: 1;
@@ -2325,12 +2327,19 @@ body.nav-open { overflow: hidden; }
    }
    /* Allow full dropdown expansion on mobile when opened */
    .nav-dropdown.open .dropdown-menu {
-      max-height: 500px !important;
+      max-height: none;
       overflow: visible;
       padding: 8px 0;
-      position: relative;
-      z-index: 1000;
+      position: absolute; /* overlay above the rest of the menu */
+      left: 0;
+      right: 0;
+      top: calc(100% + 6px);
+      z-index: 3000;
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(2px);
    }
+   /* When any dropdown is open, allow overlay beyond menu container */
+   .nav-menu.active.dropdown-open { overflow: visible; }
    .dropdown-menu a {
       font-size: 15px;
       padding: 12px 20px;

@@ -784,6 +784,7 @@
 
       const closeMenu = () => {
         navMenu.classList.remove('active');
+        navMenu.classList.remove('dropdown-open');
         document.body.classList.remove('nav-open');
         mobileMenuBtn.setAttribute('aria-expanded', 'false');
         navMenu.style.top = '';
@@ -837,14 +838,21 @@
           const isOpen = parent.classList.contains('open');
           // Close other dropdowns
           $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
-          // Toggle current
-          if (!isOpen) parent.classList.add('open');
+          // Toggle current and menu overflow state
+          if (!isOpen) {
+            parent.classList.add('open');
+            if (navMenu) navMenu.classList.add('dropdown-open');
+          } else {
+            parent.classList.remove('open');
+            if (navMenu) navMenu.classList.remove('dropdown-open');
+          }
         });
       });
       // Close dropdowns when clicking outside
       on(document, 'click', (e) => {
         if (!e.target.closest('.nav-dropdown')) {
           $$('.nav-dropdown').forEach(dd => dd.classList.remove('open'));
+          if (navMenu) navMenu.classList.remove('dropdown-open');
         }
       });
     }
