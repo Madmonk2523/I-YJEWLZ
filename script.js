@@ -10,9 +10,7 @@
     { id: 1, name: 'Diamond Solitaire Ring', category: 'rings', material: 'diamond', collection: 'luxury', price: 2499, originalPrice: 2999, rating: 4.8, reviews: 128, image: 'images/product1.jpg', badge: 'New' },
     { id: 2, name: 'Gold Tennis Bracelet', category: 'bracelets', material: 'gold', collection: 'classic', price: 1799, originalPrice: 1999, rating: 4.7, reviews: 86, image: 'images/product2.jpg', badge: 'Bestseller' },
     { id: 3, name: '10K Yellow Gold Heart Flower Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.6, reviews: 54, image: 'images/earring1.png' },
-    { id: 4, name: 'Necklace 1', category: 'necklaces', material: 'gold', collection: 'classic', price: 0, originalPrice: 0, rating: 0, reviews: 0, image: 'images/necklace1.png' },
     { id: 5, name: 'Silver Stackable Rings Set', category: 'rings', material: 'silver', collection: 'modern', price: 129, originalPrice: 159, rating: 4.3, reviews: 33, image: 'images/product5.jpg' },
-    { id: 6, name: 'Necklace 2', category: 'necklaces', material: 'gold', collection: 'classic', price: 0, originalPrice: 0, rating: 0, reviews: 0, image: 'images/necklace2.png' },
     { id: 7, name: 'Vintage Sapphire Ring', category: 'rings', material: 'gold', collection: 'vintage', price: 1499, originalPrice: 1699, rating: 4.4, reviews: 22, image: 'images/product7.jpg' },
     { id: 8, name: '925 Sterling Silver Bar Dangle Earrings', category: 'earrings', material: 'silver', collection: 'classic', price: 35, originalPrice: 45, rating: 4.8, reviews: 96, image: 'images/earring2.png' },
     { id: 9, name: 'Men\'s Chrono Watch', category: 'watches', material: 'steel', collection: 'modern', price: 899, originalPrice: 999, rating: 4.2, reviews: 45, image: 'images/product9.jpg' },
@@ -22,10 +20,7 @@
     { id: 13, name: '10K Yellow Gold Heart CZ Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.7, reviews: 42, image: 'images/earring11.png' },
     { id: 14, name: '10K Yellow Gold Duck Stud Earrings', category: 'earrings', material: 'gold', collection: 'classic', price: 50, originalPrice: 60, rating: 4.7, reviews: 42, image: 'images/earring12.png' },
     { id: 15, name: '10K Yellow Gold Open Heart CZ Studs', category: 'earrings', material: 'gold', collection: 'classic', price: 60, originalPrice: 70, rating: 4.7, reviews: 42, image: 'images/earring4.png' },
-    { id: 16, name: 'Necklace 3', category: 'necklaces', material: 'gold', collection: 'classic', price: 0, originalPrice: 0, rating: 0, reviews: 0, image: 'images/necklace3.png' },
-    { id: 17, name: 'Necklace 4', category: 'necklaces', material: 'gold', collection: 'classic', price: 0, originalPrice: 0, rating: 0, reviews: 0, image: 'images/necklace4.png' },
     { id: 18, name: '925 Solid Sterling Silver Italian Popcorn Chain Bracelet With CZ Jaguar Head', category: 'bracelets', material: 'silver', collection: 'popcorn', price: 150, originalPrice: 180, rating: 4.9, reviews: 8, image: 'images/bracelet1.png' },
-    { id: 19, name: 'Bracelet 2', category: 'bracelets', material: 'silver', collection: 'classic', price: 0, originalPrice: 0, rating: 0, reviews: 0, image: 'images/bracelet2.png' },
   ];
 
   // LocalStorage cart helpers
