@@ -2192,8 +2192,8 @@ body.nav-open { overflow: hidden; }
    }
    /* Allow full dropdown expansion on mobile when opened */
    .nav-dropdown.open .dropdown-menu {
-      max-height: 500px;
-      overflow: auto;
+      max-height: none;
+      overflow: visible;
       padding: 8px 0;
    }
    .dropdown-menu a {
@@ -2418,8 +2418,9 @@ body.nav-open { overflow: hidden; }
       display: none;
       gap: 0;
    }
+   /* Keep search icon visible on small phones */
    .nav-icons {
-      display: none;
+      display: flex !important;
    }
 }
 
