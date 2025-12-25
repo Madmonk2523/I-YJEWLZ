@@ -436,6 +436,7 @@ img {
    display: flex;
    gap: 15px;
    align-items: center;
+   margin-left: auto;
 }
 
 /* Mobile search: hidden by default */
