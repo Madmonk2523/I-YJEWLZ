@@ -10,86 +10,45 @@
 <body>
     <!-- Header -->
     <header class='header'>
-        <div class='top-bar'>
-            <!-- Footer -->
-            <footer class="footer">
-                <div class="container">
-                    <div class="footer-content">
-                        <div class="footer-col">
-                            <h3>I&Y JEWLZ</h3>
-                            <p>Your trusted source for premium lab-grown diamond jewelry and professional jewelry repair services. We offer the finest selection of rings, necklaces, bracelets, pendants, earrings, watches, and vintage pieces. Expert jewelry repair and restoration available.</p>
-                        </div>
-                        <div class="footer-col">
-                            <h4>Quick Links</h4>
-                            <ul>
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="shop-now.html">Shop Now</a></li>
-                                <li><a href="about.html">About Us</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>Contact Info</h4>
-                            <ul class="contact-info">
-                                <li><i class="fas fa-phone"></i> <strong>+1 929-648-0535</strong></li>
-                                <li><i class="fas fa-envelope"></i> iyjewlz7@gmail.com</li>
-                                <li><i class="fas fa-globe"></i> Online Store Only</li>
-                            </ul>
-                        </div>
-                        <div class="footer-col">
-                            <h4>Jewelry Repair Services</h4>
-                            <p>Professional jewelry repair, ring resizing, stone setting, watch repair, and restoration services. Our expert jewelers are here to help with all your jewelry repair needs.</p>
-                            <a href="contact.html" class="btn btn-small">Get a Repair Quote</a>
-                        </div>
+        <nav class='navbar'>
+            <div class='container'>
+                <div class='nav-content'>
+                    <button class='menu-toggle' id='menuToggle' aria-controls='mobileDrawer' aria-expanded='false' aria-label='Open menu'>
+                        <i class='fas fa-bars'></i>
+                    </button>
+                    <div class='logo-brand'>
+                        <img src='images/logo.jpg' alt='I&Y JEWLZ'>
                     </div>
-                    <div class="trust-badges">
-                        <div class="badges-grid">
-                            <div class="badge-item">
-                                <i class="fas fa-lock"></i>
-                                <span>Secure Checkout</span>
-                            </div>
-                            <div class="badge-item">
-                                <i class="fas fa-star"></i>
-                                <span>Lab Grown Diamonds</span>
-                            </div>
-                            <div class="badge-item">
-                                <i class="fas fa-undo"></i>
-                                <span>30-Day Returns</span>
-                            </div>
-                            <div class="badge-item">
-                                <i class="fas fa-gem"></i>
-                                <span>Premium Quality</span>
-                            </div>
-                            <div class="badge-item">
-                                <i class="fas fa-shipping-fast"></i>
-                                <span>Free Shipping $100+</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="footer-bottom">
-                        <div class="footer-bottom-left">
-                            <p>&copy; 2025 I&Y JEWLZ. All rights reserved. | Online Store Only</p>
-                        </div>
-                        <div class="footer-bottom-right">
-                            <div class="payment-methods">
-                                <span class="payment-label">We Accept:</span>
-                                <i class="fab fa-cc-amex" title="American Express"></i>
-                                <i class="fab fa-cc-visa" title="Visa"></i>
-                                <i class="fab fa-cc-mastercard" title="Mastercard"></i>
-                                <i class="fas fa-mobile-alt" title="Apple Pay"></i>
-                                <i class="fab fa-google" title="Google Pay"></i>
-                            </div>
-                            <div class="social-footer">
-                                <a href="https://www.facebook.com/people/IY-JEWLZ/61583055280384/" target="_blank" title="Facebook"><i class="fab fa-facebook"></i></a>
-                                <a href="https://www.instagram.com/iyjew_lz/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                                <a href="https://www.google.com/search?q=I%26Y+Jewlz" target="_blank" title="Google"><i class="fab fa-google"></i></a>
-                                <a href="https://twitter.com" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
-                                <a href="https://wa.me" target="_blank" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                            </div>
-                        </div>
+
+                    <ul class='nav-menu'>
+                        <li><a href='index.html'>Home</a></li>
+                        <li><a href='shop-now.html'>Shop Now</a></li>
+                        <li class='nav-dropdown'>
+                            <a href='#' style='display: flex; align-items: center; gap: 5px;'>Categories <i class='fas fa-chevron-down'></i></a>
+                            <ul class='dropdown-menu'>
+                                <li><a href='#new-arrivals'>New Arrivals</a></li>
+                                <li><a href='#watches'>Watches</a></li>
+                                <li><a href='#earrings'>Earrings</a></li>
+                                <li><a href='#necklaces'>Necklaces</a></li>
+                                <li><a href='#bracelets'>Bracelets</a></li>
+                            </ul>
+                        </li>
+                        <li><a href='about.html'>About</a></li>
+                        <li><a href='contact.html'>Contact</a></li>
+                    </ul>
+
+                    <div class='nav-icons'>
+                        <button class='icon-btn search-btn' id='searchBtn' title='Search products'>
+                            <i class='fas fa-search'></i>
+                        </button>
                     </div>
                 </div>
-            </footer>
+            </div>
+        </nav>
+        <!-- Mobile Drawer -->
+        <div class='drawer' id='mobileDrawer' aria-hidden='true' role='dialog' aria-modal='true'>
+            <div class='drawer-overlay' id='drawerOverlay'></div>
+            <div class='drawer-panel'>
                 <button class='drawer-close' id='drawerClose' aria-label='Close menu'><i class='fas fa-times'></i></button>
                 <div class='drawer-content'>
                     <div class='drawer-search' role='search'>
@@ -115,7 +74,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Search Overlay -->
         <div class='search-overlay' id='searchOverlay'>
             <div class='search-modal'>
