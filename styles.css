@@ -2841,3 +2841,28 @@ body.nav-open { overflow: hidden; }
    section { padding: 25px 0 !important; }
    .section-header { margin-bottom: 25px; }
 }
+
+/* Image Optimization */
+img {
+   max-width: 100%;
+   height: auto;
+   display: block;
+}
+
+img[loading="lazy"] {
+   background-color: #f0f0f0;
+   min-height: 100px;
+}
+
+/* Optimize product images */
+.product-card img,
+.full-width-image {
+   object-fit: cover;
+   object-position: center;
+}
+
+/* Prevent layout shift during image load */
+.logo-brand img,
+.product-card img {
+   aspect-ratio: auto;
+}
