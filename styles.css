@@ -2849,9 +2849,9 @@ img {
    display: block;
 }
 
-img[loading="lazy"] {
-   background-color: #f0f0f0;
-   min-height: 100px;
+/* Prevent layout shift during image load */
+img {
+   background-color: transparent;
 }
 
 /* Optimize product images */
@@ -2861,8 +2861,6 @@ img[loading="lazy"] {
    object-position: center;
 }
 
-/* Prevent layout shift during image load */
-.logo-brand img,
-.product-card img {
-   aspect-ratio: auto;
+.logo-brand img {
+   display: block;
 }
