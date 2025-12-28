@@ -171,7 +171,7 @@
                 <p style="color: #ccc; font-size: 1.1rem;">Let us bring your treasured pieces back to life! ✨ Fill out the form below and we'll get back to you within 24 hours.</p>
             </div>
             <div style="max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.05); padding: 40px; border-radius: 15px; border: 1px solid rgba(212,175,55,0.3); box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
-                <form id="repairForm" class="repair-form" action="https://formsubmit.co/chasemallor@gmail.com" method="POST">
+                <form id="repairForm" class="repair-form" action="https://formsubmit.co/iyjewlz7@gmail.com" method="POST">
                     <!-- Honeypot for spam protection -->
                     <input type="text" name="_honey" style="display:none !important" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="_subject" value="Jewelry Repair Request">
@@ -232,20 +232,6 @@
                         <textarea id="repairDescription" name="description" rows="4" required placeholder="Please describe the problem with your jewelry in detail. Include any relevant information like when the damage occurred, the material (gold, silver, etc.), and any specific concerns you have..." style="width: 100%; padding: 12px 15px; border: 2px solid rgba(212,175,55,0.3); border-radius: 8px; background: rgba(255,255,255,0.1); color: #fff; font-size: 1rem; resize: vertical; min-height: 120px; transition: all 0.3s;"></textarea>
                     </div>
                     
-                    <div class="form-group" style="margin-bottom: 25px;">
-                        <label for="repairUrgency" style="color: #d4af37; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-clock"></i> How urgent is this repair?</label>
-                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                            <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; padding: 10px 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); transition: all 0.3s;">
-                                <input type="radio" name="urgency" value="No Rush" style="accent-color: #d4af37;"> 🐢 No Rush
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; padding: 10px 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); transition: all 0.3s;">
-                                <input type="radio" name="urgency" value="Within a Week" checked style="accent-color: #d4af37;"> 📅 Within a Week
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 8px; color: #fff; cursor: pointer; padding: 10px 15px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(212,175,55,0.2); transition: all 0.3s;">
-                                <input type="radio" name="urgency" value="ASAP" style="accent-color: #d4af37;"> 🚀 ASAP!
-                            </label>
-                        </div>
-                    </div>
                     
                     <button type="submit" id="repairSubmitBtn" style="width: 100%; padding: 15px 30px; background: linear-gradient(135deg, #d4af37 0%, #b8962e 100%); color: #1a1a2e; font-size: 1.2rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px;">
                         <i class="fas fa-paper-plane"></i> Send Repair Request
@@ -331,7 +317,7 @@
             formData.set('_template', 'table');
             formData.append('fullMessage', bodyText);
 
-            fetch('https://formsubmit.co/ajax/chasemallor@gmail.com', {
+            fetch('https://formsubmit.co/ajax/iyjewlz7@gmail.com', {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
@@ -348,8 +334,8 @@
             })
             .catch(function() {
                 // Fallbacks: mailto + Gmail + forced form POST in new tab
-                const mailtoLink = 'mailto:chasemallor@gmail.com?subject=' + subject + '&body=' + body;
-                const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=chasemallor@gmail.com&su=' + subject + '&body=' + body;
+                const mailtoLink = 'mailto:iyjewlz7@gmail.com?subject=' + subject + '&body=' + body;
+                const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=iyjewlz7@gmail.com&su=' + subject + '&body=' + body;
                 document.getElementById('repairMailto').setAttribute('href', mailtoLink);
                 document.getElementById('repairGmail').setAttribute('href', gmailLink);
 
