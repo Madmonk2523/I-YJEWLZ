@@ -2790,3 +2790,54 @@ body.nav-open { overflow: hidden; }
    0%, 100% { text-shadow: 0 0 10px rgba(212,175,55,0.4), 0 0 20px rgba(212,175,55,0.2); }
    50% { text-shadow: 0 0 18px rgba(212,175,55,0.8), 0 0 36px rgba(212,175,55,0.5); }
 }
+
+/* Enhanced Mobile Responsiveness */
+@media (max-width: 480px) {
+   .container { padding: 0 12px !important; }
+   h1 { font-size: 1.5rem; margin-bottom: 15px; }
+   h2 { font-size: 1.4rem; margin-bottom: 12px; }
+   h3 { font-size: 1.1rem; }
+   .section-header h2 { font-size: 1.6rem !important; }
+   .section-header p { font-size: 0.9rem; }
+   
+   /* Form improvements for touch */
+   input[type="text"], input[type="email"], input[type="tel"], 
+   input[type="date"], input[type="number"],
+   select, textarea { 
+      font-size: 16px !important; /* Prevents zoom on iOS */
+      padding: 14px 12px !important;
+      min-height: 50px !important;
+      border-radius: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+   }
+   
+   select { padding: 14px 10px 14px 12px !important; }
+   textarea { min-height: 120px !important; }
+   
+   /* Button sizing for touch */
+   .btn, button[type="submit"] { 
+      padding: 16px 20px !important; 
+      font-size: 1rem !important;
+      min-height: 50px !important;
+      min-width: 100px;
+      border-radius: 8px;
+      -webkit-tap-highlight-color: transparent;
+   }
+   
+   /* Grid to single column */
+   .grid, [style*="display: grid"] { 
+      grid-template-columns: 1fr !important; 
+   }
+   .product-grid { grid-template-columns: 1fr !important; }
+   
+   /* Product cards */
+   .product-card { margin-bottom: 15px; }
+   
+   /* Modal improvements */
+   .modal { padding: 15px !important; }
+   
+   /* Better spacing */
+   section { padding: 25px 0 !important; }
+   .section-header { margin-bottom: 25px; }
+}
