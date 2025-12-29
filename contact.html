@@ -33,121 +33,38 @@
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="top-bar">
-            <div class="container">
-                <div class="top-bar-content">
-                    <div class="contact-info">
-                        <span><i class="fas fa-phone"></i> +1 (555) 123-4567</span>
-                        <span><i class="fas fa-envelope"></i> iyjewlz7@gmail.com</span>
-                    </div>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <nav class="navbar">
-            <div class="container">
-                <div class="nav-content">
-                    <button class="menu-toggle" id="menuToggle" aria-controls="mobileDrawer" aria-expanded="false" aria-label="Open menu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="logo-brand">
-                        <img src="images/logo.jpg" alt="I&Y JEWLZ">
-                    </div>
-                    
-                    <ul class="nav-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop-now.html">Shop Now</a></li>
-                        <li class="nav-dropdown">
-                            <a href="#" style="display: flex; align-items: center; gap: 5px;">Categories <i class="fas fa-chevron-down"></i></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="shop.html#new-arrivals">New Arrivals</a></li>
-                                <li><a href="shop.html#watches">Watches</a></li>
-                                <li><a href="shop.html#earrings">Earrings</a></li>
-                                <li><a href="shop.html#necklaces">Necklaces</a></li>
-                                <li><a href="shop.html#bracelets">Bracelets</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html" class="active">Contact</a></li>
-                    </ul>
-                    
-                    <div class="nav-icons">
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <!-- Mobile Drawer -->
-        <div class="drawer" id="mobileDrawer" aria-hidden="true" role="dialog" aria-modal="true">
-            <div class="drawer-overlay" id="drawerOverlay"></div>
-            <div class="drawer-panel">
-                <button class="drawer-close" id="drawerClose" aria-label="Close menu"><i class="fas fa-times"></i></button>
-                <div class="drawer-content">
-                    <ul class="drawer-menu">
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop-now.html">Shop Now</a></li>
-                        <li class="accordion">
-                            <button class="accordion-toggle" aria-expanded="false">Categories <i class="fas fa-chevron-down"></i></button>
-                            <ul class="accordion-panel">
-                                <li><a href="shop.html#new-arrivals">New Arrivals</a></li>
-                                <li><a href="shop.html#watches">Watches</a></li>
-                                <li><a href="shop.html#earrings">Earrings</a></li>
-                                <li><a href="shop.html#necklaces">Necklaces</a></li>
-                                <li><a href="shop.html#bracelets">Bracelets</a></li>
-                            </ul>
-                        </li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html" class="active">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </header>
+    <script>
+    (function() {
+        const form = document.getElementById('repairForm');
+        const replyToInput = document.getElementById('replyToInput');
+        const submitBtn = document.getElementById('repairSubmitBtn');
 
-    <!-- Search Overlay -->
-    <div class="search-overlay" id="searchOverlay">
-        <div class="search-modal">
-            <div class="search-header">
-                <h2>Search Products</h2>
-                <button class="search-close-btn" id="searchCloseBtn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
-                <input type="text" id="searchInput" placeholder="Search rings, watches, earrings, necklaces, bracelets, silver, gold, diamonds..." autocomplete="off">
-            </div>
-            <div class="search-suggestions" id="searchSuggestions">
-                <div class="suggestions-list"></div>
-            </div>
-            <div class="search-results" id="searchResults">
-                <div class="results-list"></div>
-            </div>
-            <div class="search-empty" id="searchEmpty" style="display: none;">
-                <i class="fas fa-search"></i>
-                <p>No products found. Try searching for "watch", "necklace", "earring", or "bracelet"</p>
-            </div>
-        </div>
-    </div>
+        // Keep it simple and let FormSubmit handle the POST/redirect so emails are actually delivered.
+        function handleSubmit() {
+            const email = document.getElementById('repairEmail').value.trim();
+            if (email) replyToInput.value = email;
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Sending...';
+                submitBtn.style.opacity = '0.7';
+            }
+        }
 
-    <!-- Page Header -->
-    <section class="page-header">
-        <div class="container">
-            <h1>Contact Us</h1>
-            <div class="breadcrumb">
-                <a href="index.html">Home</a>
-                <span>/</span>
-                <span>Contact</span>
-            </div>
-        </div>
-    </section>
+        form.addEventListener('submit', handleSubmit);
 
-    <!-- Contact Info Section -->
-    <section class="contact-info-section">
+        // Focus effects
+        document.querySelectorAll('#repairForm input, #repairForm select, #repairForm textarea').forEach(el => {
+            el.addEventListener('focus', function() {
+                this.style.borderColor = '#d4af37';
+                this.style.boxShadow = '0 0 10px rgba(212,175,55,0.3)';
+            });
+            el.addEventListener('blur', function() {
+                this.style.borderColor = '#ADD8E6';
+                this.style.boxShadow = 'none';
+            });
+        });
+    })();
+    </script>
         <div class="container">
             <div class="section-header">
                 <h2>IF YOU HAVE ANY QUESTION FEEL FREE TO REACH US</h2>
