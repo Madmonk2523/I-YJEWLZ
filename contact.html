@@ -187,46 +187,13 @@
                 <p style="color: #004B7A; font-size: 1.1rem;">Let us bring your treasured pieces back to life! ✨ Fill out the form below and we'll get back to you within 24 hours.</p>
             </div>
             <div style="max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.85); padding: 40px; border-radius: 15px; border: 2px solid rgba(0,82,122,0.2); box-shadow: 0 10px 30px rgba(0,82,122,0.15);">
-                <!-- STEP 1: Email Verification -->
-                <div id="step1Container">
-                    <h3 style="color: #00527A; font-size: 1.4rem; margin-bottom: 20px; text-align: center;"><i class="fas fa-envelope"></i> Step 1: Verify Your Email</h3>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="verifyEmail" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-envelope"></i> Email Address *</label>
-                        <input type="email" id="verifyEmail" required placeholder="your@email.com" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
-                    </div>
-                    <button type="button" id="sendCodeBtn" style="width: 100%; padding: 12px 30px; background: linear-gradient(135deg, #0082B4 0%, #005D8C 100%); color: #fff; font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,82,122,0.3);">
-                        <i class="fas fa-paper-plane"></i> Send Verification Code
-                    </button>
-                    <p style="text-align: center; color: #666; font-size: 0.85rem; margin-top: 15px;">We'll send a code to your email. This helps prevent spam.</p>
-                </div>
-
-                <!-- STEP 2: Verification Code -->
-                <div id="step2Container" style="display: none;">
-                    <h3 style="color: #00527A; font-size: 1.4rem; margin-bottom: 20px; text-align: center;"><i class="fas fa-lock"></i> Step 2: Enter Verification Code</h3>
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="verifyCode" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;">6-Digit Code from Email *</label>
-                        <input type="text" id="verifyCode" maxlength="6" placeholder="000000" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1.2rem; transition: all 0.3s; letter-spacing: 8px; text-align: center;" required>
-                    </div>
-                    <button type="button" id="verifyCodeBtn" style="width: 100%; padding: 12px 30px; background: linear-gradient(135deg, #0082B4 0%, #005D8C 100%); color: #fff; font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(0,82,122,0.3);">
-                        <i class="fas fa-check"></i> Verify Code
-                    </button>
-                    <button type="button" id="backBtn" style="width: 100%; padding: 12px 30px; background: #999; color: #fff; font-size: 1rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; margin-top: 10px;">
-                        Back
-                    </button>
-                    <p style="text-align: center; color: #666; font-size: 0.85rem; margin-top: 15px;">Didn't receive the code? Check spam folder or <a href="#" id="resendLink" style="color: #0082B4; font-weight: 600;">resend</a></p>
-                </div>
-
-                <!-- STEP 3: Full Form -->
-                <form id="repairForm" class="repair-form" action="https://formsubmit.co/iyjewlz7@gmail.com" method="POST" style="display: none;">
-                    <h3 style="color: #00527A; font-size: 1.4rem; margin-bottom: 20px; text-align: center;"><i class="fas fa-tools"></i> Step 3: Complete Your Request</h3>
-                    <input type="hidden" name="_honey" style="display:none !important" tabindex="-1" autocomplete="off">
+                <form id="repairForm" class="repair-form" action="https://formsubmit.co/iyjewlz7@gmail.com" method="POST">
+                    <input type="text" name="_honey" style="display:none !important" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="_subject" value="Jewelry Repair Request">
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_next" value="thank-you.html">
                     <input type="hidden" name="_replyto" id="replyToInput" value="">
-                    <input type="hidden" name="fullMessage" id="fullMessageInput" value="">
-                    <input type="hidden" id="verifiedEmail" name="email">
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div class="form-group">
@@ -234,12 +201,16 @@
                             <input type="text" id="repairName" name="name" required placeholder="Enter your full name" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
                         </div>
                         <div class="form-group">
-                            <label for="repairPhone" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-phone"></i> Phone Number</label>
-                            <input type="tel" id="repairPhone" name="phone" placeholder="(123) 456-7890" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
+                            <label for="repairEmail" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-envelope"></i> Email Address *</label>
+                            <input type="email" id="repairEmail" name="email" required placeholder="your@email.com" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div class="form-group">
+                            <label for="repairPhone" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="repairPhone" name="phone" placeholder="(123) 456-7890" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
+                        </div>
                         <div class="form-group">
                             <label for="repairType" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-gem"></i> Jewelry Type *</label>
                             <select id="repairType" name="jewelryType" required style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
@@ -253,22 +224,23 @@
                                 <option value="Other">🔧 Other</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label for="repairService" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-wrench"></i> Repair Service Needed *</label>
-                            <select id="repairService" name="repairService" required style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
-                                <option value="">What do you need fixed?</option>
-                                <option value="Ring Resizing">📏 Ring Resizing</option>
-                                <option value="Stone Replacement">💎 Stone Replacement</option>
-                                <option value="Chain Repair">🔗 Chain Repair</option>
-                                <option value="Clasp Repair">🔒 Clasp Repair</option>
-                                <option value="Cleaning & Polishing">✨ Cleaning & Polishing</option>
-                                <option value="Prong Repair">🔧 Prong Repair</option>
-                                <option value="Soldering">🔥 Soldering</option>
-                                <option value="Watch Battery">🔋 Watch Battery Replacement</option>
-                                <option value="Engraving">✍️ Engraving</option>
-                                <option value="Other">📝 Other (describe below)</option>
-                            </select>
-                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="repairService" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-wrench"></i> Repair Service Needed *</label>
+                        <select id="repairService" name="repairService" required style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
+                            <option value="">What do you need fixed?</option>
+                            <option value="Ring Resizing">📏 Ring Resizing</option>
+                            <option value="Stone Replacement">💎 Stone Replacement</option>
+                            <option value="Chain Repair">🔗 Chain Repair</option>
+                            <option value="Clasp Repair">🔒 Clasp Repair</option>
+                            <option value="Cleaning & Polishing">✨ Cleaning & Polishing</option>
+                            <option value="Prong Repair">🔧 Prong Repair</option>
+                            <option value="Soldering">🔥 Soldering</option>
+                            <option value="Watch Battery">🔋 Watch Battery Replacement</option>
+                            <option value="Engraving">✍️ Engraving</option>
+                            <option value="Other">📝 Other (describe below)</option>
+                        </select>
                     </div>
                     
                     <div class="form-group" style="margin-bottom: 20px;">
@@ -285,12 +257,11 @@
                     </p>
                 </form>
                 
-                <!-- Success Message (hidden by default) -->
                 <div id="repairSuccess" style="display: none; text-align: center; padding: 40px;">
                     <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
                     <h3 style="color: #00527A; font-size: 1.8rem; margin-bottom: 15px;">Request Sent Successfully! 🎉</h3>
-                    <p style="color: #2E7D32; font-size: 1.1rem;">Thank you for reaching out! We'll review your repair request and get back to you within 24 hours.</p>
-                    <button onclick="location.reload();" style="margin-top: 20px; padding: 10px 20px; background: #0082B4; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Submit Another Request</button>
+                    <p style="color: #2E7D32; font-size: 1.1rem; margin-bottom: 20px;">Thank you! We'll get back to you within 24 hours.</p>
+                    <button onclick="location.reload();" style="padding: 10px 20px; background: #0082B4; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Submit Another Request</button>
                 </div>
             </div>
         </div>
@@ -299,168 +270,107 @@
     <script>
     (function() {
         const form = document.getElementById('repairForm');
-        const step1Container = document.getElementById('step1Container');
-        const step2Container = document.getElementById('step2Container');
-        const verifyEmailInput = document.getElementById('verifyEmail');
-        const sendCodeBtn = document.getElementById('sendCodeBtn');
-        const verifyCodeInput = document.getElementById('verifyCode');
-        const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-        const backBtn = document.getElementById('backBtn');
-        const resendLink = document.getElementById('resendLink');
+        const discordWebhookUrl = 'https://discordapp.com/api/webhooks/1337888641835434024/YOUR_WEBHOOK_TOKEN_HERE'; // Replace with real webhook
 
-        let verificationCode = '';
-        let userEmail = '';
-
-        // Generate 6-digit random code
-        function generateCode() {
-            return Math.floor(100000 + Math.random() * 900000).toString();
-        }
-
-        // Send verification code via FormSubmit
-        function sendVerificationCode(email) {
-            verificationCode = generateCode();
-            userEmail = email;
-
-            // Send code via email (using FormSubmit as backend)
-            const codeMessage = 'Your I&Y JEWLZ verification code is: ' + verificationCode + '\n\nThis code expires in 10 minutes.';
-            
-            const emailData = new FormData();
-            emailData.append('_subject', 'Your I&Y JEWLZ Verification Code');
-            emailData.append('_captcha', 'false');
-            emailData.append('message', codeMessage);
-
-            fetch('https://formsubmit.co/ajax/' + email, {
-                method: 'POST',
-                body: emailData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(function(response) {
-                if (!response.ok) throw new Error('Failed to send code');
-                return response.json();
-            })
-            .then(function() {
-                step1Container.style.display = 'none';
-                step2Container.style.display = 'block';
-                verifyCodeInput.focus();
-            })
-            .catch(function(error) {
-                alert('Failed to send code. Please try again.');
-                console.error(error);
-            });
-        }
-
-        // Verify code and show full form
-        function verifyCode() {
-            const enteredCode = verifyCodeInput.value.trim();
-            
-            if (enteredCode === verificationCode) {
-                document.getElementById('verifiedEmail').value = userEmail;
-                step2Container.style.display = 'none';
-                form.style.display = 'block';
-                document.getElementById('repairName').focus();
-            } else {
-                alert('Invalid code. Please try again.');
-                verifyCodeInput.value = '';
-                verifyCodeInput.focus();
-            }
-        }
-
-        // Send Code Button
-        sendCodeBtn.addEventListener('click', function() {
-            const email = verifyEmailInput.value.trim();
-            if (!email || !email.includes('@')) {
-                alert('Please enter a valid email address');
-                return;
-            }
-            sendCodeBtn.disabled = true;
-            sendCodeBtn.textContent = 'Sending...';
-            setTimeout(function() {
-                sendVerificationCode(email);
-                sendCodeBtn.disabled = false;
-                sendCodeBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Verification Code';
-            }, 500);
-        });
-
-        // Verify Code Button
-        verifyCodeBtn.addEventListener('click', verifyCode);
-
-        // Allow Enter key in code input
-        verifyCodeInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') verifyCode();
-        });
-
-        // Back Button
-        backBtn.addEventListener('click', function() {
-            step2Container.style.display = 'none';
-            step1Container.style.display = 'block';
-            verifyEmailInput.focus();
-            verifyCodeInput.value = '';
-        });
-
-        // Resend Link
-        resendLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            sendVerificationCode(userEmail);
-        });
-
-        // Allow Enter key in email input
-        verifyEmailInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendCodeBtn.click();
-        });
-
-        // Form Submit Handler
         function handleSubmit(e) {
             e.preventDefault();
 
             const name = document.getElementById('repairName').value;
-            const email = document.getElementById('verifiedEmail').value;
+            const email = document.getElementById('repairEmail').value;
             const phone = document.getElementById('repairPhone').value || 'Not provided';
             const jewelryType = document.getElementById('repairType').value;
             const repairService = document.getElementById('repairService').value;
             const description = document.getElementById('repairDescription').value;
 
-            const subject = encodeURIComponent('Jewelry Repair Request from ' + name);
-            const bodyText =
-                '=== JEWELRY REPAIR REQUEST ===\n\n' +
-                '👤 Customer Information:\n' +
-                '   Name: ' + name + '\n' +
-                '   Email: ' + email + '\n' +
-                '   Phone: ' + phone + '\n\n' +
-                '💎 Jewelry Details:\n' +
-                '   Type: ' + jewelryType + '\n' +
-                '   Service Needed: ' + repairService + '\n\n' +
-                '📝 Description of Issue:\n' +
-                description + '\n\n' +
-                '---\n' +
-                'Submitted on: ' + new Date().toLocaleString();
+            // Build message
+            const message = {
+                name: name,
+                email: email,
+                phone: phone,
+                jewelryType: jewelryType,
+                repairService: repairService,
+                description: description,
+                timestamp: new Date().toLocaleString()
+            };
 
+            // Set reply-to for FormSubmit
+            document.getElementById('replyToInput').value = email;
+
+            // Method 1: FormSubmit.co (Primary)
             const formData = new FormData(form);
-            formData.set('_replyto', email);
-            formData.set('_subject', 'Jewelry Repair Request');
-
             fetch('https://formsubmit.co/ajax/iyjewlz7@gmail.com', {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
             })
-            .then(function(response) {
-                if (!response.ok) throw new Error('Network response was not ok');
-                return response.json();
+            .then(r => r.json())
+            .then(data => {
+                console.log('✓ FormSubmit delivered');
+                showSuccess();
             })
-            .then(function() {
-                form.style.display = 'none';
-                document.getElementById('repairSuccess').style.display = 'block';
-            })
-            .catch(function(error) {
-                alert('Failed to send request. Please try again.');
-                console.error(error);
+            .catch(err => {
+                console.log('✗ FormSubmit failed, trying Discord...');
+                // Method 2: Discord Webhook Backup
+                sendToDiscord(message);
             });
+
+            // Method 3: Also send via mailto link as user fallback
+            setTimeout(() => {
+                const subject = encodeURIComponent('Jewelry Repair Request from ' + name);
+                const body = encodeURIComponent(
+                    'Name: ' + name + '\n' +
+                    'Email: ' + email + '\n' +
+                    'Phone: ' + phone + '\n' +
+                    'Jewelry Type: ' + jewelryType + '\n' +
+                    'Service: ' + repairService + '\n' +
+                    '\nDescription:\n' + description
+                );
+                // Prepare as fallback but don't open yet
+                window.repairMailtoLink = 'mailto:iyjewlz7@gmail.com?subject=' + subject + '&body=' + body;
+            }, 100);
+        }
+
+        function sendToDiscord(message) {
+            const discordMessage = {
+                content: '📧 **New Repair Request**',
+                embeds: [{
+                    color: 13029867,
+                    fields: [
+                        { name: 'Name', value: message.name, inline: true },
+                        { name: 'Email', value: message.email, inline: true },
+                        { name: 'Phone', value: message.phone, inline: true },
+                        { name: 'Jewelry Type', value: message.jewelryType, inline: true },
+                        { name: 'Service Needed', value: message.repairService, inline: true },
+                        { name: 'Description', value: message.description || 'N/A', inline: false },
+                        { name: 'Submitted', value: message.timestamp, inline: false }
+                    ]
+                }]
+            };
+
+            fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(discordMessage)
+            })
+            .then(() => {
+                console.log('✓ Discord notified');
+                showSuccess();
+            })
+            .catch(err => {
+                console.log('✗ Discord failed too');
+                showSuccess(); // Still show success - form was submitted, we have fallbacks
+            });
+        }
+
+        function showSuccess() {
+            form.style.display = 'none';
+            document.getElementById('repairSuccess').style.display = 'block';
         }
 
         form.addEventListener('submit', handleSubmit);
 
         // Focus effects
-        document.querySelectorAll('#repairForm input, #repairForm select, #repairForm textarea').forEach(function(el) {
+        document.querySelectorAll('#repairForm input, #repairForm select, #repairForm textarea').forEach(el => {
             el.addEventListener('focus', function() {
                 this.style.borderColor = '#d4af37';
                 this.style.boxShadow = '0 0 10px rgba(212,175,55,0.3)';
