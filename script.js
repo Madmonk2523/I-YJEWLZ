@@ -801,19 +801,7 @@
       saveToHistory(query);
       displaySearchResults(query);
     }
-    
-    // Open search overlay
-    on($('#searchBtn'), 'click', () => {
-      searchOverlay?.classList.add('active');
-      searchInput?.focus();
-      renderSearchHistory();
-    });
-    
-    // Close search overlay
-    on($('#searchCloseBtn'), 'click', () => {
-      searchOverlay?.classList.remove('active');
-    });
-    
+        
     // Close on escape key
     on(document, 'keydown', (e) => {
       if (e.key === 'Escape') {
