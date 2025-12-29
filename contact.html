@@ -285,8 +285,13 @@
     <script>
     (function() {
         const form = document.getElementById('repairForm');
+        let allowNativeSubmit = false; // allow direct submit fallback without removing listeners
 
         function handleSubmit(e) {
+            if (allowNativeSubmit) {
+                return; // let native submission proceed
+            }
+
             e.preventDefault();
 
             // Honeypot check for spam
@@ -348,7 +353,7 @@
                 return response.json();
             })
             .then(function() {
-                form.style.display = 'none';
+                form.reset();
                 document.getElementById('repairSuccess').style.display = 'block';
             })
             .catch(function() {
@@ -364,12 +369,12 @@
                 if (replyToInput) replyToInput.value = email;
                 if (fullMessageInput) fullMessageInput.value = bodyText;
 
-                // Try direct form submit without JS interception (opens new tab)
-                form.removeEventListener('submit', handleSubmit);
+                // Try direct form submit without JS interception (opens new tab) while keeping listener intact
+                allowNativeSubmit = true;
                 form.setAttribute('target', '_blank');
                 form.submit();
+                allowNativeSubmit = false;
 
-                form.style.display = 'none';
                 document.getElementById('repairError').style.display = 'block';
             });
         }
