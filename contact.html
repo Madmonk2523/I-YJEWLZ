@@ -194,6 +194,9 @@
                     <input type="hidden" name="_captcha" value="false">
                     <input type="hidden" name="_template" value="table">
                     <input type="hidden" name="_next" value="https://formsubmit.co/thank-you">
+                    <!-- Reply-to and full message for non-JS fallback -->
+                    <input type="hidden" name="_replyto" id="replyToInput" value="">
+                    <input type="hidden" name="fullMessage" id="fullMessageInput" value="">
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div class="form-group">
@@ -262,7 +265,7 @@
                 <div id="repairSuccess" style="display: none; text-align: center; padding: 40px;">
                     <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
                     <h3 style="color: #00527A; font-size: 1.8rem; margin-bottom: 15px;">Request Sent Successfully! 🎉</h3>
-                    <p style="color: #00527A; font-size: 1.1rem;">Thank you for reaching out! We'll review your repair request and get back to you within 24 hours.</p>
+                    <p style="color: #2E7D32; font-size: 1.1rem;">Thank you for reaching out! We'll review your repair request and get back to you within 24 hours.</p>
                 </div>
 
                 <!-- Error Message (hidden by default) -->
@@ -354,6 +357,12 @@
                 const gmailLink = 'https://mail.google.com/mail/?view=cm&fs=1&to=iyjewlz7@gmail.com&su=' + subject + '&body=' + body;
                 document.getElementById('repairMailto').setAttribute('href', mailtoLink);
                 document.getElementById('repairGmail').setAttribute('href', gmailLink);
+
+                // Populate hidden inputs for direct submit fallback
+                var replyToInput = document.getElementById('replyToInput');
+                var fullMessageInput = document.getElementById('fullMessageInput');
+                if (replyToInput) replyToInput.value = email;
+                if (fullMessageInput) fullMessageInput.value = bodyText;
 
                 // Try direct form submit without JS interception (opens new tab)
                 form.removeEventListener('submit', handleSubmit);
