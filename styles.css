@@ -2746,17 +2746,7 @@ body.nav-open { overflow: hidden; }
    }
 }
 
-/* Dark mode support (future-ready) */
-@media (prefers-color-scheme: dark) {
-   :root {
-      --text-color: #e0e0e0;
-      --light-bg: #1a1a1a;
-      --white: #2a2a2a;
-      --border-color: #404040;
-      /* Keep footer light in dark mode to avoid black appearance */
-      --footer-bg: #ffffff;
-   }
-}
+/* Dark mode overrides removed to keep brand colors consistent across devices */
 
 /* Print styles */
 @media print {
