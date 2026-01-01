@@ -1574,4 +1574,57 @@
     }
   });
 
+  // Background Music Player
+  const initMusicPlayer = () => {
+    const musicToggle = document.getElementById('musicToggle');
+    const bgMusic = document.getElementById('bgMusic');
+    
+    if (!musicToggle || !bgMusic) return;
+
+    let isPlaying = false;
+
+    // Load saved music state
+    const savedState = localStorage.getItem('music_playing');
+    if (savedState === 'true') {
+      playMusic();
+    }
+
+    musicToggle.addEventListener('click', () => {
+      if (isPlaying) {
+        pauseMusic();
+      } else {
+        playMusic();
+      }
+    });
+
+    function playMusic() {
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicToggle.classList.add('playing');
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+        localStorage.setItem('music_playing', 'true');
+      }).catch(err => {
+        console.log('Music autoplay prevented:', err);
+      });
+    }
+
+    function pauseMusic() {
+      bgMusic.pause();
+      isPlaying = false;
+      musicToggle.classList.remove('playing');
+      musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+      localStorage.setItem('music_playing', 'false');
+    }
+
+    // Volume control (set to comfortable level)
+    bgMusic.volume = 0.3;
+  };
+
+  // Initialize music player when page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMusicPlayer);
+  } else {
+    initMusicPlayer();
+  }
+
 })();
