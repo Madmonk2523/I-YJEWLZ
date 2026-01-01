@@ -1574,19 +1574,74 @@
     }
   });
 
-  // Background Music Player
+  // Background Music Player - AGGRESSIVE AUTOPLAY
   const initMusicPlayer = () => {
     const musicToggle = document.getElementById('musicToggle');
     const bgMusic = document.getElementById('bgMusic');
+    const overlay = document.getElementById('autoplayOverlay');
     
     if (!musicToggle || !bgMusic) return;
 
     let isPlaying = false;
+    let autoplayAttempted = false;
 
-    // Don't autoplay on page load (browsers block this)
-    // User must click to start music
+    // Set volume first
+    bgMusic.volume = 0.4;
 
-    musicToggle.addEventListener('click', () => {
+    // Aggressive autoplay on page load
+    const attemptAutoplay = () => {
+      if (autoplayAttempted) return;
+      autoplayAttempted = true;
+      
+      bgMusic.play().then(() => {
+        isPlaying = true;
+        musicToggle.classList.add('playing');
+        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+        console.log('Music autoplaying successfully!');
+        if (overlay) overlay.style.display = 'none';
+      }).catch(err => {
+        console.log('Autoplay blocked by browser, showing overlay:', err);
+        // Show overlay to get user interaction
+        if (overlay) {
+          overlay.style.display = 'flex';
+          
+          // Click anywhere to start music
+          const startMusic = () => {
+            bgMusic.play().then(() => {
+              isPlaying = true;
+              musicToggle.classList.add('playing');
+              musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
+              overlay.style.display = 'none';
+              console.log('Music started after user interaction');
+            }).catch(e => console.error('Still failed:', e));
+            overlay.removeEventListener('click', startMusic);
+          };
+          
+          overlay.addEventListener('click', startMusic);
+        }
+      });
+    };
+
+    // Try autoplay as soon as possible
+    attemptAutoplay();
+
+    // Also try on any user interaction
+    const tryPlayOnInteraction = () => {
+      if (!isPlaying) {
+        attemptAutoplay();
+      }
+      document.removeEventListener('click', tryPlayOnInteraction);
+      document.removeEventListener('touchstart', tryPlayOnInteraction);
+      document.removeEventListener('keydown', tryPlayOnInteraction);
+    };
+    
+    document.addEventListener('click', tryPlayOnInteraction, { once: true });
+    document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
+    document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
+
+    // Manual toggle button
+    musicToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       if (isPlaying) {
         pauseMusic();
       } else {
@@ -1595,7 +1650,6 @@
     });
 
     function playMusic() {
-      // Reset audio if it ended
       if (bgMusic.ended) {
         bgMusic.currentTime = 0;
       }
@@ -1604,11 +1658,9 @@
         isPlaying = true;
         musicToggle.classList.add('playing');
         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-        localStorage.setItem('music_playing', 'true');
-        console.log('Music playing successfully');
+        console.log('Music playing');
       }).catch(err => {
-        console.error('Music playback failed:', err);
-        alert('Unable to play music. Please check your browser settings or internet connection.');
+        console.error('Playback failed:', err);
       });
     }
 
@@ -1617,22 +1669,17 @@
       isPlaying = false;
       musicToggle.classList.remove('playing');
       musicToggle.innerHTML = '<i class="fas fa-music"></i>';
-      localStorage.setItem('music_playing', 'false');
     }
 
-    // Set volume to comfortable level
-    bgMusic.volume = 0.4;
-
-    // Handle audio errors
-    bgMusic.addEventListener('error', (e) => {
-      console.error('Audio loading error:', e);
-      console.error('Error code:', bgMusic.error?.code);
-      console.error('Error message:', bgMusic.error?.message);
+    // When audio loads, try to play
+    bgMusic.addEventListener('loadeddata', () => {
+      console.log('Audio loaded');
+      if (!isPlaying) attemptAutoplay();
     });
 
-    // Log when audio is ready
-    bgMusic.addEventListener('canplaythrough', () => {
-      console.log('Audio loaded and ready to play');
+    // Handle errors
+    bgMusic.addEventListener('error', (e) => {
+      console.error('Audio error:', e, bgMusic.error);
     });
   };
 
