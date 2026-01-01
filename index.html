@@ -236,61 +236,42 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Background Music Player -->
-    <div class="music-player" id="musicPlayer">
-        <button class="music-toggle" id="musicToggle" aria-label="Toggle music">
-            <i class="fas fa-play"></i>
-        </button>
-        <audio id="bgMusic" loop>
-            <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
-            <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-18.mp3" type="audio/mpeg">
-            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-        </audio>
-    </div>
+    <audio id="bgMusic" loop autoplay style="display:none;">
+        <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-18.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
-    // IMMEDIATE MUSIC PLAYER - NO DELAYS
+    // ALWAYS PLAY MUSIC - NO CONTROLS
     (function() {
-        const btn = document.getElementById('musicToggle');
         const audio = document.getElementById('bgMusic');
-        let playing = false;
-        
-        if (!btn || !audio) return;
+        if (!audio) return;
         
         audio.volume = 0.3;
         
-        // Try to play immediately
-        audio.play().then(() => {
-            playing = true;
-            btn.innerHTML = '<i class="fas fa-pause"></i>';
-            btn.classList.add('playing');
-        }).catch(() => {
-            // Autoplay blocked, wait for click
-        });
+        // Force play immediately
+        audio.play().catch(() => {});
         
-        // Click button to toggle
-        btn.onclick = function() {
-            if (playing) {
-                audio.pause();
-                playing = false;
-                btn.innerHTML = '<i class="fas fa-play"></i>';
-                btn.classList.remove('playing');
-            } else {
-                audio.play();
-                playing = true;
-                btn.innerHTML = '<i class="fas fa-pause"></i>';
-                btn.classList.add('playing');
-            }
+        // Start on first interaction
+        const forceStart = () => {
+            audio.play();
+            audio.volume = 0.3;
         };
         
-        // Start on any click
-        document.addEventListener('click', function startAudio() {
-            if (!playing) {
-                audio.play();
-                playing = true;
-                btn.innerHTML = '<i class="fas fa-pause"></i>';
-                btn.classList.add('playing');
-            }
-        }, { once: true });
+        document.addEventListener('click', forceStart, { once: true });
+        document.addEventListener('touchstart', forceStart, { once: true });
+        document.addEventListener('keydown', forceStart, { once: true });
+        
+        // Keep it playing if it stops
+        audio.addEventListener('pause', () => {
+            audio.play();
+        });
+        
+        audio.addEventListener('ended', () => {
+            audio.currentTime = 0;
+            audio.play();
+        });
     })();
     </script>
 
