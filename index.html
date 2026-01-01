@@ -234,55 +234,6 @@
 
     <!-- Overlay -->
     <div class="overlay" id="overlay"></div>
-
-    <!-- Background Music Player -->
-    <div style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
-        <button id="playBtn" style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #d4af37, #87CEEB); border: none; color: white; font-size: 24px; cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
-            🎵
-        </button>
-    </div>
-    <audio id="bgMusic" loop>
-        <source src="https://streaming.jamendo.com/download/track/1536124/mp32" type="audio/mpeg">
-    </audio>
-
-    <script>
-    const btn = document.getElementById('playBtn');
-    const music = document.getElementById('bgMusic');
-    let playing = false;
-    
-    music.volume = 0.3;
-    
-    // Play on scroll
-    window.onscroll = function() {
-        if (!playing) {
-            music.play();
-            playing = true;
-            btn.innerHTML = '⏸️';
-        }
-    };
-    
-    // Play on button click
-    btn.onclick = function() {
-        if (playing) {
-            music.pause();
-            playing = false;
-            btn.innerHTML = '🎵';
-        } else {
-            music.play();
-            playing = true;
-            btn.innerHTML = '⏸️';
-        }
-    };
-    
-    // Auto play on load
-    setTimeout(function() {
-        music.play().then(() => {
-            playing = true;
-            btn.innerHTML = '⏸️';
-        }).catch(() => {});
-    }, 500);
-    </script>
-
     <script src="script.js"></script>
 </body>
 </html>
