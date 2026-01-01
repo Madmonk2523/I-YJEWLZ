@@ -1580,106 +1580,96 @@
     const bgMusic = document.getElementById('bgMusic');
     const overlay = document.getElementById('autoplayOverlay');
     
-    if (!musicToggle || !bgMusic) return;
+    if (!musicToggle || !bgMusic) {
+      console.error('Music elements not found');
+      return;
+    }
 
     let isPlaying = false;
-    let autoplayAttempted = false;
-
-    // Set volume first
     bgMusic.volume = 0.4;
 
-    // Aggressive autoplay on page load
-    const attemptAutoplay = () => {
-      if (autoplayAttempted) return;
-      autoplayAttempted = true;
-      
+    console.log('Music player initialized');
+
+    // Function to start music
+    const startMusic = () => {
+      console.log('Attempting to play music...');
       bgMusic.play().then(() => {
         isPlaying = true;
         musicToggle.classList.add('playing');
         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-        console.log('Music autoplaying successfully!');
         if (overlay) overlay.style.display = 'none';
+        console.log('✓ Music is playing!');
       }).catch(err => {
-        console.log('Autoplay blocked by browser, showing overlay:', err);
-        // Show overlay to get user interaction
+        console.error('Play failed:', err);
         if (overlay) {
           overlay.style.display = 'flex';
-          
-          // Click anywhere to start music
-          const startMusic = () => {
-            bgMusic.play().then(() => {
-              isPlaying = true;
-              musicToggle.classList.add('playing');
-              musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-              overlay.style.display = 'none';
-              console.log('Music started after user interaction');
-            }).catch(e => console.error('Still failed:', e));
-            overlay.removeEventListener('click', startMusic);
-          };
-          
-          overlay.addEventListener('click', startMusic);
+          console.log('Showing overlay for user click');
         }
       });
     };
 
-    // Try autoplay as soon as possible
-    attemptAutoplay();
-
-    // Also try on any user interaction
-    const tryPlayOnInteraction = () => {
-      if (!isPlaying) {
-        attemptAutoplay();
-      }
-      document.removeEventListener('click', tryPlayOnInteraction);
-      document.removeEventListener('touchstart', tryPlayOnInteraction);
-      document.removeEventListener('keydown', tryPlayOnInteraction);
-    };
-    
-    document.addEventListener('click', tryPlayOnInteraction, { once: true });
-    document.addEventListener('touchstart', tryPlayOnInteraction, { once: true });
-    document.addEventListener('keydown', tryPlayOnInteraction, { once: true });
-
-    // Manual toggle button
-    musicToggle.addEventListener('click', (e) => {
-      e.stopPropagation();
-      if (isPlaying) {
-        pauseMusic();
-      } else {
-        playMusic();
-      }
-    });
-
-    function playMusic() {
-      if (bgMusic.ended) {
-        bgMusic.currentTime = 0;
-      }
-      
-      bgMusic.play().then(() => {
-        isPlaying = true;
-        musicToggle.classList.add('playing');
-        musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-        console.log('Music playing');
-      }).catch(err => {
-        console.error('Playback failed:', err);
-      });
-    }
-
-    function pauseMusic() {
+    // Function to stop music
+    const stopMusic = () => {
       bgMusic.pause();
       isPlaying = false;
       musicToggle.classList.remove('playing');
       musicToggle.innerHTML = '<i class="fas fa-music"></i>';
+      console.log('Music paused');
+    };
+
+    // Try immediate autoplay
+    setTimeout(startMusic, 100);
+
+    // Overlay click handler
+    if (overlay) {
+      overlay.addEventListener('click', (e) => {
+        console.log('Overlay clicked');
+        startMusic();
+      });
     }
 
-    // When audio loads, try to play
-    bgMusic.addEventListener('loadeddata', () => {
-      console.log('Audio loaded');
-      if (!isPlaying) attemptAutoplay();
+    // Music toggle button click
+    musicToggle.addEventListener('click', (e) => {
+      console.log('Toggle clicked, isPlaying:', isPlaying);
+      e.preventDefault();
+      e.stopPropagation();
+      if (isPlaying) {
+        stopMusic();
+      } else {
+        startMusic();
+      }
     });
 
-    // Handle errors
+    // Try to play on any user interaction
+    const handleInteraction = () => {
+      if (!isPlaying) {
+        console.log('User interaction detected, starting music');
+        startMusic();
+      }
+    };
+
+    document.addEventListener('click', handleInteraction, { once: true });
+    document.addEventListener('touchstart', handleInteraction, { once: true });
+    document.addEventListener('keydown', handleInteraction, { once: true });
+
+    // Audio event listeners
+    bgMusic.addEventListener('loadeddata', () => {
+      console.log('Audio loaded successfully');
+    });
+
+    bgMusic.addEventListener('playing', () => {
+      console.log('Audio is playing');
+      isPlaying = true;
+    });
+
+    bgMusic.addEventListener('pause', () => {
+      console.log('Audio paused');
+      isPlaying = false;
+    });
+
     bgMusic.addEventListener('error', (e) => {
-      console.error('Audio error:', e, bgMusic.error);
+      console.error('Audio error:', bgMusic.error);
+      if (overlay) overlay.style.display = 'flex';
     });
   };
 
