@@ -241,63 +241,38 @@
     </audio>
 
     <script>
-    // FORCE MUSIC TO PLAY ALWAYS
-    window.addEventListener('DOMContentLoaded', function() {
-        const audio = document.getElementById('bgMusic');
-        if (!audio) return;
-        
+    // PLAY MUSIC ON SCROLL
+    const audio = document.getElementById('bgMusic');
+    if (audio) {
         audio.volume = 0.35;
+        let hasPlayed = false;
         
-        console.log('Attempting to play music...');
-        
-        // Immediate play attempt
-        const tryPlay = () => {
-            const playPromise = audio.play();
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('✓ Music is playing!');
+        // Play on scroll
+        window.addEventListener('scroll', function playMusic() {
+            if (!hasPlayed) {
+                hasPlayed = true;
+                audio.play().then(() => {
+                    console.log('Music playing after scroll!');
                 }).catch(err => {
-                    console.log('Autoplay blocked, waiting for user interaction:', err);
+                    console.error('Failed to play:', err);
                 });
+                window.removeEventListener('scroll', playMusic);
             }
-        };
+        }, { passive: true });
         
-        // Try immediately
-        tryPlay();
+        // Also try on click as backup
+        document.addEventListener('click', function() {
+            if (!hasPlayed) {
+                hasPlayed = true;
+                audio.play();
+            }
+        }, { once: true });
         
-        // Force play on ANY user interaction
-        const interactions = ['click', 'touchstart', 'keydown', 'scroll', 'mousemove'];
-        interactions.forEach(event => {
-            document.addEventListener(event, function playOnce() {
-                tryPlay();
-                interactions.forEach(e => {
-                    document.removeEventListener(e, playOnce);
-                });
-            }, { once: true, passive: true });
+        // Keep playing
+        audio.addEventListener('pause', () => {
+            if (hasPlayed) audio.play();
         });
-        
-        // Keep it playing - restart if paused
-        audio.addEventListener('pause', function() {
-            setTimeout(() => audio.play(), 100);
-        });
-        
-        // Restart when ended
-        audio.addEventListener('ended', function() {
-            audio.currentTime = 0;
-            audio.play();
-        });
-        
-        // Log errors
-        audio.addEventListener('error', function(e) {
-            console.error('Audio error:', e);
-        });
-        
-        // Log when loaded
-        audio.addEventListener('loadeddata', function() {
-            console.log('Audio loaded successfully');
-            tryPlay();
-        });
-    });
+    }
     </script>
 
     <script src="script.js"></script>
