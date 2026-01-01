@@ -238,19 +238,61 @@
     <!-- Background Music Player -->
     <div class="music-player" id="musicPlayer">
         <button class="music-toggle" id="musicToggle" aria-label="Toggle music">
-            <i class="fas fa-pause"></i>
+            <i class="fas fa-play"></i>
         </button>
-        <audio id="bgMusic" loop preload="auto" autoplay>
-            <source src="https://assets.mixkit.co/music/preview/mixkit-tech-house-vibes-130.mp3" type="audio/mpeg">
-            Your browser does not support the audio element.
+        <audio id="bgMusic" loop>
+            <source src="https://www.bensound.com/bensound-music/bensound-relaxing.mp3" type="audio/mpeg">
+            <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-18.mp3" type="audio/mpeg">
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
         </audio>
     </div>
-    
-    <!-- Autoplay overlay for browsers that block autoplay -->
-    <div id="autoplayOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 99999; justify-content: center; align-items: center; flex-direction: column; color: white; font-size: 24px; cursor: pointer;">
-        <i class="fas fa-music" style="font-size: 60px; margin-bottom: 20px; animation: pulse 2s infinite;"></i>
-        <p>Click anywhere to start music</p>
-    </div>
+
+    <script>
+    // IMMEDIATE MUSIC PLAYER - NO DELAYS
+    (function() {
+        const btn = document.getElementById('musicToggle');
+        const audio = document.getElementById('bgMusic');
+        let playing = false;
+        
+        if (!btn || !audio) return;
+        
+        audio.volume = 0.3;
+        
+        // Try to play immediately
+        audio.play().then(() => {
+            playing = true;
+            btn.innerHTML = '<i class="fas fa-pause"></i>';
+            btn.classList.add('playing');
+        }).catch(() => {
+            // Autoplay blocked, wait for click
+        });
+        
+        // Click button to toggle
+        btn.onclick = function() {
+            if (playing) {
+                audio.pause();
+                playing = false;
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.classList.remove('playing');
+            } else {
+                audio.play();
+                playing = true;
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                btn.classList.add('playing');
+            }
+        };
+        
+        // Start on any click
+        document.addEventListener('click', function startAudio() {
+            if (!playing) {
+                audio.play();
+                playing = true;
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                btn.classList.add('playing');
+            }
+        }, { once: true });
+    })();
+    </script>
 
     <script src="script.js"></script>
 </body>
