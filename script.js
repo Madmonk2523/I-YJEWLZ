@@ -1583,11 +1583,8 @@
 
     let isPlaying = false;
 
-    // Load saved music state
-    const savedState = localStorage.getItem('music_playing');
-    if (savedState === 'true') {
-      playMusic();
-    }
+    // Don't autoplay on page load (browsers block this)
+    // User must click to start music
 
     musicToggle.addEventListener('click', () => {
       if (isPlaying) {
@@ -1598,13 +1595,20 @@
     });
 
     function playMusic() {
+      // Reset audio if it ended
+      if (bgMusic.ended) {
+        bgMusic.currentTime = 0;
+      }
+      
       bgMusic.play().then(() => {
         isPlaying = true;
         musicToggle.classList.add('playing');
         musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
         localStorage.setItem('music_playing', 'true');
+        console.log('Music playing successfully');
       }).catch(err => {
-        console.log('Music autoplay prevented:', err);
+        console.error('Music playback failed:', err);
+        alert('Unable to play music. Please check your browser settings or internet connection.');
       });
     }
 
@@ -1616,8 +1620,20 @@
       localStorage.setItem('music_playing', 'false');
     }
 
-    // Volume control (set to comfortable level)
-    bgMusic.volume = 0.3;
+    // Set volume to comfortable level
+    bgMusic.volume = 0.4;
+
+    // Handle audio errors
+    bgMusic.addEventListener('error', (e) => {
+      console.error('Audio loading error:', e);
+      console.error('Error code:', bgMusic.error?.code);
+      console.error('Error message:', bgMusic.error?.message);
+    });
+
+    // Log when audio is ready
+    bgMusic.addEventListener('canplaythrough', () => {
+      console.log('Audio loaded and ready to play');
+    });
   };
 
   // Initialize music player when page loads
