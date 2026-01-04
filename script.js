@@ -1,4 +1,25 @@
 // I&Y JEWLZ - Frontend interactions (GPT-5)
+
+// Background Audio - Always Playing
+window.addEventListener('load', function() {
+  const audio = document.getElementById('bgAudio');
+  if (audio) {
+    audio.volume = 0.3;
+    audio.play().catch(err => console.log('Autoplay pending user interaction'));
+  }
+});
+
+// Play on user interaction
+['click', 'touchstart', 'keydown'].forEach(event => {
+  document.addEventListener(event, function ensureAudioPlays() {
+    const audio = document.getElementById('bgAudio');
+    if (audio && audio.paused) {
+      audio.volume = 0.3;
+      audio.play().catch(err => console.log('Audio play error:', err));
+    }
+  }, { once: true });
+});
+
 (function () {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
