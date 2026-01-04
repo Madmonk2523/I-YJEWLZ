@@ -1,48 +1,4 @@
 // I&Y JEWLZ - Frontend interactions (GPT-5)
-
-// Background Audio - AGGRESSIVE ALWAYS PLAYING
-const audioElement = document.getElementById('bgAudio');
-
-// Ensure audio plays on page load
-window.addEventListener('load', function() {
-  if (audioElement) {
-    audioElement.volume = 0.3;
-    audioElement.autoplay = true;
-    audioElement.play().catch(err => {
-      console.log('Initial play blocked, will retry');
-    });
-  }
-});
-
-// Force play on any user interaction
-document.addEventListener('click', function() {
-  if (audioElement && audioElement.paused) {
-    audioElement.volume = 0.3;
-    audioElement.play().catch(err => console.log('Click play failed'));
-  }
-}, true);
-
-document.addEventListener('touchstart', function() {
-  if (audioElement && audioElement.paused) {
-    audioElement.volume = 0.3;
-    audioElement.play().catch(err => console.log('Touch play failed'));
-  }
-}, true);
-
-document.addEventListener('scroll', function() {
-  if (audioElement && audioElement.paused) {
-    audioElement.volume = 0.3;
-    audioElement.play().catch(err => console.log('Scroll play failed'));
-  }
-}, true);
-
-// Retry playing every 2 seconds if paused
-setInterval(function() {
-  if (audioElement && audioElement.paused) {
-    audioElement.play().catch(err => console.log('Retry play'));
-  }
-}, 2000);
-
 (function () {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
   const $$ = (sel, ctx = document) => Array.from(ctx.querySelectorAll(sel));
