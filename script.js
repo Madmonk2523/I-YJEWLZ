@@ -4,8 +4,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   const audio = document.getElementById('bgAudio');
   if (audio) {
-    // Set volume to max
-    audio.volume = 1;
+    // Set volume to low (30%)
+    audio.volume = 0.3;
     
     // Try to play audio - handle browser autoplay policies
     const playPromise = audio.play();
@@ -22,7 +22,7 @@ function unmuteAudio() {
   const audio = document.getElementById('bgAudio');
   if (audio) {
     audio.muted = false;
-    audio.volume = 1;
+    audio.volume = 0.3;
     audio.play().catch(e => console.log('Audio play error:', e));
     // Remove this listener after first unmute
     document.removeEventListener('click', unmuteAudio);
