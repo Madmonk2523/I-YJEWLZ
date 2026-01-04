@@ -1,37 +1,42 @@
 // I&Y JEWLZ - Frontend interactions (GPT-5)
 
-// Background Audio Setup
-document.addEventListener('DOMContentLoaded', function() {
+// Background Audio Setup - Aggressive autoplay
+window.addEventListener('load', function() {
   const audio = document.getElementById('bgAudio');
   if (audio) {
-    // Set volume to low (30%)
     audio.volume = 0.3;
+    audio.muted = false;
     
-    // Try to play audio - handle browser autoplay policies
+    // Try playing immediately
     const playPromise = audio.play();
     if (playPromise !== undefined) {
-      playPromise.catch(error => {
-        console.log('Autoplay prevented, waiting for user interaction');
+      playPromise.then(() => {
+        console.log('Audio playing');
+      }).catch(error => {
+        console.log('Autoplay failed, will retry on user interaction');
       });
     }
   }
 });
 
-// Unmute audio on first user interaction (click, touch, key)
-function unmuteAudio() {
+// Ensure audio plays on any user interaction
+document.addEventListener('click', function playAudioOnClick() {
   const audio = document.getElementById('bgAudio');
   if (audio) {
-    audio.muted = false;
     audio.volume = 0.3;
-    audio.play().catch(e => console.log('Audio play error:', e));
-    // Remove this listener after first unmute
-    document.removeEventListener('click', unmuteAudio);
-    document.removeEventListener('touchstart', unmuteAudio);
+    audio.muted = false;
+    audio.play().catch(e => console.log('Play error:', e));
   }
-}
+}, { once: true });
 
-document.addEventListener('click', unmuteAudio);
-document.addEventListener('touchstart', unmuteAudio);
+document.addEventListener('touchstart', function playAudioOnTouch() {
+  const audio = document.getElementById('bgAudio');
+  if (audio) {
+    audio.volume = 0.3;
+    audio.muted = false;
+    audio.play().catch(e => console.log('Play error:', e));
+  }
+}, { once: true });
 
 (function () {
   const $ = (sel, ctx = document) => ctx.querySelector(sel);
