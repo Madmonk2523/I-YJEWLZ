@@ -1575,3 +1575,191 @@
   });
 
 })();
+
+// ============================================================================
+// BACKGROUND MUSIC PLAYER
+// ============================================================================
+// Handles invisible background music with autoplay policy compliance
+// Music starts muted and unmutes on first user interaction
+// ============================================================================
+(function initBackgroundMusic() {
+  // Configuration
+  const MUSIC_CONFIG = {
+    src: 'audio/background-music.mp3', // Path to your music file
+    volume: 0.15, // Volume level (15% = 0.15)
+    fadeInDuration: 2000, // Fade in over 2 seconds
+    fadeOutDuration: 1500 // Fade out over 1.5 seconds
+  };
+
+  let audio = null;
+  let userHasInteracted = false;
+  let fadeInterval = null;
+
+  // Create and configure audio element
+  function createAudioElement() {
+    audio = new Audio(MUSIC_CONFIG.src);
+    audio.loop = true; // Loop continuously
+    audio.volume = 0; // Start at 0 for fade-in effect
+    audio.preload = 'auto'; // Preload but don't block page load
+    
+    // Add error handling
+    audio.addEventListener('error', (e) => {
+      console.warn('Background music failed to load:', e);
+    });
+
+    // Add event listeners for debugging (remove in production if needed)
+    audio.addEventListener('play', () => {
+      console.log('🎵 Background music started');
+    });
+
+    audio.addEventListener('pause', () => {
+      console.log('⏸️ Background music paused');
+    });
+  }
+
+  // Fade audio volume gradually
+  function fadeVolume(targetVolume, duration) {
+    if (fadeInterval) clearInterval(fadeInterval);
+    
+    const startVolume = audio.volume;
+    const volumeChange = targetVolume - startVolume;
+    const steps = 50; // Number of steps for smooth transition
+    const stepDuration = duration / steps;
+    const stepChange = volumeChange / steps;
+    let currentStep = 0;
+
+    fadeInterval = setInterval(() => {
+      currentStep++;
+      audio.volume = Math.max(0, Math.min(1, startVolume + (stepChange * currentStep)));
+      
+      if (currentStep >= steps) {
+        clearInterval(fadeInterval);
+        audio.volume = targetVolume;
+      }
+    }, stepDuration);
+  }
+
+  // Attempt to start music (muted for autoplay compliance)
+  function startMutedMusic() {
+    if (!audio) return;
+    
+    // Start muted to comply with autoplay policies
+    audio.muted = true;
+    audio.volume = 0;
+    
+    audio.play().then(() => {
+      console.log('🔇 Music started (muted) - waiting for user interaction');
+    }).catch((error) => {
+      console.warn('Autoplay prevented:', error.message);
+      // If autoplay fails even when muted, we'll try again on first interaction
+    });
+  }
+
+  // Unmute and fade in music on user interaction
+  function unmuteMusicOnInteraction() {
+    if (userHasInteracted || !audio) return;
+    
+    userHasInteracted = true;
+    
+    // Unmute the audio
+    audio.muted = false;
+    
+    // If audio isn't playing yet, start it
+    if (audio.paused) {
+      audio.play().then(() => {
+        fadeVolume(MUSIC_CONFIG.volume, MUSIC_CONFIG.fadeInDuration);
+      }).catch((error) => {
+        console.warn('Music playback failed:', error);
+      });
+    } else {
+      // Already playing (muted), just fade in
+      fadeVolume(MUSIC_CONFIG.volume, MUSIC_CONFIG.fadeInDuration);
+    }
+    
+    // Remove event listeners after first interaction
+    removeInteractionListeners();
+  }
+
+  // Set up interaction listeners
+  const interactionEvents = ['click', 'touchstart', 'scroll', 'keydown'];
+  
+  function addInteractionListeners() {
+    interactionEvents.forEach(event => {
+      document.addEventListener(event, unmuteMusicOnInteraction, { once: true, passive: true });
+    });
+  }
+
+  function removeInteractionListeners() {
+    interactionEvents.forEach(event => {
+      document.removeEventListener(event, unmuteMusicOnInteraction);
+    });
+  }
+
+  // Visibility change handler (pause when tab is hidden)
+  function handleVisibilityChange() {
+    if (!audio || !userHasInteracted) return;
+    
+    if (document.hidden) {
+      // Tab is hidden, fade out and pause
+      fadeVolume(0, MUSIC_CONFIG.fadeOutDuration);
+      setTimeout(() => {
+        if (document.hidden) audio.pause();
+      }, MUSIC_CONFIG.fadeOutDuration);
+    } else {
+      // Tab is visible again, resume and fade in
+      if (audio.paused) {
+        audio.play().then(() => {
+          fadeVolume(MUSIC_CONFIG.volume, MUSIC_CONFIG.fadeInDuration);
+        }).catch((error) => {
+          console.warn('Failed to resume music:', error);
+        });
+      }
+    }
+  }
+
+  // Initialize on DOM ready
+  function init() {
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+      return;
+    }
+
+    // Create audio element
+    createAudioElement();
+    
+    // Try to start muted music immediately
+    startMutedMusic();
+    
+    // Set up interaction listeners to unmute
+    addInteractionListeners();
+    
+    // Handle tab visibility changes
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (fadeInterval) clearInterval(fadeInterval);
+      if (audio) {
+        audio.pause();
+        audio.src = '';
+      }
+    });
+  }
+
+  // Start initialization
+  init();
+
+  // Optional: Expose control methods for debugging (remove in production)
+  window.bgMusicControls = {
+    pause: () => audio && audio.pause(),
+    play: () => audio && audio.play(),
+    setVolume: (vol) => audio && (audio.volume = Math.max(0, Math.min(1, vol))),
+    getState: () => ({
+      playing: audio && !audio.paused,
+      muted: audio && audio.muted,
+      volume: audio && audio.volume,
+      userInteracted: userHasInteracted
+    })
+  };
+})();
