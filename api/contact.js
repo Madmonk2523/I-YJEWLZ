@@ -51,7 +51,7 @@ Sent: ${new Date().toLocaleString()}
       // Send email
       await transporter.sendMail({
         from: process.env.EMAIL_USER,
-        to: 'chasemallor@gmail.com',
+        to: 'iyjewlz7@gmail.com',
         subject: 'Jewelry Repair Request',
         text: emailBody
       });
