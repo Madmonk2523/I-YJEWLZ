@@ -247,27 +247,18 @@
             statusEl.innerHTML = '<i class="fas fa-clock"></i> Sending your request...';
             statusEl.style.color = '#0082B4';
             
-            // Send via simple API endpoint
-            const emailData = {
-                to: 'chasemallor@gmail.com',
-                subject: 'Jewelry Repair Request',
-                body: `JEWELRY REPAIR REQUEST\n\n━━━━━━━━━━━━━━━━━━━━━━━\nName: ${name}\nPhone: ${phone}\nJewelry Type: ${jewelryType}\nService Needed: ${repairService}\n━━━━━━━━━━━━━━━━━━━━━━━\n\nDescription:\n${description}\n\n━━━━━━━━━━━━━━━━━━━━━━━\nSent: ${new Date().toLocaleString()}`
-            };
-            
-            // Send to Web3Forms (free, no verification needed)
-            fetch('https://api.web3forms.com/submit', {
+            // Send to backend API
+            fetch('https://www.iyjewlz.com/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    access_key: '8b4e87d7-b15f-4e20-bd2b-e41f8d6b8c2a',
                     name: name,
                     phone: phone,
                     jewelry_type: jewelryType,
                     service_needed: repairService,
-                    description: description,
-                    to_email: 'chasemallor@gmail.com'
+                    description: description
                 })
             })
             .then(response => response.json())
@@ -276,16 +267,17 @@
                     statusEl.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Request sent successfully! ✓';
                     statusEl.style.color = '#4CAF50';
                     form.reset();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Repair Request';
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Repair Request';
+                    }, 2000);
                 } else {
-                    throw new Error('Send failed');
+                    throw new Error(data.error || 'Failed to send');
                 }
             })
             .catch(error => {
-                statusEl.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Request received! ✓';
-                statusEl.style.color = '#4CAF50';
-                form.reset();
+                statusEl.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #f44336;"></i> Error: ' + error.message;
+                statusEl.style.color = '#f44336';
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Repair Request';
             });
