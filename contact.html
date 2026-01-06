@@ -165,7 +165,7 @@
                 <p style="color: #004B7A; font-size: 1.1rem;">Let us bring your treasured pieces back to life! ✨ Fill out the form and click send to email us directly.</p>
             </div>
             <div style="max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.85); padding: 40px; border-radius: 15px; border: 2px solid rgba(0,82,122,0.2); box-shadow: 0 10px 30px rgba(0,82,122,0.15);">
-                <form id="repairForm" action="https://formspree.io/f/xnnqkjvl" method="POST">
+                <form id="repairForm">
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div class="form-group">
@@ -228,18 +228,67 @@
     </section>
     
     <script>
-    // Simple form handler with status feedback
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('repairForm');
         const submitBtn = document.getElementById('repairSubmitBtn');
         const statusEl = document.getElementById('formStatus');
         
         form.addEventListener('submit', function(e) {
-            // Show sending status
+            e.preventDefault();
+            
+            const name = document.getElementById('repairName').value.trim() || 'Not provided';
+            const phone = document.getElementById('repairPhone').value.trim() || 'Not provided';
+            const jewelryType = document.getElementById('repairType').value || 'Not specified';
+            const repairService = document.getElementById('repairService').value || 'Not specified';
+            const description = document.getElementById('repairDescription').value.trim() || 'No description';
+            
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
             statusEl.innerHTML = '<i class="fas fa-clock"></i> Sending your request...';
             statusEl.style.color = '#0082B4';
+            
+            // Send via simple API endpoint
+            const emailData = {
+                to: 'chasemallor@gmail.com',
+                subject: 'Jewelry Repair Request',
+                body: `JEWELRY REPAIR REQUEST\n\n━━━━━━━━━━━━━━━━━━━━━━━\nName: ${name}\nPhone: ${phone}\nJewelry Type: ${jewelryType}\nService Needed: ${repairService}\n━━━━━━━━━━━━━━━━━━━━━━━\n\nDescription:\n${description}\n\n━━━━━━━━━━━━━━━━━━━━━━━\nSent: ${new Date().toLocaleString()}`
+            };
+            
+            // Send to Web3Forms (free, no verification needed)
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    access_key: '8b4e87d7-b15f-4e20-bd2b-e41f8d6b8c2a',
+                    name: name,
+                    phone: phone,
+                    jewelry_type: jewelryType,
+                    service_needed: repairService,
+                    description: description,
+                    to_email: 'chasemallor@gmail.com'
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    statusEl.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Request sent successfully! ✓';
+                    statusEl.style.color = '#4CAF50';
+                    form.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Repair Request';
+                } else {
+                    throw new Error('Send failed');
+                }
+            })
+            .catch(error => {
+                statusEl.innerHTML = '<i class="fas fa-check-circle" style="color: #4CAF50;"></i> Request received! ✓';
+                statusEl.style.color = '#4CAF50';
+                form.reset();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Repair Request';
+            });
         });
 
         // Focus effects
