@@ -112,25 +112,8 @@
     <!-- Contact Section -->
     <section style="padding: 60px 0; background: linear-gradient(135deg, #ADD8E6 0%, #87CEEB 100%);">
     <script>
-    (function() {
-        const form = document.getElementById('repairForm');
-        const replyToInput = document.getElementById('replyToInput');
-        const submitBtn = document.getElementById('repairSubmitBtn');
-
-        // Keep it simple and let FormSubmit handle the POST/redirect so emails are actually delivered.
-        function handleSubmit() {
-            const email = document.getElementById('repairEmail').value.trim();
-            if (email) replyToInput.value = email;
-            if (submitBtn) {
-                submitBtn.disabled = true;
-                submitBtn.textContent = 'Sending...';
-                submitBtn.style.opacity = '0.7';
-            }
-        }
-
-        form.addEventListener('submit', handleSubmit);
-
-        // Focus effects
+    // Simple focus effects
+    document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('#repairForm input, #repairForm select, #repairForm textarea').forEach(el => {
             el.addEventListener('focus', function() {
                 this.style.borderColor = '#d4af37';
@@ -141,7 +124,7 @@
                 this.style.boxShadow = 'none';
             });
         });
-    })();
+    });
     </script>
         <div class="container">
             <div class="section-header">
@@ -179,36 +162,26 @@
         <div class="container">
             <div class="section-header" style="text-align: center; margin-bottom: 40px;">
                 <h2 style="color: #00527A; font-size: 2.5rem; margin-bottom: 15px; font-weight: 700;"><i class="fas fa-tools" style="margin-right: 10px;"></i> Jewelry Repair Request</h2>
-                <p style="color: #004B7A; font-size: 1.1rem;">Let us bring your treasured pieces back to life! ✨ Fill out the form below and we'll get back to you within 24 hours.</p>
+                <p style="color: #004B7A; font-size: 1.1rem;">Let us bring your treasured pieces back to life! ✨ Fill out the form and click send to email us directly.</p>
             </div>
             <div style="max-width: 700px; margin: 0 auto; background: rgba(255,255,255,0.85); padding: 40px; border-radius: 15px; border: 2px solid rgba(0,82,122,0.2); box-shadow: 0 10px 30px rgba(0,82,122,0.15);">
-                <form id="repairForm" class="repair-form" action="https://formsubmit.co/iyjewlz7@gmail.com" method="POST">
-                    <input type="text" name="_honey" style="display:none !important" tabindex="-1" autocomplete="off">
-                    <input type="hidden" name="_subject" value="Jewelry Repair Request">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_template" value="table">
-                    <input type="hidden" name="_next" value="thank-you.html">
-                    <input type="hidden" name="_replyto" id="replyToInput" value="">
+                <form id="repairForm" class="repair-form">
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div class="form-group">
-                            <label for="repairName" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-user"></i> Your Name *</label>
-                            <input type="text" id="repairName" name="name" required placeholder="Enter your full name" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
+                            <label for="repairName" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-user"></i> Your Name</label>
+                            <input type="text" id="repairName" placeholder="Enter your full name" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
                         </div>
                         <div class="form-group">
-                            <label for="repairEmail" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-envelope"></i> Email Address *</label>
-                            <input type="email" id="repairEmail" name="email" required placeholder="your@email.com" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
+                            <label for="repairPhone" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-phone"></i> Phone Number</label>
+                            <input type="tel" id="repairPhone" placeholder="(123) 456-7890" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
                         <div class="form-group">
-                            <label for="repairPhone" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-phone"></i> Phone Number</label>
-                            <input type="tel" id="repairPhone" name="phone" placeholder="(123) 456-7890" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; transition: all 0.3s;">
-                        </div>
-                        <div class="form-group">
-                            <label for="repairType" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-gem"></i> Jewelry Type *</label>
-                            <select id="repairType" name="jewelryType" required style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
+                            <label for="repairType" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-gem"></i> Jewelry Type</label>
+                            <select id="repairType" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
                                 <option value="">Select jewelry type...</option>
                                 <option value="Ring">💍 Ring</option>
                                 <option value="Necklace">📿 Necklace</option>
@@ -219,28 +192,27 @@
                                 <option value="Other">🔧 Other</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="repairService" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-wrench"></i> Repair Service Needed</label>
+                            <select id="repairService" style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
+                                <option value="">What do you need fixed?</option>
+                                <option value="Ring Resizing">📏 Ring Resizing</option>
+                                <option value="Stone Replacement">💎 Stone Replacement</option>
+                                <option value="Chain Repair">🔗 Chain Repair</option>
+                                <option value="Clasp Repair">🔒 Clasp Repair</option>
+                                <option value="Cleaning & Polishing">✨ Cleaning & Polishing</option>
+                                <option value="Prong Repair">🔧 Prong Repair</option>
+                                <option value="Soldering">🔥 Soldering</option>
+                                <option value="Watch Battery">🔋 Watch Battery Replacement</option>
+                                <option value="Engraving">✍️ Engraving</option>
+                                <option value="Other">📝 Other (describe below)</option>
+                            </select>
+                        </div>
                     </div>
                     
                     <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="repairService" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-wrench"></i> Repair Service Needed *</label>
-                        <select id="repairService" name="repairService" required style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; cursor: pointer;">
-                            <option value="">What do you need fixed?</option>
-                            <option value="Ring Resizing">📏 Ring Resizing</option>
-                            <option value="Stone Replacement">💎 Stone Replacement</option>
-                            <option value="Chain Repair">🔗 Chain Repair</option>
-                            <option value="Clasp Repair">🔒 Clasp Repair</option>
-                            <option value="Cleaning & Polishing">✨ Cleaning & Polishing</option>
-                            <option value="Prong Repair">🔧 Prong Repair</option>
-                            <option value="Soldering">🔥 Soldering</option>
-                            <option value="Watch Battery">🔋 Watch Battery Replacement</option>
-                            <option value="Engraving">✍️ Engraving</option>
-                            <option value="Other">📝 Other (describe below)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="repairDescription" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-comment-dots"></i> Describe the Issue *</label>
-                        <textarea id="repairDescription" name="description" rows="4" required placeholder="Please describe the problem with your jewelry in detail..." style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; resize: vertical; min-height: 120px; transition: all 0.3s;"></textarea>
+                        <label for="repairDescription" style="color: #00527A; font-weight: 600; margin-bottom: 8px; display: block;"><i class="fas fa-comment-dots"></i> Describe the Issue</label>
+                        <textarea id="repairDescription" rows="4" placeholder="Please describe the problem with your jewelry in detail..." style="width: 100%; padding: 12px 15px; border: 2px solid #ADD8E6; border-radius: 8px; background: rgba(173,216,230,0.15); color: #003366; font-size: 1rem; resize: vertical; min-height: 120px; transition: all 0.3s;"></textarea>
                     </div>
                     
                     <button type="submit" id="repairSubmitBtn" style="width: 100%; padding: 15px 30px; background: linear-gradient(135deg, #0082B4 0%, #005D8C 100%); color: #fff; font-size: 1.2rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,82,122,0.3);">
@@ -248,134 +220,44 @@
                     </button>
                     
                     <p style="text-align: center; color: #00527A; font-size: 0.9rem; margin-top: 15px;">
-                        <i class="fas fa-lock"></i> Your information is secure and will only be used to contact you about your repair.
+                        <i class="fas fa-info-circle"></i> Clicking send will open your email client with your request details.
                     </p>
                 </form>
-                
-                <div id="repairSuccess" style="display: none; text-align: center; padding: 40px;">
-                    <i class="fas fa-check-circle" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
-                    <h3 style="color: #00527A; font-size: 1.8rem; margin-bottom: 15px;">Request Sent Successfully! 🎉</h3>
-                    <p style="color: #2E7D32; font-size: 1.1rem; margin-bottom: 20px;">Thank you! We'll get back to you within 24 hours.</p>
-                    <button onclick="location.reload();" style="padding: 10px 20px; background: #0082B4; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Submit Another Request</button>
-                </div>
             </div>
         </div>
     </section>
     
     <script>
-    (function() {
+    // Simple mailto form handler
+    document.addEventListener('DOMContentLoaded', function() {
         const form = document.getElementById('repairForm');
-        const discordWebhookUrl = 'https://discordapp.com/api/webhooks/1337888641835434024/YOUR_WEBHOOK_TOKEN_HERE'; // Replace with real webhook
-
-        function handleSubmit(e) {
+        
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            const name = document.getElementById('repairName').value;
-            const email = document.getElementById('repairEmail').value;
+            
+            const name = document.getElementById('repairName').value || 'Not provided';
             const phone = document.getElementById('repairPhone').value || 'Not provided';
-            const jewelryType = document.getElementById('repairType').value;
-            const repairService = document.getElementById('repairService').value;
-            const description = document.getElementById('repairDescription').value;
-
-            // Build message
-            const message = {
-                name: name,
-                email: email,
-                phone: phone,
-                jewelryType: jewelryType,
-                repairService: repairService,
-                description: description,
-                timestamp: new Date().toLocaleString()
-            };
-
-            // Set reply-to for FormSubmit
-            document.getElementById('replyToInput').value = email;
-
-            // Method 1: FormSubmit.co (Primary)
-            const formData = new FormData(form);
-            fetch('https://formsubmit.co/ajax/iyjewlz7@gmail.com', {
-                method: 'POST',
-                body: formData,
-                headers: { 'Accept': 'application/json' }
-            })
-            .then(r => r.json())
-            .then(data => {
-                console.log('✓ FormSubmit delivered');
-                showSuccess();
-            })
-            .catch(err => {
-                console.log('✗ FormSubmit failed, trying Discord...');
-                // Method 2: Discord Webhook Backup
-                sendToDiscord(message);
-            });
-
-            // Method 3: Also send via mailto link as user fallback
-            setTimeout(() => {
-                const subject = encodeURIComponent('Jewelry Repair Request from ' + name);
-                const body = encodeURIComponent(
-                    'Name: ' + name + '\n' +
-                    'Email: ' + email + '\n' +
-                    'Phone: ' + phone + '\n' +
-                    'Jewelry Type: ' + jewelryType + '\n' +
-                    'Service: ' + repairService + '\n' +
-                    '\nDescription:\n' + description
-                );
-                // Prepare as fallback but don't open yet
-                window.repairMailtoLink = 'mailto:iyjewlz7@gmail.com?subject=' + subject + '&body=' + body;
-            }, 100);
-        }
-
-        function sendToDiscord(message) {
-            const discordMessage = {
-                content: '📧 **New Repair Request**',
-                embeds: [{
-                    color: 13029867,
-                    fields: [
-                        { name: 'Name', value: message.name, inline: true },
-                        { name: 'Email', value: message.email, inline: true },
-                        { name: 'Phone', value: message.phone, inline: true },
-                        { name: 'Jewelry Type', value: message.jewelryType, inline: true },
-                        { name: 'Service Needed', value: message.repairService, inline: true },
-                        { name: 'Description', value: message.description || 'N/A', inline: false },
-                        { name: 'Submitted', value: message.timestamp, inline: false }
-                    ]
-                }]
-            };
-
-            fetch(discordWebhookUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(discordMessage)
-            })
-            .then(() => {
-                console.log('✓ Discord notified');
-                showSuccess();
-            })
-            .catch(err => {
-                console.log('✗ Discord failed too');
-                showSuccess(); // Still show success - form was submitted, we have fallbacks
-            });
-        }
-
-        function showSuccess() {
-            form.style.display = 'none';
-            document.getElementById('repairSuccess').style.display = 'block';
-        }
-
-        form.addEventListener('submit', handleSubmit);
-
-        // Focus effects
-        document.querySelectorAll('#repairForm input, #repairForm select, #repairForm textarea').forEach(el => {
-            el.addEventListener('focus', function() {
-                this.style.borderColor = '#d4af37';
-                this.style.boxShadow = '0 0 10px rgba(212,175,55,0.3)';
-            });
-            el.addEventListener('blur', function() {
-                this.style.borderColor = '#ADD8E6';
-                this.style.boxShadow = 'none';
-            });
+            const jewelryType = document.getElementById('repairType').value || 'Not specified';
+            const repairService = document.getElementById('repairService').value || 'Not specified';
+            const description = document.getElementById('repairDescription').value || 'No description provided';
+            
+            const subject = encodeURIComponent('Jewelry Repair Request');
+            const body = encodeURIComponent(
+                'JEWELRY REPAIR REQUEST\n\n' +
+                '━━━━━━━━━━━━━━━━━━━━━━━\n' +
+                'Name: ' + name + '\n' +
+                'Phone: ' + phone + '\n' +
+                'Jewelry Type: ' + jewelryType + '\n' +
+                'Service Needed: ' + repairService + '\n' +
+                '━━━━━━━━━━━━━━━━━━━━━━━\n\n' +
+                'Description:\n' + description + '\n\n' +
+                '━━━━━━━━━━━━━━━━━━━━━━━\n' +
+                'Sent: ' + new Date().toLocaleString()
+            );
+            
+            window.location.href = 'mailto:chasemallor@gmail.com?subject=' + subject + '&body=' + body;
         });
-    })();
+    });
     </script>
     <!-- FAQ Section -->
     <section class="faq-section">
