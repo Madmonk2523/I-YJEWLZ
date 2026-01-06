@@ -1,17 +1,8 @@
 {
-  "buildCommand": "npm install",
-  "devCommand": "npm start",
-  "framework": "nodejs",
-  "functions": {
-    "api/**/*.js": {
-      "memory": 1024,
-      "maxDuration": 60
-    }
-  },
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/server.js"
+      "destination": "https://i-yjewlz.vercel.app/api/:path*"
     }
   ]
 }
