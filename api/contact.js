@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Handle POST request
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -64,4 +64,4 @@ Sent: ${new Date().toLocaleString()}
   } else {
     res.status(405).json({ error: 'Method not allowed' });
   }
-}
+};
