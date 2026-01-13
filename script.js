@@ -1583,6 +1583,36 @@
 // Music starts muted and unmutes on first user interaction
 // ============================================================================
 (function initBackgroundMusic() {
+  // Global kill-switch: disable all site audio
+  const SOUND_ENABLED = false;
+
+  if (!SOUND_ENABLED) {
+    // Provide no-op controls to avoid runtime errors
+    window.bgMusicControls = {
+      pause: () => {},
+      play: () => {},
+      setVolume: () => {},
+      getState: () => ({ playing: false, muted: true, volume: 0, userInteracted: false })
+    };
+
+    // Defensive: mute and pause any existing <audio> tags if present
+    const onReady = () => {
+      document.querySelectorAll('audio').forEach(a => {
+        try {
+          a.muted = true;
+          a.volume = 0;
+          a.pause && a.pause();
+        } catch (_) {}
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', onReady, { once: true });
+    } else {
+      onReady();
+    }
+
+    return; // Exit early to keep all sound off
+  }
   // Configuration
   const MUSIC_CONFIG = {
     src: 'audio/background-music.mp3', // Path to your music file
